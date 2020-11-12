@@ -1,6 +1,6 @@
 PLUGIN=onko.so
 SOURCES=\
-        onko.cc \
+        c2rtl.cc \
 		$(END)
 
 INSTALLDIR=/usr/bin/gcc-4.8
