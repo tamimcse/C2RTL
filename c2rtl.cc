@@ -49,36 +49,6 @@ SLIST_HEAD(, name) input = SLIST_HEAD_INITIALIZER(input);
 SLIST_HEAD(, name) output = SLIST_HEAD_INITIALIZER(output);
 SLIST_HEAD(, name) wires = SLIST_HEAD_INITIALIZER(wires);
 
-void add_to_inputs(struct name *in)
-{
-  struct name *new_name;
-  
-  //check if the node already exists
-  SLIST_FOREACH(np, &input, nextptr) {
-    if (!strcmp(np->name, in->name))
-      return;
-  }
-  //The node doesn't exist. So, add it to the list
-  new_name = (struct name *) xmalloc(sizeof (*new_name));
-  *new_name = *in;
-  SLIST_INSERT_HEAD(&input, new_name, nextptr);
-}
-
-void add_to_wires(struct name *in)
-{
-  struct name *new_name;
-  
-  //check if the node already exists
-  SLIST_FOREACH(np, &wires, nextptr) {
-    if (!strcmp(np->name, in->name))
-      return;
-  }
-  //The node doesn't exist. So, add it to the list
-  new_name = (struct name *) xmalloc(sizeof (*new_name));
-  *new_name = *in;
-  SLIST_INSERT_HEAD(&wires, new_name, nextptr);
-}
-
 struct operation {
   //Operation
   enum tree_code op;
@@ -2277,7 +2247,16 @@ void populate_wires ()
   int i;
   
   for (i = 0; i < ops_cnt; i++) {
-    add_to_wires(&ops[i].output);  
+    bool added = false;
+    //check if the wire already added
+    SLIST_FOREACH(np, &wires, nextptr) {
+      if (!strcmp(np->name, ops[i].output.name)) {
+        added = true;
+        break;
+      }
+    }
+    if (!added)
+      SLIST_INSERT_HEAD(&wires, &ops[i].output, nextptr);
   }
 }
 
@@ -2287,8 +2266,18 @@ void populate_inputs ()
   
   for (i = 0; i < ops_cnt; i++) {
     for (j = 0; j < ops[i].num_inputs; j++) {
-      if (is_func_input(ops[i].inputs[j].name))
-        add_to_inputs(&ops[i].inputs[j]);
+      if (is_func_input(ops[i].inputs[j].name)) {
+        bool added = false;
+        //check if the input already added
+        SLIST_FOREACH(np, &input, nextptr) {
+          if (!strcmp(np->name, ops[i].inputs[j].name)) {
+            added = true;
+            break;
+          }
+        }
+        if (!added)
+          SLIST_INSERT_HEAD(&input, &ops[i].inputs[j], nextptr);
+      }
     }
   }
 }
