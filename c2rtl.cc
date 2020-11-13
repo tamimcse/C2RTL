@@ -536,7 +536,7 @@ void insert_data_edge(struct op_vertex *src, struct op_vertex *dst)
 }
 
 //Inserts an operation to a BB (basic block)
-void insert_op_vertex (struct bb_vertex *bbv, int op_idx)
+void insert_op_to_bbvertex (struct bb_vertex *bbv, int op_idx)
 {
   int i;
   struct op_vertex **new_arr;
@@ -1026,7 +1026,7 @@ static void insert_ops_to_bb_vertex ()
       ret = lookup_bb_vertex (ops[i].bb_idx);
       last_bb_idx = ops[i].bb_idx;
     }
-    insert_op_vertex(ret, i);
+    insert_op_to_bbvertex(ret, i);
   }
 }
   
@@ -1778,7 +1778,7 @@ static void generate_mux (struct operation *op, int op_idx)
   bb = lookup_bb_vertex (op->bb_idx);
   remove_op_vertex (bb, op_idx);
   for (i = 0, j = op_idx; i < mux_cnt; i++) {
-    insert_op_vertex(bb, j++);
+    insert_op_to_bbvertex(bb, j++);
   }
   //TODO: dellocate selectors list and PHI predecccessor list
 }
