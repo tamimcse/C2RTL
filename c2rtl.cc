@@ -51,12 +51,14 @@ SLIST_HEAD(, name) input = SLIST_HEAD_INITIALIZER(input);
 SLIST_HEAD(, name) output = SLIST_HEAD_INITIALIZER(output);
 SLIST_HEAD(, name) wires = SLIST_HEAD_INITIALIZER(wires);
 
+//There can be at-most 3 inputs in GIMPLE_ASSIGN. MUX2 also need 3 inputs
+#define MAX_INPUT_SIZE 3
 struct operation {
   //Operation
   enum tree_code op;
   char op_name [1000];
   struct name output;
-  struct name *inputs;
+  struct name inputs[MAX_INPUT_SIZE];
   uint64_t num_inputs;
   int bb_idx;
 };
@@ -304,7 +306,6 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
     op.op = (enum tree_code)MUX_TREE_CODE;
     strcpy(op.op_name, "MUX");
     op.num_inputs = 3;
-    op.inputs = (struct name *)xmalloc (op.num_inputs * sizeof(*op.inputs));
     strcpy (op.inputs[0].name, &mux->inputs[in0][0]);
     strcpy (op.inputs[1].name, &mux->inputs[in1][0]);
     strcpy(op.inputs[2].name, &mux->selectors[sel_idx][0]);
@@ -380,7 +381,6 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
       op.op = (enum tree_code)MUX_TREE_CODE;
       strcpy(op.op_name, "MUX");
       op.num_inputs = 3;
-      op.inputs = (struct name *)xmalloc (op.num_inputs * sizeof(*op.inputs));
       //The single input will go to port 0, otherwise input will go to port 1
       if (group0_cnt == 1) {
         strcpy (op.inputs[0].name, &mux->inputs[input_idx_to_skip][0]);
@@ -478,7 +478,6 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
       op.op = (enum tree_code)MUX_TREE_CODE;
       strcpy(op.op_name, "MUX");
       op.num_inputs = 3;
-      op.inputs = (struct name *)xmalloc (op.num_inputs * sizeof(*op.inputs));
       op.inputs[0] = mux_arr0[mux_cnt0 - 1].output;
       op.inputs[1] = mux_arr1[mux_cnt1 - 1].output;
       strcpy(op.inputs[2].name, &mux->selectors[sel_idx][0]);
@@ -1403,8 +1402,6 @@ static int create_register (struct op_vertex *op)
   sprintf(output_name, "R%d", ops_cnt);
   set_name(&new_op->output, output_name, bitsize);
   new_op->num_inputs = 1;
-  new_op->inputs = (struct name *) xmalloc (new_op->num_inputs *
-          sizeof (*new_op->inputs));
   new_op->bb_idx = ops[op->op_idx].bb_idx;
   set_name(&new_op->inputs[0], ops[op->op_idx].output.name, bitsize);
   op_idx = ops_cnt++;
@@ -1826,8 +1823,6 @@ static void dump_gimple_cond (const gcond *gs)
   strcpy(new_op->output.name, output);
   new_op->output.bitsize = 1; 
   new_op->num_inputs = 2;
-  new_op->inputs = (struct name *) xmalloc (new_op->num_inputs *
-          sizeof (*new_op->inputs));
   new_op->bb_idx = gs->bb->index;
             
   tree arg1 = gimple_cond_lhs (gs);
@@ -1848,8 +1843,7 @@ static void dump_gimple_assign (const gassign *gs)
   strcpy(new_op->op_name, get_tree_code_name (gimple_assign_rhs_code (gs)));
   set_name(&new_op->output, gimple_assign_lhs (gs));
   new_op->num_inputs = gimple_num_ops (gs) - 1;
-  new_op->inputs = (struct name *) xmalloc (new_op->num_inputs *
-          sizeof (*new_op->inputs));
+  assert (new_op->num_inputs <= MAX_INPUT_SIZE);
   new_op->bb_idx = gs->bb->index;    
             
   tree arg1 = NULL;
