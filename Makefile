@@ -1,6 +1,6 @@
-PLUGIN=onko.so
+PLUGIN=c2rtl.so
 SOURCES=\
-        c2rtl.cc \
+         c2rtl.cc queue.cc\
 		$(END)
 
 INSTALLDIR=/usr/bin/gcc-4.8

@@ -10,6 +10,8 @@
 #include <sys/queue.h>
 #include <stdbool.h>
 
+#include "queue.h"
+
 // This is the first gcc header to be included
 #include "gcc-plugin.h"
 #include "plugin-version.h"
@@ -149,42 +151,6 @@ struct bb_vertex {
   STAILQ_ENTRY(bb_vertex) nextptr;//next pointer used BB list
   STAILQ_ENTRY(bb_vertex) phi_pred_nextptr;//next pointer used by PHI pred list
 } *bvp;
-
-//We implement our own queue.
-//Note that, STAILQ cannot add an item to queue if the item is already in the
-//queue. Although we can create a separate struct, that will require dynamic memory
-//allocation and deallocation everytime we do enqueue or dequeue. So, we implement
-//our own array based queue
-#define QUEUE_SIZE 2000
-struct queue {
-  int start;
-  int end;
-  void* arr[QUEUE_SIZE];
-};
-
-void init_queue (struct queue *q)
-{
-  q->start = 0;
-  q->end = 0;
-  memset(q->arr, NULL, sizeof (q->arr));  
-}
-
-void enqueue (struct queue *q, void* elem)
-{
-  assert (q->end < QUEUE_SIZE);
-  q->arr[q->end++] = elem;
-}
-
-void* dequeue (struct queue *q)
-{
-  assert (q->end > q->start);
-  return q->arr[q->start++];
-}
-
-bool queue_empty (struct queue *q)
-{
-  return q->end == q->start;
-}
 
 //This is the root of CDFG
 struct bb_vertex *cdfg_root;
