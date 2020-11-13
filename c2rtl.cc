@@ -606,8 +606,6 @@ void remove_op_vertex (struct bb_vertex *bbv, int op_idx)
 {
   int i;
   int to_remove = -1;
-  struct op_vertex **new_arr;
-  struct op_vertex *new_vertex;
 
   if (!bbv)
     return;
@@ -1152,7 +1150,6 @@ static void print_op_vertex (struct op_vertex *op_v)
 
 static void print_bb (struct bb_vertex *bb)
 {
-  struct predicate *runner;
   int i;
 
   printf ("BB %d ", bb->bb_idx);
@@ -1586,7 +1583,6 @@ static struct op_vertex *add_register (struct op_vertex *op, float start_time)
 static void register_insertion_inner (struct op_vertex *op,
         int start_cycle, int end_cycle)
 {
-  struct operations_per_cycle *new_op, *schd_runner;
   struct op_vertex *new_reg;
   float start_time;
   int i;
@@ -1607,7 +1603,6 @@ static void register_insertion_inner (struct op_vertex *op,
 static void register_insertion_after_ret (struct op_vertex *op, int start_cycle)
 {
   struct op_vertex *new_reg;
-  struct name *new_output;
   float start_time;
 
   printf ("Register needed for op %d (%d, %d)\n", op->op_idx, start_cycle, start_cycle);
@@ -1644,7 +1639,6 @@ static int clock_cycle_of_last_succ (struct op_vertex *curr_op)
 
 static void register_insertion ()
 {
-  struct operations_per_cycle *schd_runner;
   struct op_vertex *curr_op;
   int end_clock_cycle;
   int i;
@@ -1699,7 +1693,7 @@ static void dump_gimple_return (const greturn *gs)
 
 static void generate_mux (struct operation *op, int op_idx)
 {
-  int i, j, k, m;
+  int i, j;
   int num_selectors = 0;
   bool found;
   struct predicate *new_pred;
@@ -2290,7 +2284,6 @@ void populate_inputs ()
 void gen_verilog ()
 {
   FILE *output;
-  struct operations_per_cycle *schd_runner;
   int i;
 
   output = fopen("top.v", "w");
