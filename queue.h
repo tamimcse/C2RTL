@@ -1,3 +1,6 @@
+#ifndef QUEUE_H_
+#define QUEUE_H_
+
 //We implement our own queue.
 //Note that, STAILQ cannot add an item to queue if the item is already in the
 //queue. Although we can create a separate struct, that will require dynamic memory
@@ -15,3 +18,4 @@ void enqueue (struct queue *q, void* elem);
 void* dequeue (struct queue *q);
 bool queue_empty (struct queue *q);
 
+#endif /* QUEUE_H_ */
