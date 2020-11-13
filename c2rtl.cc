@@ -1614,11 +1614,7 @@ static void register_insertion_after_ret (struct op_vertex *op, int start_cycle)
     
   start_time = op->start_time + op->latenccy;
   new_reg = add_register(op, start_time);
-  TAILQ_INSERT_TAIL (&sched_res[start_cycle], new_reg, nextptr_sched); 
-  //Add the output of the register to output list
-  new_output = (struct name *) xmalloc(sizeof (*new_output));
-  *new_output = ops[new_reg->op_idx].output;
-  SLIST_INSERT_HEAD(&output, new_output, nextptr);
+  TAILQ_INSERT_TAIL (&sched_res[start_cycle], new_reg, nextptr_sched);
 }
 
 //returns the clock cycle of the last successor
@@ -2260,6 +2256,15 @@ void populate_wires ()
   }
 }
 
+void populate_output ()
+{
+  //Note that same output will also be used by wires, so need to use a separate
+  //copy before using it
+  struct name *new_output = (struct name *) xmalloc(sizeof (*new_output));
+  *new_output = ops[ops_cnt - 1].output;
+  SLIST_INSERT_HEAD(&output, new_output, nextptr);
+}
+
 void populate_inputs () 
 {
   int i, j;
@@ -2522,6 +2527,7 @@ struct my_first_pass : gimple_opt_pass
     printf("------------------------------------------------------------\n");
     populate_wires();
     populate_inputs();
+    populate_output();
     gen_verilog();
     gen_verilog_tb();
     //compile verilog file
