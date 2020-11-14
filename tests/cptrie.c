@@ -71,7 +71,29 @@ uint64_t cptrie(uint64_t c16_bitmap[SIZE16], uint32_t c16_popcnt[SIZE16],
         uint64_t b24_bitmap[SIZE24], uint32_t b24_popcnt[SIZE24],
         uint64_t c32_bitmap[SIZE32], uint32_t c32_popcnt[SIZE32],
         uint64_t b32_bitmap[SIZE32], uint32_t b32_popcnt[SIZE32],
+        uint64_t c40_bitmap[SIZE40], uint32_t c40_popcnt[SIZE40],
         uint64_t b40_bitmap[SIZE40], uint32_t b40_popcnt[SIZE40],
+        uint64_t c48_bitmap[SIZE48], uint32_t c48_popcnt[SIZE48],
+        uint64_t b48_bitmap[SIZE48], uint32_t b48_popcnt[SIZE48],
+        uint64_t c56_bitmap[SIZE56], uint32_t c56_popcnt[SIZE56],
+        uint64_t b56_bitmap[SIZE56], uint32_t b56_popcnt[SIZE56],
+        uint64_t c64_bitmap[SIZE64], uint32_t c64_popcnt[SIZE64],
+        uint64_t b64_bitmap[SIZE64], uint32_t b64_popcnt[SIZE64],
+        uint64_t c72_bitmap[SIZE72], uint32_t c72_popcnt[SIZE72],
+        uint64_t b72_bitmap[SIZE72], uint32_t b72_popcnt[SIZE72],
+        uint64_t c80_bitmap[SIZE80], uint32_t c80_popcnt[SIZE80],
+        uint64_t b80_bitmap[SIZE80], uint32_t b80_popcnt[SIZE80],
+        uint64_t c88_bitmap[SIZE88], uint32_t c88_popcnt[SIZE88],
+        uint64_t b88_bitmap[SIZE88], uint32_t b88_popcnt[SIZE88],
+        uint64_t c96_bitmap[SIZE96], uint32_t c96_popcnt[SIZE96],
+        uint64_t b96_bitmap[SIZE96], uint32_t b96_popcnt[SIZE96],
+        uint64_t c104_bitmap[SIZE104], uint32_t c104_popcnt[SIZE104],
+        uint64_t b104_bitmap[SIZE104], uint32_t b104_popcnt[SIZE104],
+        uint64_t c112_bitmap[SIZE112], uint32_t c112_popcnt[SIZE112],
+        uint64_t b112_bitmap[SIZE112], uint32_t b112_popcnt[SIZE112],
+        uint64_t c120_bitmap[SIZE120], uint32_t c120_popcnt[SIZE120],
+        uint64_t b120_bitmap[SIZE120], uint32_t b120_popcnt[SIZE120],
+        uint64_t b128_bitmap[SIZE128], uint32_t b128_popcnt[SIZE128],
         uint8_t leafN[N_CNT], uint64_t ip1, uint64_t ip2) {
   uint64_t n_idx;
   uint32_t off;
@@ -94,10 +116,19 @@ uint64_t cptrie(uint64_t c16_bitmap[SIZE16], uint32_t c16_popcnt[SIZE16],
       off = idx_sail & 63;
       if (c32_bitmap[idx] & (MSK >> off)) {
         ck_idx = c32_popcnt[idx] + POPCNT64(c32_bitmap[idx] >> (64 - off));
-        idx_sail = (ck_idx << 8) + ((ip1 >> 32) & 0XFF);
+        idx_sail = (ck_idx << 8) + ((ip1 >> 24) & 0XFF);
         idx = idx_sail >> 6;
         off = idx_sail & 63;
-        if (b40_bitmap[idx] & (MSK >> off)) {
+        if (c40_bitmap[idx] & (MSK >> off)) {
+          ck_idx = c40_popcnt[idx] + POPCNT64(c40_bitmap[idx] >> (64 - off));
+          idx_sail = (ck_idx << 8) + ((ip1 >> 16) & 0XFF);
+          idx = idx_sail >> 6;
+          off = idx_sail & 63;
+          if (b48_bitmap[idx] & (MSK >> off)) {
+            n_idx = b48_popcnt[idx] + POPCNT64(b48_bitmap[idx] >> (64 - off));
+            return leafN[n_idx];
+          }
+        } else if (b40_bitmap[idx] & (MSK >> off)) {
           n_idx = b40_popcnt[idx] + POPCNT64(b40_bitmap[idx] >> (64 - off));
           return leafN[n_idx];
         }
