@@ -1,8 +1,8 @@
 export DESIGN_NAME = top
 export PLATFORM    = nangate45
 
-export VERILOG_FILES = ./designs/src/poptrie/top.v
-export SDC_FILE      = ./designs/src/poptrie/top.sdc
+export VERILOG_FILES = ./designs/src/cptrie/top.v
+export SDC_FILE      = ./designs/src/cptrie/top.sdc
 
 # These values must be multiples of placement site
 # x=0.19 y=1.4
