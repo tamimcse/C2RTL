@@ -164,7 +164,16 @@ uint64_t cptrie(uint64_t c16_bitmap[SIZE16], uint32_t c16_popcnt[SIZE16],
                           idx_sail = (ck_idx << 8) + ((ip2 >> 16) & 0XFF);
                           idx = idx_sail >> 6;
                           off = idx_sail & 63;
-                          if (b112_bitmap[idx] & (MSK >> off)) {
+                          if (c112_bitmap[idx] & (MSK >> off)) {
+                            ck_idx = c112_popcnt[idx] + POPCNT64(c112_bitmap[idx] >> (64 - off));
+                            idx_sail = (ck_idx << 8) + ((ip2 >> 8) & 0XFF);
+                            idx = idx_sail >> 6;
+                            off = idx_sail & 63;
+                            if (b120_bitmap[idx] & (MSK >> off)) {
+                              n_idx = b120_popcnt[idx] + POPCNT64(b120_bitmap[idx] >> (64 - off));
+                              return leafN[n_idx];
+                            }
+                          } else if (b112_bitmap[idx] & (MSK >> off)) {
                             n_idx = b112_popcnt[idx] + POPCNT64(b112_bitmap[idx] >> (64 - off));
                             return leafN[n_idx];
                           }
