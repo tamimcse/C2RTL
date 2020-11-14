@@ -40,15 +40,15 @@ clean:
 
 .PHONY: sail
 sail: $(PLUGIN)
-	$(CCPLUGIN) -c -o /dev/null tests/sail.c
+	$(CCPLUGIN) -c -o /dev/null tests/sail_ip6.c
 
 .PHONY: cptrie
 cptrie: $(PLUGIN)
-	$(CCPLUGIN) -c -o /dev/null tests/cptrie.c
+	$(CCPLUGIN) -c -o /dev/null tests/cptrie_ip6.c
 
 .PHONY: poptrie
 poptrie: $(PLUGIN)
-	$(CCPLUGIN) -c -o /dev/null tests/poptrie.c
+	$(CCPLUGIN) -c -o /dev/null tests/poptrie_ip6.c
 
 .PHONY: test
 test: $(PLUGIN)
