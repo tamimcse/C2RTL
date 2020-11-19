@@ -1945,7 +1945,8 @@ static void convert_sized_const ()
   }
 }
 
-//SSA often creates SSA operation which does a simple assignement. Eliminate those
+//SSA pass often creates SSA operation which does a simple assignment. 
+//Here we eliminate those
 static void remove_ssa_op ()
 {
   int i, j;
@@ -2351,11 +2352,18 @@ struct my_first_pass : gimple_opt_pass
     printf("------------------------------------------------------------\n");
     printf("          Reading SSA Operations\n");
     printf("------------------------------------------------------------\n");
+    //extract operations for each basic block (BB). We get BBs from GCC SSA pass.
+    //Thus, each operation is in SSA format
     FOR_EACH_BB_FN(bb, fun)
     {
       extract_operations(bb);
     }
-    
+ 
+    printf ("\n");
+    printf("------------------------------------------------------------\n");
+    printf("          Micro-architecture Transformation and Optimization \n");
+    printf("------------------------------------------------------------\n");
+    //SSA operations include an operation 
     remove_ssa_op ();
     optimize_mult_op();
     convert_sized_const();
