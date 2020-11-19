@@ -1783,7 +1783,7 @@ static void generate_mux (struct operation *op, int op_idx)
   //TODO: dellocate selectors list and PHI predecccessor list
 }
 
-static void generate_muxs ()
+static void generate_muxes ()
 {
   int i;
   
@@ -2412,7 +2412,7 @@ struct my_first_pass : gimple_opt_pass
     set_predicates();
 
     //Generate MUXs from PHI operation. This should be done after inserting control edges
-    generate_muxs ();
+    generate_muxes ();
     
     //Now iterate over operations and add data edges
     insert_data_edges();
