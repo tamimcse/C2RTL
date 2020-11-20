@@ -1669,8 +1669,9 @@ static void dump_gimple_return (const greturn *gs)
     printf ("Return should be preceeded by other operations!!!!\n");
     return;
   }
-  //Pick last operation
+  //Pick last operation which should be a PHI operation
   struct operation *last_op = &ops[ops_cnt - 1];
+  assert(is_phi_op(last_op));
   set_name(&last_op->output, t);
   print_op(last_op);
   
@@ -1828,8 +1829,11 @@ static void dump_gimple_label (const glabel *gs)
   //Add a PHI operation (SELECT operation) for label
   strcpy(new_op->name, "PHI");
   new_op->bb_id = gs->bb->index;
-  //Output will be set by the following return statement
-  //Input will also be set later
+  
+  //Output of this PHI operation will be set by the following return statement
+  
+  //Input of this PHI operation will also be set by our program by inspecting
+  //all the BBs that have a control edge to this BB.
   print_op(new_op);
 }
   
