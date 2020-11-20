@@ -143,6 +143,7 @@ struct bb_vertex {
 
 //Operation vertex of CDFG
 struct op_vertex {
+  //Index to ops array that contains the actual operation
   int op_idx;
   int in_degree;
   float latenccy;
