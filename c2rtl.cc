@@ -40,16 +40,16 @@ int plugin_is_GPL_compatible;
 static struct plugin_info my_gcc_plugin_info = { "1.0", "This is a very simple plugin" };
 
 //It can be input/output variable names or constant
-struct name {
+struct port {
   char name[100];
   int bitsize;
-  SLIST_ENTRY(name) nextptr;//single linked list next pointer
+  SLIST_ENTRY(port) nextptr;//single linked list next pointer
 } *np;
 
 //Verilog input, output and wires produced by this program 
-SLIST_HEAD(, name) input = SLIST_HEAD_INITIALIZER(input);
-SLIST_HEAD(, name) output = SLIST_HEAD_INITIALIZER(output);
-SLIST_HEAD(, name) wires = SLIST_HEAD_INITIALIZER(wires);
+SLIST_HEAD(, port) input = SLIST_HEAD_INITIALIZER(input);
+SLIST_HEAD(, port) output = SLIST_HEAD_INITIALIZER(output);
+SLIST_HEAD(, port) wires = SLIST_HEAD_INITIALIZER(wires);
 
 //There can be at-most 3 inputs in GIMPLE_ASSIGN. MUX2 also need 3 inputs
 #define MAX_INPUT_SIZE 3
@@ -57,8 +57,8 @@ struct operation {
   //Operation
   enum tree_code op;
   char op_name [1000];
-  struct name output;
-  struct name inputs[MAX_INPUT_SIZE];
+  struct port output;
+  struct port inputs[MAX_INPUT_SIZE];
   uint64_t num_inputs;
   int bb_idx;
 };
@@ -129,7 +129,7 @@ TAILQ_HEAD(, op_vertex) sched_res[MAX_CLOCK_CYCLE];
 
 //Predicate of BB (Basic Block) Vertex
 struct predicate {
-  struct name *name;
+  struct port *name;
   bool pred_value;
   STAILQ_ENTRY(predicate) nextptr;//next pointer
 } *pp, *pp1;
@@ -1376,13 +1376,13 @@ static void alap_schedule ()
   }
 }
 
-static void set_name (struct name *n, tree t)
+static void set_name (struct port *n, tree t)
 {
   strcpy(n->name, get_name1(t));
   n->bitsize = get_bitsize(t);
 }
 
-static void set_name (struct name *n, char *na, int bitsize)
+static void set_name (struct port *n, char *na, int bitsize)
 {
   strcpy(n->name, na);
   n->bitsize = bitsize;
@@ -1485,7 +1485,7 @@ static struct op_vertex *add_register (struct op_vertex *op, float start_time)
   
   //update input of the successor operations based on the register output
   struct operation *succ_op;
-  struct name *reg_output;
+  struct port *reg_output;
   reg_output = &ops[reg_op_idx].output;
   for (i = 0; i < new_reg->num_data_edges; i++) {
     succ_op = &ops[new_reg->data_edges[i]->op_idx];
@@ -2215,7 +2215,7 @@ void populate_output ()
 {
   //Note that same output will also be used by wires, so need to use a separate
   //copy before using it
-  struct name *new_output = (struct name *) xmalloc(sizeof (*new_output));
+  struct port *new_output = (struct port *) xmalloc(sizeof (*new_output));
   *new_output = ops[ops_cnt - 1].output;
   SLIST_INSERT_HEAD(&output, new_output, nextptr);
 }
