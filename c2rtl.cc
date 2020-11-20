@@ -79,7 +79,7 @@ struct operation* get_next_available_op ()
     printf ("Exceeded the maximum number of operations. Please increase the array size !!!!\n");
     exit (1);
   }
-  return &ops[ops_cnt];
+  return &ops[ops_cnt++];
 }
 
 //Holds latency of each kind of operation. The latency vary based on the cell library.
@@ -1394,7 +1394,6 @@ static int create_register (struct op_vertex *op)
   struct operation *new_op;
   char output_name[1000];
   int bitsize = ops[op->op_idx].output.bitsize;
-  int op_idx;
   
   //Take an empty operation
   new_op = get_next_available_op();
@@ -1405,9 +1404,9 @@ static int create_register (struct op_vertex *op)
   new_op->num_inputs = 1;
   new_op->bb_id = ops[op->op_idx].bb_id;
   set_name(&new_op->inputs[0], ops[op->op_idx].output.name, bitsize);
-  op_idx = ops_cnt++;
   print_op(new_op);
-  return op_idx;
+  //index to the register operation
+  return ops_cnt - 1;
 }
 
 //Add a register with this vertex
@@ -1807,8 +1806,6 @@ static void dump_gimple_label (const glabel *gs)
   new_op->bb_id = gs->bb->index;
   //Output will be set by the following return statement
   //Input will also be set later
-    
-  ops_cnt++;
   print_op(new_op);
 }
   
@@ -1820,7 +1817,7 @@ static void dump_gimple_cond (const gcond *gs)
   struct operation *new_op = get_next_available_op();
   new_op->code = gimple_cond_code (gs);
   strcpy(new_op->name, get_tree_code_name (gimple_cond_code (gs)));
-  sprintf(output, "ifout%d", ops_cnt);
+  sprintf(output, "ifout%d", ops_cnt - 1/*index to the cond operation*/);
   strcpy(new_op->output.name, output);
   new_op->output.bitsize = 1; 
   new_op->num_inputs = 2;
@@ -1831,7 +1828,6 @@ static void dump_gimple_cond (const gcond *gs)
   set_name(&new_op->inputs[0], arg1);
   set_name(&new_op->inputs[1], arg2);
     
-  ops_cnt++;
   print_op(new_op);
 }
 
@@ -1874,7 +1870,6 @@ static void dump_gimple_assign (const gassign *gs)
       printf("invalid gimple_assign !!!\n");
       exit (1);
   }
-  ops_cnt++;
   print_op(new_op);
 }
 
