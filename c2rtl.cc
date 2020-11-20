@@ -54,12 +54,13 @@ SLIST_HEAD(, port) wires = SLIST_HEAD_INITIALIZER(wires);
 //There can be at-most 3 inputs in GIMPLE_ASSIGN. MUX2 also need 3 inputs
 #define MAX_INPUT_SIZE 3
 struct operation {
-  //Operation
-  enum tree_code op;
-  char op_name [1000];
+  //Operation code obtained from GCC
+  enum tree_code code;
+  char name [1000];
   struct port output;
   struct port inputs[MAX_INPUT_SIZE];
   uint64_t num_inputs;
+  //Basic block to which the operation belongs to
   int bb_idx;
 };
 
@@ -182,32 +183,32 @@ enum gimple_tree_code {
 
 bool is_cond_op (struct operation *op)
 {
-  return (op->op == NE_EXPR_TREE_CODE) || (op->op == GT_EXPR_TREE_CODE);
+  return (op->code == NE_EXPR_TREE_CODE) || (op->code == GT_EXPR_TREE_CODE);
 }
 
 bool is_phi_op (struct operation *op)
 {
-  return op->op == PHI_TREE_CODE;
+  return op->code == PHI_TREE_CODE;
 }
 
 bool is_mux_op (struct operation *op)
 {
-  return op->op == MUX_TREE_CODE;
+  return op->code == MUX_TREE_CODE;
 }
 
 bool is_ssa_op (struct operation *op)
 {
-  return op->op == SSA_TREE_CODE;
+  return op->code == SSA_TREE_CODE;
 }
 
 bool is_mult_op (struct operation *op)
 {
-  return op->op == MULT_TREE_CODE;
+  return op->code == MULT_TREE_CODE;
 }
 
 bool is_reg_op (struct operation *op)
 {
-  return op->op == SAVE_EXPR;
+  return op->code == SAVE_EXPR;
 }
 
 static bool is_ret_op (struct op_vertex *op)
@@ -303,8 +304,8 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
     assert (sel_idx >= 0);
     struct operation op;
     op.bb_idx = mux->bb_idx;
-    op.op = (enum tree_code)MUX_TREE_CODE;
-    strcpy(op.op_name, "MUX");
+    op.code = (enum tree_code)MUX_TREE_CODE;
+    strcpy(op.name, "MUX");
     op.num_inputs = 3;
     strcpy (op.inputs[0].name, &mux->inputs[in0][0]);
     strcpy (op.inputs[1].name, &mux->inputs[in1][0]);
@@ -378,8 +379,8 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
       
       struct operation op;
       op.bb_idx = mux->bb_idx;
-      op.op = (enum tree_code)MUX_TREE_CODE;
-      strcpy(op.op_name, "MUX");
+      op.code = (enum tree_code)MUX_TREE_CODE;
+      strcpy(op.name, "MUX");
       op.num_inputs = 3;
       //The single input will go to port 0, otherwise input will go to port 1
       if (group0_cnt == 1) {
@@ -475,8 +476,8 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
       
       struct operation op;
       op.bb_idx = mux->bb_idx;
-      op.op = (enum tree_code)MUX_TREE_CODE;
-      strcpy(op.op_name, "MUX");
+      op.code = (enum tree_code)MUX_TREE_CODE;
+      strcpy(op.name, "MUX");
       op.num_inputs = 3;
       op.inputs[0] = mux_arr0[mux_cnt0 - 1].output;
       op.inputs[1] = mux_arr1[mux_cnt1 - 1].output;
@@ -554,7 +555,7 @@ void insert_op_to_bbvertex (struct bb_vertex *bbv, int op_idx)
 
   new_vertex = (struct op_vertex *)xmalloc(sizeof (*new_vertex));
   new_vertex->op_idx = op_idx;
-  new_vertex->latenccy = latency[ops[op_idx].op];
+  new_vertex->latenccy = latency[ops[op_idx].code];
   new_vertex->start_time = 0;
   new_vertex->in_degree = 0;
   new_vertex->num_data_edges = 0;
@@ -731,7 +732,7 @@ const char * get_name1(tree node)
 
 static void print_op (struct operation *op)
 {
-  printf ("bb= %d op = %s op code = %d output = %s(%d) Inputs: ", op->bb_idx, op->op_name, op->op,
+  printf ("bb= %d op = %s op code = %d output = %s(%d) Inputs: ", op->bb_idx, op->name, op->code,
           op->output.name, op->output.bitsize);
   for (int i = 0; i < (int)op->num_inputs; i++) {
     printf (" %s(%d)", op->inputs[i].name, op->inputs[i].bitsize);
@@ -1397,8 +1398,8 @@ static int create_register (struct op_vertex *op)
   
   //Take an empty operation
   new_op = get_next_empty_op();
-  new_op->op = SAVE_EXPR;
-  strcpy(new_op->op_name, "reg");
+  new_op->code = SAVE_EXPR;
+  strcpy(new_op->name, "reg");
   sprintf(output_name, "R%d", ops_cnt);
   set_name(&new_op->output, output_name, bitsize);
   new_op->num_inputs = 1;
@@ -1800,9 +1801,9 @@ static void dump_gimple_label (const glabel *gs)
   tree label = gimple_label_label (gs);
   //Take an empty operation
   struct operation *new_op = get_next_empty_op();
-  new_op->op = TREE_CODE(label);
+  new_op->code = TREE_CODE(label);
   //Add a PHI operation (SELECT operation) for label
-  strcpy(new_op->op_name, "PHI");
+  strcpy(new_op->name, "PHI");
   new_op->bb_idx = gs->bb->index;
   //Output will be set by the following return statement
   //Input will also be set later
@@ -1817,8 +1818,8 @@ static void dump_gimple_cond (const gcond *gs)
   char output[100];
   //Take an empty operation
   struct operation *new_op = get_next_empty_op();
-  new_op->op = gimple_cond_code (gs);
-  strcpy(new_op->op_name, get_tree_code_name (gimple_cond_code (gs)));
+  new_op->code = gimple_cond_code (gs);
+  strcpy(new_op->name, get_tree_code_name (gimple_cond_code (gs)));
   sprintf(output, "ifout%d", ops_cnt);
   strcpy(new_op->output.name, output);
   new_op->output.bitsize = 1; 
@@ -1839,8 +1840,8 @@ static void dump_gimple_assign (const gassign *gs)
 {
   //Take an empty operation
   struct operation *new_op = get_next_empty_op();
-  new_op->op = gimple_assign_rhs_code (gs);
-  strcpy(new_op->op_name, get_tree_code_name (gimple_assign_rhs_code (gs)));
+  new_op->code = gimple_assign_rhs_code (gs);
+  strcpy(new_op->name, get_tree_code_name (gimple_assign_rhs_code (gs)));
   set_name(&new_op->output, gimple_assign_lhs (gs));
   new_op->num_inputs = gimple_num_ops (gs) - 1;
   assert (new_op->num_inputs <= MAX_INPUT_SIZE);
@@ -1903,8 +1904,8 @@ static void optimize_mult_op ()
         }
       }
       if (found) {
-        ops[i].op = (enum tree_code)LSHIFT_TREE_CODE;
-        strcpy (ops[i].op_name, "lshift_expr");
+        ops[i].code = (enum tree_code)LSHIFT_TREE_CODE;
+        strcpy (ops[i].name, "lshift_expr");
       }
     }
   }
@@ -2088,7 +2089,7 @@ void add_operations (FILE *output, struct op_vertex *op)
   //Add two spaces before operation for indentation
   fprintf (output, "  ");
   
-  switch (o->op) {
+  switch (o->code) {
     case POINTER_PLUS_TREE_CODE:
     case PLUS_TREE_CODE:
       fprintf(output, "ADD_GATE #(.BITSIZE_in1(%d), .BITSIZE_in2(%d), "
@@ -2188,7 +2189,7 @@ void add_operations (FILE *output, struct op_vertex *op)
       break;
       
     default:
-     fprintf(output, "instruction missing %d\n", (int)o->op);
+     fprintf(output, "instruction missing %d\n", (int)o->code);
      break;
   }  
 }
