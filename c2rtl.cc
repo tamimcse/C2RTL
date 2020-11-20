@@ -58,8 +58,8 @@ struct operation {
   enum tree_code code;
   char name [1000];
   struct port inputs[MAX_INPUT_SIZE];
-  uint64_t num_inputs;
   struct port output;
+  uint64_t num_inputs;
   //Basic block ID to which the operation belongs to
   int bb_id;
 };
