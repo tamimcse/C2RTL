@@ -98,6 +98,24 @@ enum mark
   PERM_MARKED = 2
 };
 
+/**
+ * CDFG is created as described in:
+ * 
+ * Marco Lattuada and Fabrizio Ferrandi. "Code Transformations Based on
+ * Speculative SDC Scheduling" ACM/IEEE ICCAD 2015.
+ * 
+ * Khouri, Kamal S.et al. "IMPACT: A high-level synthesis system for low power
+ * control-flow intensive circuits." IEEE DATE 1998.
+ * 
+ * That is, we have two types of vertices: Basic Block vertices and Operation
+ * vertices. Basic Block vertices contains Operation vertices. There are also
+ * two types of edges: data edge and control edge. Data edge indicates data 
+ * dependency while control edge indicates control dependency.
+ * 
+ * As control-flow intensive (CFI) program may contain lots of nested conditional
+ * statement, it will produce GCC PHI operations.
+ */
+
 //forward declarations
 struct op_vertex;
 struct predicate;
