@@ -82,8 +82,11 @@ struct operation* get_next_available_op ()
   return &ops[ops_cnt++];
 }
 
-//Holds latency of each kind of operation. The latency vary based on the cell library.
-//Here index indicates the tree_code and value is the latency of that kind of operation
+//Contains latency of each kind of operations. Here index is the operation code
+//and the value is the latency in ns. The latency can vary based on the cell library.
+//Here latency is taken from
+//Kondratyev, Alex, et al. "Realistic performance-constrained pipelining 
+//in high-level synthesis." IEEE DATE 2011.
 float latency[200];
 
 //forward declaration
