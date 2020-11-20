@@ -39,7 +39,7 @@ int plugin_is_GPL_compatible;
 
 static struct plugin_info my_gcc_plugin_info = { "1.0", "This is a very simple plugin" };
 
-//It can be input/output variable names or constant
+//It can be input/output/wire variables or constants
 struct port {
   char name[100];
   int bitsize;
@@ -57,11 +57,11 @@ struct operation {
   //Operation code obtained from GCC
   enum tree_code code;
   char name [1000];
-  struct port output;
   struct port inputs[MAX_INPUT_SIZE];
   uint64_t num_inputs;
-  //Basic block to which the operation belongs to
-  int bb_idx;
+  struct port output;
+  //Basic block ID to which the operation belongs to
+  int bb_id;
 };
 
 //We stores all the operations in the program in an array. We use the array index
@@ -303,7 +303,7 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
     }
     assert (sel_idx >= 0);
     struct operation op;
-    op.bb_idx = mux->bb_idx;
+    op.bb_id = mux->bb_idx;
     op.code = (enum tree_code)MUX_TREE_CODE;
     strcpy(op.name, "MUX");
     op.num_inputs = 3;
@@ -378,7 +378,7 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
       mux_tree_generation (&new_mux, op_arr, mux_cnt);
       
       struct operation op;
-      op.bb_idx = mux->bb_idx;
+      op.bb_id = mux->bb_idx;
       op.code = (enum tree_code)MUX_TREE_CODE;
       strcpy(op.name, "MUX");
       op.num_inputs = 3;
@@ -475,7 +475,7 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
       mux_tree_generation (&new_mux1, mux_arr1, &mux_cnt1);
       
       struct operation op;
-      op.bb_idx = mux->bb_idx;
+      op.bb_id = mux->bb_idx;
       op.code = (enum tree_code)MUX_TREE_CODE;
       strcpy(op.name, "MUX");
       op.num_inputs = 3;
@@ -732,7 +732,7 @@ const char * get_name1(tree node)
 
 static void print_op (struct operation *op)
 {
-  printf ("bb= %d op = %s op code = %d output = %s(%d) Inputs: ", op->bb_idx, op->name, op->code,
+  printf ("bb= %d op = %s op code = %d output = %s(%d) Inputs: ", op->bb_id, op->name, op->code,
           op->output.name, op->output.bitsize);
   for (int i = 0; i < (int)op->num_inputs; i++) {
     printf (" %s(%d)", op->inputs[i].name, op->inputs[i].bitsize);
@@ -1023,9 +1023,9 @@ static void insert_ops_to_bb_vertex ()
   struct bb_vertex *ret;
 
   for (i = 0; i < ops_cnt; i++) {
-    if (ops[i].bb_idx != last_bb_idx) {
-      ret = lookup_bb_vertex (ops[i].bb_idx);
-      last_bb_idx = ops[i].bb_idx;
+    if (ops[i].bb_id != last_bb_idx) {
+      ret = lookup_bb_vertex (ops[i].bb_id);
+      last_bb_idx = ops[i].bb_id;
     }
     insert_op_to_bbvertex(ret, i);
   }
@@ -1403,7 +1403,7 @@ static int create_register (struct op_vertex *op)
   sprintf(output_name, "R%d", ops_cnt);
   set_name(&new_op->output, output_name, bitsize);
   new_op->num_inputs = 1;
-  new_op->bb_idx = ops[op->op_idx].bb_idx;
+  new_op->bb_id = ops[op->op_idx].bb_id;
   set_name(&new_op->inputs[0], ops[op->op_idx].output.name, bitsize);
   op_idx = ops_cnt++;
   print_op(new_op);
@@ -1434,7 +1434,7 @@ static struct op_vertex *add_register (struct op_vertex *op, float start_time)
   new_reg->visit = UNMARKED;
 
   //lookup the BB to which this register should be added
-  bb = lookup_bb_vertex (ops[reg_op_idx].bb_idx);
+  bb = lookup_bb_vertex (ops[reg_op_idx].bb_id);
   if (!bb)
     return 0;
   
@@ -1674,7 +1674,7 @@ static void generate_mux (struct operation *op, int op_idx)
   //Create a list of BBs that are predeccessor to the PHI operation
   STAILQ_FOREACH(bvp, &bb_list, nextptr) {
     for (i = 0; i < bvp->num_control_edges; i++) {
-      if (bvp->control_edges[i]->bb_idx == op->bb_idx) {
+      if (bvp->control_edges[i]->bb_idx == op->bb_id) {
         STAILQ_INSERT_TAIL(&input_bb_list, bvp, phi_pred_nextptr);
         break;
       }
@@ -1713,7 +1713,7 @@ static void generate_mux (struct operation *op, int op_idx)
   struct mux big_mux;
   big_mux.num_inputs = 0;
   big_mux.num_selectors = num_selectors;
-  big_mux.bb_idx = op->bb_idx;
+  big_mux.bb_idx = op->bb_id;
   big_mux.input_bitsize = 0;
   //Check if bit size differ for different inputs.
   STAILQ_FOREACH(bvp, &input_bb_list, phi_pred_nextptr) {
@@ -1776,7 +1776,7 @@ static void generate_mux (struct operation *op, int op_idx)
   ops_cnt += (mux_cnt - 1);
   
   //Add the MUXs to the BB
-  bb = lookup_bb_vertex (op->bb_idx);
+  bb = lookup_bb_vertex (op->bb_id);
   remove_op_vertex (bb, op_idx);
   for (i = 0, j = op_idx; i < mux_cnt; i++) {
     insert_op_to_bbvertex(bb, j++);
@@ -1804,7 +1804,7 @@ static void dump_gimple_label (const glabel *gs)
   new_op->code = TREE_CODE(label);
   //Add a PHI operation (SELECT operation) for label
   strcpy(new_op->name, "PHI");
-  new_op->bb_idx = gs->bb->index;
+  new_op->bb_id = gs->bb->index;
   //Output will be set by the following return statement
   //Input will also be set later
     
@@ -1824,7 +1824,7 @@ static void dump_gimple_cond (const gcond *gs)
   strcpy(new_op->output.name, output);
   new_op->output.bitsize = 1; 
   new_op->num_inputs = 2;
-  new_op->bb_idx = gs->bb->index;
+  new_op->bb_id = gs->bb->index;
             
   tree arg1 = gimple_cond_lhs (gs);
   tree arg2 = gimple_cond_rhs (gs);
@@ -1845,7 +1845,7 @@ static void dump_gimple_assign (const gassign *gs)
   set_name(&new_op->output, gimple_assign_lhs (gs));
   new_op->num_inputs = gimple_num_ops (gs) - 1;
   assert (new_op->num_inputs <= MAX_INPUT_SIZE);
-  new_op->bb_idx = gs->bb->index;    
+  new_op->bb_id = gs->bb->index;    
             
   tree arg1 = NULL;
   tree arg2 = NULL;
