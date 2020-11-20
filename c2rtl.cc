@@ -113,7 +113,9 @@ enum mark
  * dependency while control edge indicates control dependency.
  * 
  * As control-flow intensive (CFI) program may contain lots of nested conditional
- * statement, it will produce GCC PHI operations.
+ * statement, it will produce GCC PHI operations. The PHI operations are realized
+ * using MUX. Note that, we may need a many-input MUX. We convert many-input MUX 
+ * into a MUX-tree where each MUX is a 2-input MUX.
  */
 
 //forward declarations
