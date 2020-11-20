@@ -99,7 +99,7 @@ enum mark
 };
 
 /**
- * CDFG is created as described in:
+ * CDFG is created based on:
  * 
  * Marco Lattuada and Fabrizio Ferrandi. "Code Transformations Based on
  * Speculative SDC Scheduling" ACM/IEEE ICCAD 2015.
