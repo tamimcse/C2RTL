@@ -73,7 +73,7 @@ int ops_cnt = 0;
 int ret_ops_idx = 0;
 
 //Returns next available operation from the array
-struct operation* get_next_empty_op ()
+struct operation* get_next_available_op ()
 {
   if (ops_cnt >= MAX_NUM_OPERATIONS) {
     printf ("Exceeded the maximum number of operations. Please increase the array size !!!!\n");
@@ -1397,7 +1397,7 @@ static int create_register (struct op_vertex *op)
   int op_idx;
   
   //Take an empty operation
-  new_op = get_next_empty_op();
+  new_op = get_next_available_op();
   new_op->code = SAVE_EXPR;
   strcpy(new_op->name, "reg");
   sprintf(output_name, "R%d", ops_cnt);
@@ -1800,7 +1800,7 @@ static void dump_gimple_label (const glabel *gs)
 {
   tree label = gimple_label_label (gs);
   //Take an empty operation
-  struct operation *new_op = get_next_empty_op();
+  struct operation *new_op = get_next_available_op();
   new_op->code = TREE_CODE(label);
   //Add a PHI operation (SELECT operation) for label
   strcpy(new_op->name, "PHI");
@@ -1817,7 +1817,7 @@ static void dump_gimple_cond (const gcond *gs)
 {
   char output[100];
   //Take an empty operation
-  struct operation *new_op = get_next_empty_op();
+  struct operation *new_op = get_next_available_op();
   new_op->code = gimple_cond_code (gs);
   strcpy(new_op->name, get_tree_code_name (gimple_cond_code (gs)));
   sprintf(output, "ifout%d", ops_cnt);
@@ -1839,7 +1839,7 @@ static void dump_gimple_cond (const gcond *gs)
 static void dump_gimple_assign (const gassign *gs)
 {
   //Take an empty operation
-  struct operation *new_op = get_next_empty_op();
+  struct operation *new_op = get_next_available_op();
   new_op->code = gimple_assign_rhs_code (gs);
   strcpy(new_op->name, get_tree_code_name (gimple_assign_rhs_code (gs)));
   set_name(&new_op->output, gimple_assign_lhs (gs));
