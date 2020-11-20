@@ -105,7 +105,7 @@ struct predicate;
 STAILQ_HEAD(pred_list_head, predicate);
 //Basic block (BB) vertex of CDFG
 struct bb_vertex {
-  int bb_idx;
+  int bb_id;
   int in_degree;
   int num_preds;
   //Dynamic array of operations in the BB
@@ -180,7 +180,7 @@ enum gimple_tree_code {
   MINUS_TREE_CODE = 68,
   PHI_TREE_CODE = 33,/*PHI*/
   /*This isn't present in GCC. We use this when relating PHI ops with muxs*/
-  MUX_TREE_CODE = 889, 
+  MUX_TREE_CODE = 889,
   INT_CST_TREE_CODE = 26, /*assigning an integer constant*/
 };
 
@@ -624,7 +624,7 @@ static void print_bb_list ()
 {
   printf ("Print BB Vertex List = ");
   STAILQ_FOREACH(bvp, &bb_list, nextptr)
-    printf ("BB%d, ", bvp->bb_idx);
+    printf ("BB%d, ", bvp->bb_id);
   printf ("\b\b\n");
 }
 
@@ -761,7 +761,7 @@ static struct bb_vertex* lookup_bb_vertex (struct bb_vertex *cdfg, int bb_idx)
 
   if (!cdfg)
     return 0;
-  if (cdfg->bb_idx == bb_idx) {
+  if (cdfg->bb_id == bb_idx) {
     return cdfg;
   } else {
     for (i = 0; i < cdfg->num_control_edges; i++) {
@@ -785,7 +785,7 @@ static struct bb_vertex* create_bb_vertex (int bb_idx)
 
   new_bb_vertex = (struct bb_vertex *)xmalloc(sizeof (*new_bb_vertex));
   memset(new_bb_vertex, 0, sizeof(*new_bb_vertex));
-  new_bb_vertex->bb_idx = bb_idx;
+  new_bb_vertex->bb_id = bb_idx;
   return new_bb_vertex;
 }
 
@@ -834,7 +834,7 @@ static void remove_empty_bb (struct bb_vertex *bb)
     //successor is an empty BB
     if (!bb->control_edges[i]->num_operations) {
       bb->control_edges[i] = get_nonempty_succ(bb->control_edges[i]);
-      printf ("Pointing BB %d to BB %d!!!!!!!\n", bb->bb_idx, bb->control_edges[i]->bb_idx);
+      printf ("Pointing BB %d to BB %d!!!!!!!\n", bb->bb_id, bb->control_edges[i]->bb_id);
     }
   }
   
@@ -870,7 +870,7 @@ static void insert_control_edges_to_last_op_for_bb (struct bb_vertex *bb_v)
   //control edge exists    
   if (bb_v->control_edges) {
     if (!bb_v->num_operations) {
-      printf ("No operation in the BB %d !!!!!!\n", bb_v->bb_idx);
+      printf ("No operation in the BB %d !!!!!!\n", bb_v->bb_id);
       return;
     }
     //Pick the last operation of the BB
@@ -990,7 +990,7 @@ static void insert_bb_vertices (basic_block bb)
   if (bb->index == 2 && !cdfg_root) {
     cdfg_root = (struct bb_vertex *)xmalloc(sizeof (*cdfg_root));
     memset(cdfg_root, 0, sizeof (*cdfg_root));
-    cdfg_root->bb_idx = 2;
+    cdfg_root->bb_id = 2;
   }
 
   src = lookup_bb_vertex(bb->index);
@@ -1121,7 +1121,7 @@ static void print_bb (struct bb_vertex *bb)
 {
   int i;
 
-  printf ("BB %d ", bb->bb_idx);
+  printf ("BB %d ", bb->bb_id);
   printf ("[pred= ");
   for (i = 0; i < bb->in_degree; i++) {
     printf ("{");
@@ -1676,7 +1676,7 @@ static void generate_mux (struct operation *op, int op_idx)
   //Create a list of BBs that are predeccessor to the PHI operation
   STAILQ_FOREACH(bvp, &bb_list, nextptr) {
     for (i = 0; i < bvp->num_control_edges; i++) {
-      if (bvp->control_edges[i]->bb_idx == op->bb_id) {
+      if (bvp->control_edges[i]->bb_id == op->bb_id) {
         STAILQ_INSERT_TAIL(&input_bb_list, bvp, phi_pred_nextptr);
         break;
       }
@@ -1747,7 +1747,7 @@ static void generate_mux (struct operation *op, int op_idx)
         else
           sprintf (bitstr, "%s%d", bitstr, (int)pp1->pred_value);
       }
-      printf ("BB%d Bitstr = %s !!!\n", bvp->bb_idx, bitstr);
+      printf ("BB%d Bitstr = %s !!!\n", bvp->bb_id, bitstr);
       assert(big_mux.num_inputs < INPUT_COUNT);
       strcpy(&big_mux.input_selectors[big_mux.num_inputs][0], bitstr);
       last_op = &ops[bvp->operations[bvp->num_operations - 1]->op_idx];
