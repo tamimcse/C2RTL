@@ -70,7 +70,7 @@ struct operation {
 struct operation ops[MAX_NUM_OPERATIONS];
 int ops_cnt = 0;
 //index to the return operation. Actually there is no return operation. We simply
-//store the index to the last PHI opeation which should be our return operation.
+//store the index to the last PHI operation which should be our return operation.
 int ret_ops_idx = 0;
 
 //Returns next available operation from the array
