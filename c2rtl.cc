@@ -256,7 +256,7 @@ struct mux {
   //contains selector bitstring for each input
   char input_selectors[INPUT_COUNT][SELECTOR_COUNT];
   int input_bitsize;
-  int bb_idx;
+  int bb_id;
 };
 
 void print_mux (struct mux *m) {
@@ -306,7 +306,7 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
     }
     assert (sel_idx >= 0);
     struct operation op;
-    op.bb_id = mux->bb_idx;
+    op.bb_id = mux->bb_id;
     op.code = (enum tree_code)MUX_TREE_CODE;
     strcpy(op.name, "MUX");
     op.num_inputs = 3;
@@ -376,12 +376,12 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
       }
       new_mux.num_inputs = mux->num_inputs - 1;
       new_mux.num_selectors = mux->num_selectors - 1;
-      new_mux.bb_idx = mux->bb_idx;
+      new_mux.bb_id = mux->bb_id;
       new_mux.input_bitsize = mux->input_bitsize;
       mux_tree_generation (&new_mux, op_arr, mux_cnt);
       
       struct operation op;
-      op.bb_id = mux->bb_idx;
+      op.bb_id = mux->bb_id;
       op.code = (enum tree_code)MUX_TREE_CODE;
       strcpy(op.name, "MUX");
       op.num_inputs = 3;
@@ -470,15 +470,15 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
       new_mux0.num_selectors = mux->num_selectors - 1;
       new_mux1.num_inputs = group1_cnt;      
       new_mux1.num_selectors = mux->num_selectors - 1;
-      new_mux0.bb_idx = mux->bb_idx;
+      new_mux0.bb_id = mux->bb_id;
       new_mux0.input_bitsize = mux->input_bitsize;
-      new_mux1.bb_idx = mux->bb_idx;
+      new_mux1.bb_id = mux->bb_id;
       new_mux1.input_bitsize = mux->input_bitsize;
       mux_tree_generation (&new_mux0, mux_arr0, &mux_cnt0);
       mux_tree_generation (&new_mux1, mux_arr1, &mux_cnt1);
       
       struct operation op;
-      op.bb_id = mux->bb_idx;
+      op.bb_id = mux->bb_id;
       op.code = (enum tree_code)MUX_TREE_CODE;
       strcpy(op.name, "MUX");
       op.num_inputs = 3;
@@ -754,18 +754,18 @@ static void print_ops ()
 }
 
 //Lookup a BB in CDFG
-static struct bb_vertex* lookup_bb_vertex (struct bb_vertex *cdfg, int bb_idx)
+static struct bb_vertex* lookup_bb_vertex (struct bb_vertex *cdfg, int bb_id)
 {
   int i;
   struct bb_vertex *succ;
 
   if (!cdfg)
     return 0;
-  if (cdfg->bb_id == bb_idx) {
+  if (cdfg->bb_id == bb_id) {
     return cdfg;
   } else {
     for (i = 0; i < cdfg->num_control_edges; i++) {
-      succ = lookup_bb_vertex(cdfg->control_edges[i], bb_idx);
+      succ = lookup_bb_vertex(cdfg->control_edges[i], bb_id);
       if (succ)
         return succ;
     }
@@ -774,18 +774,18 @@ static struct bb_vertex* lookup_bb_vertex (struct bb_vertex *cdfg, int bb_idx)
 }
 
 //Looks up BB Vextex for a BB index
-static struct bb_vertex* lookup_bb_vertex (int bb_idx)
+static struct bb_vertex* lookup_bb_vertex (int bb_id)
 {
-  return lookup_bb_vertex(cdfg_root, bb_idx);
+  return lookup_bb_vertex(cdfg_root, bb_id);
 }
 
-static struct bb_vertex* create_bb_vertex (int bb_idx)
+static struct bb_vertex* create_bb_vertex (int bb_id)
 {
   struct bb_vertex *new_bb_vertex;
 
   new_bb_vertex = (struct bb_vertex *)xmalloc(sizeof (*new_bb_vertex));
   memset(new_bb_vertex, 0, sizeof(*new_bb_vertex));
-  new_bb_vertex->bb_id = bb_idx;
+  new_bb_vertex->bb_id = bb_id;
   return new_bb_vertex;
 }
 
@@ -1022,13 +1022,13 @@ static void insert_bb_vertices (basic_block bb)
 static void insert_ops_to_bb_vertex ()
 {
   int i;
-  int last_bb_idx = 0;
+  int last_bb_id = 0;
   struct bb_vertex *ret;
 
   for (i = 0; i < ops_cnt; i++) {
-    if (ops[i].bb_id != last_bb_idx) {
+    if (ops[i].bb_id != last_bb_id) {
       ret = lookup_bb_vertex (ops[i].bb_id);
-      last_bb_idx = ops[i].bb_id;
+      last_bb_id = ops[i].bb_id;
     }
     insert_op_to_bbvertex(ret, i);
   }
@@ -1715,7 +1715,7 @@ static void generate_mux (struct operation *op, int op_idx)
   struct mux big_mux;
   big_mux.num_inputs = 0;
   big_mux.num_selectors = num_selectors;
-  big_mux.bb_idx = op->bb_id;
+  big_mux.bb_id = op->bb_id;
   big_mux.input_bitsize = 0;
   //Check if bit size differ for different inputs.
   STAILQ_FOREACH(bvp, &input_bb_list, phi_pred_nextptr) {
