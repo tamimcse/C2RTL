@@ -37,7 +37,7 @@ int plugin_is_GPL_compatible;
 //Latency of the register. This can vary based on the cell library
 #define REGISTER_LATENCY .04
 
-static struct plugin_info my_gcc_plugin_info = { "1.0", "This is a very simple plugin" };
+static struct plugin_info plugin_info = { "1.0", "This is C2RTL plugin" };
 
 //It can be input/output/wire variables or constants
 struct port {
@@ -89,9 +89,6 @@ struct operation* get_next_available_op ()
 //in high-level synthesis." IEEE DATE 2011.
 float latency[200];
 
-//forward declaration
-struct bb_vertex;
-  
 //This is used for implementing topological sorting using DFS. This is also used
 //for implementing BFS and DFS.
 enum mark
@@ -100,7 +97,30 @@ enum mark
   TEMP_MARKED = 1,
   PERM_MARKED = 2
 };
-  
+
+//forward declarations
+struct op_vertex;
+struct predicate;
+
+STAILQ_HEAD(pred_list_head, predicate);
+//Basic block (BB) vertex of CDFG
+struct bb_vertex {
+  int bb_idx;
+  int in_degree;
+  int num_preds;
+  //Dynamic array of operations in the BB
+  struct op_vertex **operations;
+  int num_operations;
+  //Edges representing control dependencies (dynamic array of bb_vertex *)
+  struct bb_vertex **control_edges;
+  int num_control_edges;
+  //dynamic array of predicate lists
+  struct pred_list_head *pred_list;
+  bool visited;//Used for implementing BFS and DFS
+  STAILQ_ENTRY(bb_vertex) nextptr;//next pointer used BB list
+  STAILQ_ENTRY(bb_vertex) phi_pred_nextptr;//next pointer used by PHI pred list
+} *bvp;
+
 //Operation vertex of CDFG
 struct op_vertex {
   int op_idx;
@@ -119,6 +139,13 @@ struct op_vertex {
   TAILQ_ENTRY(op_vertex) nextptr_sched;//next pointer
 } *ovp, *ovp1;
 
+//Predicate of BB (Basic Block) Vertex
+struct predicate {
+  struct port *name;
+  bool pred_value;
+  STAILQ_ENTRY(predicate) nextptr;//next pointer
+} *pp, *pp1;
+
 //topologically sorted operation vertices
 SLIST_HEAD(, op_vertex) sorted_op_vertices = SLIST_HEAD_INITIALIZER(sorted_op_vertices);
 
@@ -130,33 +157,6 @@ int num_clock_cycles = 0;
 //linked list. The linked list contains the operations that are to be
 //scheduled at i-th clock cycle where i is the array index 
 TAILQ_HEAD(, op_vertex) sched_res[MAX_CLOCK_CYCLE];
-
-//Predicate of BB (Basic Block) Vertex
-struct predicate {
-  struct port *name;
-  bool pred_value;
-  STAILQ_ENTRY(predicate) nextptr;//next pointer
-} *pp, *pp1;
-
-STAILQ_HEAD(pred_list_head, predicate);
-//Basic block (BB) vertex of CDFG
-struct bb_vertex {
-  int bb_idx;
-  int in_degree;
-  int num_preds;
-  //Dynamic array of operations in the BB
-  struct op_vertex **operations;
-  int num_operations;
-  //Edges representing control dependencies (dynamic array of bb_vertex *)
-  struct bb_vertex **control_edges;
-  int num_control_edges;
-  //dynamic array of predicate lists
-  struct pred_list_head *pred_list;
-//  struct predicate **preds;
-  bool visited;//Used for implementing BFS and DFS
-  STAILQ_ENTRY(bb_vertex) nextptr;//next pointer used BB list
-  STAILQ_ENTRY(bb_vertex) phi_pred_nextptr;//next pointer used by PHI pred list
-} *bvp;
 
 //This is the root of CDFG
 struct bb_vertex *cdfg_root;
@@ -2526,7 +2526,7 @@ int plugin_init (struct plugin_name_args *plugin_info,
 
   register_callback(plugin_info->base_name,
             /* event */ PLUGIN_INFO,
-            /* callback */ NULL, /* user_data */ &my_gcc_plugin_info);
+            /* callback */ NULL, /* user_data */ &plugin_info);
 
   // Register the phase right after cfg
   struct register_pass_info pass_info;
