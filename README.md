@@ -1,4 +1,4 @@
-C2RTL is a high-level synthesis (HLS) tool that generates verilog RTL from C code. It's primarily designed for generating RTL code for FIB lookup algorithms.
+C2RTL is a high-level synthesis (HLS) tool that generates verilog RTL from C code. It's primarily designed for generating RTL code for FIB lookup algorithms. C2RTL is a GCC plugin.
 
 License
 ==========
@@ -11,7 +11,7 @@ Linux.
 
 Requirements:
 ============= 
-No external library is needed.
+GCC need to be installed on the system
 
 * Build:
 
@@ -19,5 +19,10 @@ No external library is needed.
 
 * Run:
 
-`make cptrie`
+`make cptrie_ip6`
 
+It generates `top.v` and `top_tb.v` from `tests/cptrie_ip6.c`.
+
+`make poptrie_ip6`
+
+It generates `top.v` and `top_tb.v` from `tests/poptrie_ip6.c`.
