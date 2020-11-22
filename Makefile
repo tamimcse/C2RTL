@@ -38,16 +38,16 @@ clean:
 
 #Test programs
 
-.PHONY: sail
-sail: $(PLUGIN)
+.PHONY: sail_ip6
+sail_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/sail_ip6.c
 
-.PHONY: cptrie
-cptrie: $(PLUGIN)
+.PHONY: cptrie_ip6
+cptrie_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/cptrie_ip6.c
 
-.PHONY: poptrie
-poptrie: $(PLUGIN)
+.PHONY: poptrie_ip6
+poptrie_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/poptrie_ip6.c
 
 .PHONY: test
