@@ -38,6 +38,9 @@ clean:
 sail_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/sail_ip6.c
 
+sail_ip4: $(PLUGIN)
+	$(CCPLUGIN) -c -o /dev/null tests/sail_ip4.c
+
 cptrie_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/cptrie_ip6.c
 
