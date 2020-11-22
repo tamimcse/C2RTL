@@ -1,7 +1,5 @@
 PLUGIN=c2rtl.so
-SOURCES=\
-         c2rtl.cc queue.cc vector.cc\
-		$(END)
+SOURCES= c2rtl.cc queue.cc vector.cc $(END)
 
 INSTALLDIR=/usr/bin/gcc-4.8
 
