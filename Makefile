@@ -32,24 +32,19 @@ PLUGINFLAG=-fplugin=./$(PLUGIN)
 CCPLUGIN=$(CC) $(PLUGINFLAG)
 CXXPLUGIN=$(CXX)  $(PLUGINFLAG)
 
-.PHONY: all clean test
 clean:
 	rm -f $(OBJECTS) $(PLUGIN)
 
 #Test programs
 
-.PHONY: sail_ip6
 sail_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/sail_ip6.c
 
-.PHONY: cptrie_ip6
 cptrie_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/cptrie_ip6.c
 
-.PHONY: poptrie_ip6
 poptrie_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/poptrie_ip6.c
 
-.PHONY: test
 test: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/test.c
