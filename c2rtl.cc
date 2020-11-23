@@ -2355,7 +2355,45 @@ void gen_verilog_tb ()
   fclose(out);
 }
 
-unsigned int dump_cfg(function *fun)
+//based on https://graphs.grevian.org/example
+int dump_cdfg()
+{
+  int i, j, cluster_id = 0; 
+  FILE *out = fopen("cdfg.dot", "w");
+  struct op_vertex *op;
+  
+  //graph begin
+  fprintf (out, "digraph cdfg {\n");
+  STAILQ_FOREACH(bvp, &bb_list, nextptr) {
+    //subgraph begin
+    fprintf (out, "subgraph cluster_%d {\n", cluster_id++);
+    //print the level
+    fprintf (out, "label=\"BB%d\";\n", bvp->bb_id);
+    //print the nodes
+    for (i = 0; i < bvp->num_operations; i++) {
+      fprintf (out, "%d;", bvp->operations[i]->op_idx); 
+    }
+    fprintf (out, "\n");
+    
+    //subgraph end
+    fprintf (out, "}\n");
+  }
+  //print the data edges
+  STAILQ_FOREACH(bvp, &bb_list, nextptr) {
+    for (i = 0; i < bvp->num_operations; i++) {
+      op = bvp->operations[i];
+      for (j = 0; j < op->num_data_edges; j++) {
+        fprintf (out, "%d -> %d;\n", op->op_idx, op->data_edges[j]->op_idx);
+      } 
+    }
+  }
+  
+  //graph end
+  fprintf (out, "}\n");
+  fclose(out);  
+}
+
+int dump_cfg(function *fun)
 {
   FILE *out;
   basic_block bb;
@@ -2499,6 +2537,7 @@ struct my_first_pass : gimple_opt_pass
     printf("          Printing CDFG \n");
     printf("------------------------------------------------------------\n");
     print_cdfg();
+    dump_cdfg();
             
     printf ("\n");
     printf("------------------------------------------------------------\n");
