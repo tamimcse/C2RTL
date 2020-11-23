@@ -538,6 +538,15 @@ bool cmp_predicate(struct predicate *pred1, struct predicate *pred2)
   return !strcmp(pred1->guard_var, pred2->guard_var);
 }
 
+//Creates a new predicate
+struct predicate * create_predicate (char *guard_var, bool guard_val)
+{
+  struct predicate *new_pred = (struct predicate *)xmalloc(sizeof (*new_pred));
+  strcpy(new_pred->guard_var, guard_var);
+  new_pred->guard_val = guard_val;
+  return new_pred;
+}
+
 //Creates a new predicate based on existing predicate
 struct predicate * create_predicate (struct predicate *p)
 {
@@ -944,9 +953,7 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
   }
     
   //add the predicates to the first child BB
-  new_pred = (struct predicate *)xmalloc(sizeof (*new_pred));
-  strcpy (new_pred->guard_var, ops[last_op->op_idx].output.name);
-  new_pred->guard_val = true;
+  new_pred = create_predicate (ops[last_op->op_idx].output.name, true);
   chield_bb = last_op->control_edges[0];
   STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], new_pred, nextptr);
   //predicates of a BB should be added to the successor BBs
@@ -958,9 +965,7 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
   chield_bb->num_preds++;
     
   //add the predicates to the second child BB
-  new_pred = (struct predicate *)xmalloc(sizeof (*new_pred));
-  strcpy (new_pred->guard_var, ops[last_op->op_idx].output.name);
-  new_pred->guard_val = false;
+  new_pred = create_predicate (ops[last_op->op_idx].output.name, false);
   chield_bb = last_op->control_edges[1];
   STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], new_pred, nextptr);
   //predicates of a BB should be added to the successor BBs
