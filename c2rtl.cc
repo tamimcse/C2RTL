@@ -161,9 +161,11 @@ struct op_vertex {
   TAILQ_ENTRY(op_vertex) nextptr_sched;//next pointer
 } *ovp, *ovp1;
 
-//Predicate of BB (Basic Block) Vertex
+//Predicate of BB (Basic Block) Vertex. The predicate consist of a guard variable
+//and value. If the guard variable's value matches to the value, the BB should be
+//executed
 struct predicate {
-  struct port *name;
+  char name[100];
   bool pred_value;
   STAILQ_ENTRY(predicate) nextptr;//next pointer
 } *pp, *pp1;
@@ -533,14 +535,14 @@ void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_c
 //Compares two predicate based on their names
 bool cmp_predicate(struct predicate *pred1, struct predicate *pred2)
 {
-  return !strcmp(pred1->name->name, pred2->name->name);
+  return !strcmp(pred1->name, pred2->name);
 }
 
 //Creates a new predicate based on existing predicate
 struct predicate * clone_predicate (struct predicate *p)
 {
   struct predicate *new_pred = (struct predicate *)xmalloc(sizeof (*new_pred));
-  new_pred->name = p->name;
+  strcpy(new_pred->name, p->name);
   new_pred->pred_value = p->pred_value;
   return new_pred;
 }
@@ -943,7 +945,7 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
     
   //add the predicates to the first child BB
   new_pred = (struct predicate *)xmalloc(sizeof (*new_pred));
-  new_pred->name = &ops[last_op->op_idx].output;
+  strcpy (new_pred->name, ops[last_op->op_idx].output.name);
   new_pred->pred_value = true;
   chield_bb = last_op->control_edges[0];
   STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], new_pred, nextptr);
@@ -957,7 +959,7 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
     
   //add the predicates to the second child BB
   new_pred = (struct predicate *)xmalloc(sizeof (*new_pred));
-  new_pred->name = &ops[last_op->op_idx].output;
+  strcpy (new_pred->name, ops[last_op->op_idx].output.name);
   new_pred->pred_value = false;
   chield_bb = last_op->control_edges[1];
   STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], new_pred, nextptr);
@@ -1146,7 +1148,7 @@ static void print_bb (struct bb_vertex *bb)
   for (i = 0; i < bb->in_degree; i++) {
     printf ("{");
     STAILQ_FOREACH(pp, &bb->pred_list[i], nextptr)
-      printf (" %s", pp->name->name);
+      printf (" %s", pp->name);
     printf ("}, ");
   }
   printf ("]:");
@@ -1712,7 +1714,7 @@ static void generate_mux (struct operation *op, int op_idx)
         found = false;
         //check if the predicate already been added to the selector list
         STAILQ_FOREACH(pp1, &sel_list, nextptr) {
-          if (!strcmp(pp->name->name, pp1->name->name)) {
+          if (!strcmp(pp->name, pp1->name)) {
             found = true;
             break;
           }
@@ -1730,7 +1732,7 @@ static void generate_mux (struct operation *op, int op_idx)
   //print selector list
   printf ("Selectors (first one is MSB and the last one is LSB): ");
   STAILQ_FOREACH(pp, &sel_list, nextptr)
-    printf (" %s", pp->name->name);
+    printf (" %s", pp->name);
   printf ("\n");
   
   struct mux big_mux;
@@ -1749,7 +1751,7 @@ static void generate_mux (struct operation *op, int op_idx)
 
   i = 0;
   STAILQ_FOREACH(pp, &sel_list, nextptr) {
-    strcpy(&big_mux.selectors[i++][0], pp->name->name);
+    strcpy(&big_mux.selectors[i++][0], pp->name);
   }
 
   STAILQ_FOREACH(bvp, &input_bb_list, phi_pred_nextptr) {
@@ -1758,7 +1760,7 @@ static void generate_mux (struct operation *op, int op_idx)
       STAILQ_FOREACH(pp, &sel_list, nextptr) {
         found = false;
         STAILQ_FOREACH(pp1, &bvp->pred_list[j], nextptr) {
-          if (!strcmp(pp->name->name, pp1->name->name)) {
+          if (!strcmp(pp->name, pp1->name)) {
             found = true;
             break;
           }
