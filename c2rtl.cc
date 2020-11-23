@@ -2421,6 +2421,7 @@ struct my_first_pass : gimple_opt_pass
     printf("          Dump CFG \n");
     printf("------------------------------------------------------------\n");
     dump_cfg(fun);
+//    status = system("xdot cfg.dot &");
     
     basic_block bb;
     printf ("\n");
