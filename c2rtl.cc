@@ -2367,28 +2367,22 @@ unsigned int dump_cfg(function *fun)
   int func_id = fun->funcdef_no;
   
   out = fopen("cfg.dot", "w");
+  
   fprintf (out, "digraph cfg {\n");
   fprintf (out, "subgraph fun_%d {\n", func_id);
-
-  FOR_ALL_BB_FN(bb, fun)
-  {
+  FOR_ALL_BB_FN(bb, fun) {
     gimple_bb_info *bb_info = &bb->il.gimple;
 
     fprintf (out, "bb_%d_%d[label=\"", func_id, bb->index);
-    if (bb->index == 0)
-    {
+    if (bb->index == 0) {
       fprintf (out, "ENTRY: %s\n%s:%d", function_name(fun),
         (LOCATION_FILE(fun->function_start_locus) ? : "<unknown>"),
         LOCATION_LINE(fun->function_start_locus));
-    }
-    else if (bb->index == 1)
-    {
+    } else if (bb->index == 1) {
       fprintf (out, "EXIT: %s\n%s:%d", function_name(fun),
         (LOCATION_FILE(fun->function_start_locus) ? : "<unknown>"),
         LOCATION_LINE(fun->function_start_locus));
-    }
-    else
-    {
+    } else {
       fprintf (out, "bb_%d\n", bb->index);
       print_gimple_seq(out, bb_info->seq , 0, 0);
     }
@@ -2397,14 +2391,15 @@ unsigned int dump_cfg(function *fun)
     edge e;
     edge_iterator ei;
 
-    FOR_EACH_EDGE (e, ei, bb->succs)
-    {
+    FOR_EACH_EDGE (e, ei, bb->succs) {
       basic_block dest = e->dest;
       fprintf(out, "bb_%d_%d -> bb_%d_%d;\n", func_id, bb->index, func_id, dest->index);
     }
   }
   fprintf (out, "}\n");
   fprintf (out, "}\n");
+  
+  fclose(out);
 
   // Nothing special todo
   return 0;
