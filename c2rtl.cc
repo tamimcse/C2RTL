@@ -928,6 +928,7 @@ static void insert_control_edges_to_last_op_for_bb (struct bb_vertex *bb_v)
 
 static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
 {
+  int i;
   struct op_vertex *last_op;
   struct predicate *new_pred, *pred;
   struct bb_vertex *chield_bb;
@@ -948,30 +949,22 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
     printf ("All the predicates are already set. The code should not come here !!!!!!!\n");
     exit (1);
   }
-    
-  //add the predicates to the first child BB
-  new_pred = create_predicate (ops[last_op->op_idx].output.name, true);
-  chield_bb = last_op->control_edges[0];
-  STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], new_pred, nextptr);
-  //predicates of a BB should be added to the successor BBs
-  STAILQ_FOREACH(pp, &bb_v->pred_list[0], nextptr) {
-    //Don't make function call in STAILQ_INSERT_HEAD()
-    pred = create_predicate(pp);
-    STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], pred, nextptr);
+  
+  //add the predicates to the first and second child BB
+  assert (last_op->num_control_edges == 2);
+  for (i = 0; i < 2; i++) {
+    bool guard_value = i == 0? true : false;
+    new_pred = create_predicate (ops[last_op->op_idx].output.name, guard_value);
+    chield_bb = last_op->control_edges[i];
+    STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], new_pred, nextptr);
+    //predicates of a BB should be added to the successor BBs
+    STAILQ_FOREACH(pp, &bb_v->pred_list[0], nextptr) {
+      //Don't make function call in STAILQ_INSERT_HEAD()
+      pred = create_predicate(pp);
+      STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], pred, nextptr);
+    }
+    chield_bb->num_preds++;      
   }
-  chield_bb->num_preds++;
-    
-  //add the predicates to the second child BB
-  new_pred = create_predicate (ops[last_op->op_idx].output.name, false);
-  chield_bb = last_op->control_edges[1];
-  STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], new_pred, nextptr);
-  //predicates of a BB should be added to the successor BBs
-  STAILQ_FOREACH(pp, &bb_v->pred_list[0], nextptr) {
-    //Don't make function call in STAILQ_INSERT_HEAD()
-    pred = create_predicate(pp);
-    STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], pred, nextptr);
-  }
-  chield_bb->num_preds++;
 }
 
 static void insert_control_edges_to_last_op ()
