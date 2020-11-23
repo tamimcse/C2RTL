@@ -213,6 +213,11 @@ bool is_cond_op (struct operation *op)
   return (op->code == NE_EXPR_TREE_CODE) || (op->code == GT_EXPR_TREE_CODE);
 }
 
+bool is_cond_op (struct op_vertex *op)
+{
+  return is_cond_op(&ops[op->op_idx]);
+}
+
 bool is_phi_op (struct operation *op)
 {
   return op->code == PHI_TREE_CODE;
@@ -907,7 +912,7 @@ static void insert_control_edges_to_last_op_for_bb (struct bb_vertex *bb_v)
     last_op = bb_v->operations[bb_v->num_operations - 1];
     //If the last operation is a conditional operation, move the control edges
     //to the operation
-    if (is_cond_op(&ops[last_op->op_idx])) {
+    if (is_cond_op(last_op)) {
       //Set the control edges to the control edges of BB
       last_op->control_edges = bb_v->control_edges;
       last_op->num_control_edges = bb_v->num_control_edges;
@@ -940,7 +945,7 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
 
   //If the last operation is not a conditional node, no need to do it
   last_op = bb_v->operations[bb_v->num_operations - 1];
-  if (!is_cond_op(&ops[last_op->op_idx])) {
+  if (!is_cond_op(last_op)) {
     return;
   }
     
@@ -2371,7 +2376,10 @@ int dump_cdfg()
     fprintf (out, "label=\"BB%d\";\n", bvp->bb_id);
     //print the nodes
     for (i = 0; i < bvp->num_operations; i++) {
-      fprintf (out, "%d;", bvp->operations[i]->op_idx); 
+      if (is_cond_op(bvp->operations[i]))
+        fprintf (out, "%d [shape=triangle];", bvp->operations[i]->op_idx);
+      else
+        fprintf (out, "%d;", bvp->operations[i]->op_idx); 
     }
     fprintf (out, "\n");
     
