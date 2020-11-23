@@ -2360,6 +2360,56 @@ void gen_verilog_tb ()
   fclose(out);
 }
 
+unsigned int dump_cfg(function *fun)
+{
+  FILE *out;
+  basic_block bb;
+  int func_id = fun->funcdef_no;
+  
+  out = fopen("cfg.dot", "w");
+  fprintf (out, "digraph cfg {\n");
+  fprintf (out, "subgraph fun_%d {\n", func_id);
+
+  FOR_ALL_BB_FN(bb, fun)
+  {
+    gimple_bb_info *bb_info = &bb->il.gimple;
+
+    fprintf (out, "bb_%d_%d[label=\"", func_id, bb->index);
+    if (bb->index == 0)
+    {
+      fprintf (out, "ENTRY: %s\n%s:%d", function_name(fun),
+        (LOCATION_FILE(fun->function_start_locus) ? : "<unknown>"),
+        LOCATION_LINE(fun->function_start_locus));
+    }
+    else if (bb->index == 1)
+    {
+      fprintf (out, "EXIT: %s\n%s:%d", function_name(fun),
+        (LOCATION_FILE(fun->function_start_locus) ? : "<unknown>"),
+        LOCATION_LINE(fun->function_start_locus));
+    }
+    else
+    {
+      fprintf (out, "bb_%d\n", bb->index);
+      print_gimple_seq(out, bb_info->seq , 0, 0);
+    }
+    fprintf(out, "\"];\n");
+
+    edge e;
+    edge_iterator ei;
+
+    FOR_EACH_EDGE (e, ei, bb->succs)
+    {
+      basic_block dest = e->dest;
+      fprintf(out, "bb_%d_%d -> bb_%d_%d;\n", func_id, bb->index, func_id, dest->index);
+    }
+  }
+  fprintf (out, "}\n");
+  fprintf (out, "}\n");
+
+  // Nothing special todo
+  return 0;
+}
+
 struct my_first_pass : gimple_opt_pass
 {
   my_first_pass(gcc::context *ctx) : gimple_opt_pass(my_first_pass_data, ctx)
@@ -2371,6 +2421,11 @@ struct my_first_pass : gimple_opt_pass
     int status;
       
     init_latency();
+    
+    printf("------------------------------------------------------------\n");
+    printf("          Dump CFG \n");
+    printf("------------------------------------------------------------\n");
+    dump_cfg(fun);
     
     basic_block bb;
     printf ("\n");
