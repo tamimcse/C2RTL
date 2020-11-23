@@ -539,7 +539,7 @@ bool cmp_predicate(struct predicate *pred1, struct predicate *pred2)
 }
 
 //Creates a new predicate based on existing predicate
-struct predicate * clone_predicate (struct predicate *p)
+struct predicate * create_predicate (struct predicate *p)
 {
   struct predicate *new_pred = (struct predicate *)xmalloc(sizeof (*new_pred));
   strcpy(new_pred->guard_var, p->guard_var);
@@ -952,7 +952,7 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
   //predicates of a BB should be added to the successor BBs
   STAILQ_FOREACH(pp, &bb_v->pred_list[0], nextptr) {
     //Don't make function call in STAILQ_INSERT_HEAD()
-    pred = clone_predicate(pp);
+    pred = create_predicate(pp);
     STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], pred, nextptr);
   }
   chield_bb->num_preds++;
@@ -966,7 +966,7 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
   //predicates of a BB should be added to the successor BBs
   STAILQ_FOREACH(pp, &bb_v->pred_list[0], nextptr) {
     //Don't make function call in STAILQ_INSERT_HEAD()
-    pred = clone_predicate(pp);
+    pred = create_predicate(pp);
     STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], pred, nextptr);
   }
   chield_bb->num_preds++;
@@ -1721,7 +1721,7 @@ static void generate_mux (struct operation *op, int op_idx)
         }
         if (!found) {
           //Don't make function call in STAILQ_INSERT_HEAD()
-          new_pred = clone_predicate(pp);
+          new_pred = create_predicate(pp);
           STAILQ_INSERT_HEAD(&sel_list, new_pred, nextptr);
           num_selectors++;
         }
