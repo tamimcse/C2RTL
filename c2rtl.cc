@@ -918,8 +918,6 @@ static void insert_control_edges_to_last_op_for_bb (struct bb_vertex *bb_v)
   }
 }
 
-//This function iterates over the operations. For the last operation in a BB,
-//it adds control edge
 static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
 {
   struct op_vertex *last_op;
