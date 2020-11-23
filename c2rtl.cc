@@ -550,10 +550,7 @@ struct predicate * create_predicate (char *guard_var, bool guard_val)
 //Creates a new predicate based on existing predicate
 struct predicate * create_predicate (struct predicate *p)
 {
-  struct predicate *new_pred = (struct predicate *)xmalloc(sizeof (*new_pred));
-  strcpy(new_pred->guard_var, p->guard_var);
-  new_pred->guard_val = p->guard_val;
-  return new_pred;
+  return create_predicate (p->guard_var, p->guard_val);
 }
   
 //Inserts a data edge in CDFG
