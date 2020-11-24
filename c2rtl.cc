@@ -2370,6 +2370,8 @@ int dump_cdfg()
   
   //graph begin
   fprintf (out, "digraph cdfg {\n");
+  //It allow edges between clusters
+  fprintf (out, "compound=true;\n");
   //Makes horizontal graph instead of vertical. This is useful for BIG graph
 //  fprintf (out, "rankdir=LR;\n");
   STAILQ_FOREACH(bvp, &bb_list, nextptr) {
