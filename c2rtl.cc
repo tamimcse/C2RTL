@@ -2360,7 +2360,7 @@ void gen_verilog_tb ()
   fclose(out);
 }
 
-//based on https://graphs.grevian.org/example and
+//Creates Graphviz DOT file based on https://graphs.grevian.org/example and
 //https://www.graphviz.org/pdf/dotguide.pdf
 int dump_cdfg()
 {
