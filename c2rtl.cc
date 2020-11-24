@@ -2363,7 +2363,7 @@ void gen_verilog_tb ()
 //based on https://graphs.grevian.org/example
 int dump_cdfg()
 {
-  int i, j, cluster_id = 0; 
+  int i, j; 
   FILE *out = fopen("cdfg.dot", "w");
   struct op_vertex *op;
   
@@ -2371,7 +2371,7 @@ int dump_cdfg()
   fprintf (out, "digraph cdfg {\n");
   STAILQ_FOREACH(bvp, &bb_list, nextptr) {
     //subgraph begin
-    fprintf (out, "subgraph cluster_%d {\n", cluster_id++);
+    fprintf (out, "subgraph cluster_%d {\n", bvp->bb_id);
     //print the level
     fprintf (out, "label=\"BB%d\";\n", bvp->bb_id);
     //print the nodes
@@ -2386,13 +2386,20 @@ int dump_cdfg()
     //subgraph end
     fprintf (out, "}\n");
   }
-  //print the data edges
+  //print the edges
   STAILQ_FOREACH(bvp, &bb_list, nextptr) {
     for (i = 0; i < bvp->num_operations; i++) {
       op = bvp->operations[i];
+      //data edges
       for (j = 0; j < op->num_data_edges; j++) {
         fprintf (out, "%d -> %d;\n", op->op_idx, op->data_edges[j]->op_idx);
-      } 
+      }
+      //control edges
+      for (j = 0; j < op->num_control_edges; j++) {
+        fprintf (out, "%d -> %d [style=dashed, lhead=cluster_%d, label=\"%s\"];\n",
+                op->op_idx, op->control_edges[j]->operations[0]->op_idx,
+                op->control_edges[j]->bb_id, j == 0? "true":"false");
+      }
     }
   }
   
