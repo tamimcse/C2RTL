@@ -1820,6 +1820,43 @@ static void generate_muxes ()
   }
 }
 
+static char *get_op_name (enum tree_code c)
+{
+  switch (c) {
+    case RSHIFT_TREE_CODE:
+      return ">>";
+    case MULT_TREE_CODE:
+      return "*";
+    case NOP_TREE_CODE:
+      return "NOP";
+    case POINTER_PLUS_TREE_CODE:
+      return "*";
+    case MEM_REF_TREE_CODE:
+      return "mem_load";
+    case SSA_TREE_CODE:
+      return "=";
+    case NE_EXPR_TREE_CODE:
+      return "!=";
+    case GT_EXPR_TREE_CODE:
+      return ">";
+    case LSHIFT_TREE_CODE:
+      return "<<";
+    case BIT_AND_TREE_CODE:
+      return "&";
+
+    case PLUS_TREE_CODE:
+      return "+";
+    case MINUS_TREE_CODE:
+      return "-";
+    case PHI_TREE_CODE:
+      return "PHI";
+    case MUX_TREE_CODE:
+      return "MUX";
+    default:
+      return "UNFOUND OPERATION";    
+  }    
+}
+
 /*This function is developed based on GCC's dump_gimple_cond()*/
 static void dump_gimple_label (const glabel *gs)
 {
@@ -1845,7 +1882,7 @@ static void dump_gimple_cond (const gcond *gs)
   //Take an empty operation
   struct operation *new_op = get_next_available_op();
   new_op->code = gimple_cond_code (gs);
-  strcpy(new_op->name, get_tree_code_name (gimple_cond_code (gs)));
+  strcpy(new_op->name, get_op_name (gimple_cond_code (gs)));
   sprintf(output, "ifout%d", ops_cnt - 1/*index to the cond operation*/);
   strcpy(new_op->output.name, output);
   new_op->output.bitsize = 1; 
@@ -1866,7 +1903,7 @@ static void dump_gimple_assign (const gassign *gs)
   //Take an empty operation
   struct operation *new_op = get_next_available_op();
   new_op->code = gimple_assign_rhs_code (gs);
-  strcpy(new_op->name, get_tree_code_name (gimple_assign_rhs_code (gs)));
+  strcpy(new_op->name, get_op_name (gimple_assign_rhs_code (gs)));
   set_name(&new_op->output, gimple_assign_lhs (gs));
   new_op->num_inputs = gimple_num_ops (gs) - 1;
   assert (new_op->num_inputs <= MAX_INPUT_SIZE);
@@ -1929,7 +1966,7 @@ static void optimize_mult_op ()
       }
       if (found) {
         ops[i].code = (enum tree_code)LSHIFT_TREE_CODE;
-        strcpy (ops[i].name, "lshift_expr");
+        strcpy (ops[i].name, "<<");
       }
     }
   }
