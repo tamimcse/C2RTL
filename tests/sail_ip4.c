@@ -1,6 +1,8 @@
 #include <stdint.h>
 
-uint8_t cptrie(uint32_t ip, uint8_t N16[100], uint16_t C16[100], uint8_t N24[100], uint16_t C24[100], uint8_t N32[100]) {
+uint8_t sail(uint32_t ip, uint8_t N16[100],
+  uint16_t C16[100], uint8_t N24[100],
+  uint16_t C24[100], uint8_t N32[100]) {
 
   uint16_t idx, cidx;
 
