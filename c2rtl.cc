@@ -2426,6 +2426,10 @@ int dump_cfg(function *fun)
   FOR_ALL_BB_FN(bb, fun) {
     gimple_bb_info *bb_info = &bb->il.gimple;
 
+    //don't add start and end node
+    if (bb->index == 0 || bb->index == 1)
+        continue;
+        
     fprintf (out, "bb_%d_%d[label=\"", func_id, bb->index);
     if (bb->index == 0) {
       fprintf (out, "ENTRY: %s\n%s:%d", function_name(fun),
@@ -2446,6 +2450,9 @@ int dump_cfg(function *fun)
 
     FOR_EACH_EDGE (e, ei, bb->succs) {
       basic_block dest = e->dest;
+      //don't add edge to the end node
+      if (dest->index == 1)
+        continue;
       fprintf(out, "bb_%d_%d -> bb_%d_%d;\n", func_id, bb->index, func_id, dest->index);
     }
   }
