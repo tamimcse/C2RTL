@@ -2430,7 +2430,7 @@ int dump_cfg(function *fun)
     if (bb->index == 0 || bb->index == 1)
         continue;
         
-    fprintf (out, "bb_%d_%d[label=\"", func_id, bb->index);
+    fprintf (out, "bb_%d_%d[shape=rectangle, label=\"", func_id, bb->index);
     if (bb->index == 0) {
       fprintf (out, "ENTRY: %s\n%s:%d", function_name(fun),
         (LOCATION_FILE(fun->function_start_locus) ? : "<unknown>"),
