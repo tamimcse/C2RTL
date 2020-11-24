@@ -2360,7 +2360,8 @@ void gen_verilog_tb ()
   fclose(out);
 }
 
-//based on https://graphs.grevian.org/example
+//based on https://graphs.grevian.org/example and
+//https://www.graphviz.org/pdf/dotguide.pdf
 int dump_cdfg()
 {
   int i, j; 
@@ -2369,6 +2370,8 @@ int dump_cdfg()
   
   //graph begin
   fprintf (out, "digraph cdfg {\n");
+  //Makes horizontal graph instead of vertical. This is useful for BIG graph
+//  fprintf (out, "rankdir=LR;\n");
   STAILQ_FOREACH(bvp, &bb_list, nextptr) {
     //subgraph begin
     fprintf (out, "subgraph cluster_%d {\n", bvp->bb_id);
