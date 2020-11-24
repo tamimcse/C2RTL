@@ -2106,6 +2106,51 @@ void add_module_end (FILE *output)
   fprintf (output, "endmodule");
 }
 
+void dump_op (struct op_vertex *o, char *output)
+{
+  struct operation *op = &ops[o->op_idx];
+  switch (op->code) {
+    case POINTER_PLUS_TREE_CODE:
+    case PLUS_TREE_CODE:
+    case MINUS_TREE_CODE:
+    case MULT_TREE_CODE:
+    case RSHIFT_TREE_CODE:
+    case LSHIFT_TREE_CODE:
+    case BIT_AND_TREE_CODE:
+    case NE_EXPR_TREE_CODE:
+    case GT_EXPR_TREE_CODE:
+      sprintf(output, "%d. %s = %s %s %s", o->op_idx, op->output.name,
+              op->inputs[0].name, op->name, op->inputs[1].name);
+      break;
+      
+    case NOP_TREE_CODE:
+    case INT_CST_TREE_CODE:
+      sprintf(output, "%d. %s = bit_extract (%s)", o->op_idx, op->output.name,
+              op->inputs[0].name);
+      break;
+      
+    case SSA_TREE_CODE:
+    case SAVE_EXPR:
+      sprintf(output, "%d. %s = %s", o->op_idx, op->output.name,
+              op->inputs[0].name);
+      break;
+
+    case MUX_TREE_CODE:
+      sprintf(output, "%d. %s = MUX(%s,%s, %s (selector))", o->op_idx, op->output.name,
+              op->inputs[0].name, op->inputs[1].name, op->inputs[2].name);
+      break;
+
+    case MEM_REF_TREE_CODE:
+      sprintf(output, "%d. %s = MEM_LOAD %s", o->op_idx, op->output.name,
+              op->inputs[0].name);
+      break;
+      
+    default:
+     sprintf(output, "instruction missing %d", (int)op->code);
+     break;
+  }
+}
+
 void add_operations (FILE *output, struct op_vertex *op)
 {
   struct operation *o = &ops[op->op_idx];
@@ -2381,10 +2426,12 @@ int dump_cdfg()
     fprintf (out, "label=\"BB%d\";\n", bvp->bb_id);
     //print the nodes
     for (i = 0; i < bvp->num_operations; i++) {
+      char op_name[200];
+      dump_op (bvp->operations[i], op_name);
       if (is_cond_op(bvp->operations[i]))
-        fprintf (out, "%d [shape=triangle];", bvp->operations[i]->op_idx);
+        fprintf (out, "\"%s\" [shape=triangle];", op_name);
       else
-        fprintf (out, "%d;", bvp->operations[i]->op_idx); 
+        fprintf (out, "\"%s\";", op_name); 
     }
     fprintf (out, "\n");
     
@@ -2395,15 +2442,20 @@ int dump_cdfg()
   STAILQ_FOREACH(bvp, &bb_list, nextptr) {
     for (i = 0; i < bvp->num_operations; i++) {
       op = bvp->operations[i];
+      char op_name1[200];
+      dump_op (op, op_name1);
       //data edges
       for (j = 0; j < op->num_data_edges; j++) {
-        fprintf (out, "%d -> %d;\n", op->op_idx, op->data_edges[j]->op_idx);
+        char op_name2[200];
+        dump_op (op->data_edges[j], op_name2);
+        fprintf (out, "\"%s\" -> \"%s\";\n", op_name1, op_name2);
       }
       //control edges
       for (j = 0; j < op->num_control_edges; j++) {
-        fprintf (out, "%d -> %d [style=dashed, lhead=cluster_%d, label=\"%s\"];\n",
-                op->op_idx, op->control_edges[j]->operations[0]->op_idx,
-                op->control_edges[j]->bb_id, j == 0? "true":"false");
+        char op_name2[200];
+        dump_op (op->control_edges[j]->operations[0], op_name2);
+        fprintf (out, "\"%s\" -> \"%s\" [style=dashed, lhead=cluster_%d, label=\"%s\"];\n",
+                op_name1, op_name2, op->control_edges[j]->bb_id, j == 0? "true":"false");
       }
     }
   }
