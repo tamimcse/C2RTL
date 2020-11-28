@@ -2502,6 +2502,58 @@ int dump_cdfg()
   fclose(out);  
 }
 
+//The reguler CDFG is too large to fit in a paper. So, dump a CDFG that only
+//contains instruction ID
+int dump_cdfg_simplified()
+{
+  int i, j; 
+  FILE *out = fopen("cdfg_simplified.dot", "w");
+  struct op_vertex *op;
+  
+  //graph begin
+  fprintf (out, "digraph cdfg {\n");
+  //It allow edges between clusters
+  fprintf (out, "compound=true;\n");
+  //Makes horizontal graph instead of vertical. This is useful for BIG graph
+//  fprintf (out, "rankdir=LR;\n");
+  STAILQ_FOREACH(bvp, &bb_list, nextptr) {
+    //subgraph begin
+    fprintf (out, "subgraph cluster_%d {\n", bvp->bb_id);
+    //print the level
+    fprintf (out, "label=\"BB%d\";\n", bvp->bb_id);
+    //print the nodes
+    for (i = 0; i < bvp->num_operations; i++) {
+      if (is_cond_op(bvp->operations[i]))
+        fprintf (out, "%d [shape=triangle];", bvp->operations[i]->op_idx);
+      else
+        fprintf (out, "%d;", bvp->operations[i]->op_idx);
+    }
+    fprintf (out, "\n");
+    
+    //subgraph end
+    fprintf (out, "}\n");
+  }
+  //print the edges
+  STAILQ_FOREACH(bvp, &bb_list, nextptr) {
+    for (i = 0; i < bvp->num_operations; i++) {
+      op = bvp->operations[i];
+      //data edges
+      for (j = 0; j < op->num_data_edges; j++) {
+        fprintf (out, "%d -> %d;\n", op->op_idx, op->data_edges[j]->op_idx);
+      }
+      //control edges
+      for (j = 0; j < op->num_control_edges; j++) {
+        fprintf (out, "%d -> %d [style=dashed, lhead=cluster_%d, label=\"%s\"];\n",
+                op->op_idx, op->control_edges[j]->operations[0]->op_idx, op->control_edges[j]->bb_id, j == 0? "true":"false");
+      }
+    }
+  }
+  
+  //graph end
+  fprintf (out, "}\n");
+  fclose(out);  
+}
+
 int dump_cfg(function *fun)
 {
   FILE *out;
@@ -2654,6 +2706,7 @@ struct my_first_pass : gimple_opt_pass
     printf("------------------------------------------------------------\n");
     print_cdfg();
     dump_cdfg();
+    dump_cdfg_simplified();
             
     printf ("\n");
     printf("------------------------------------------------------------\n");
