@@ -223,6 +223,11 @@ bool is_phi_op (struct operation *op)
   return op->code == PHI_TREE_CODE;
 }
 
+bool is_nop_op (struct operation *op)
+{
+  return op->code == NOP_TREE_CODE;
+}
+
 bool is_mux_op (struct operation *op)
 {
   return op->code == MUX_TREE_CODE;
