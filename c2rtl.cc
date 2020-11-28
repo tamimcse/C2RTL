@@ -2167,7 +2167,7 @@ void dump_op (struct op_vertex *o, char *output)
       
     case NOP_TREE_CODE:
     case INT_CST_TREE_CODE:
-      sprintf(output, "%d. %s = bit_extract (%s)", o->op_idx, op->output.name,
+      sprintf(output, "%d. %s = cast (%s)", o->op_idx, op->output.name,
               op->inputs[0].name);
       break;
       
@@ -2238,14 +2238,14 @@ void add_operations (FILE *output, struct op_vertex *op)
       break;
       
     case NOP_TREE_CODE:
-      fprintf(output, "UUdata_converter_FU #(.BITSIZE_in1(%d), "
+      fprintf(output, "cast #(.BITSIZE_in1(%d), "
               ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s));\n",
               o->inputs[0].bitsize, o->output.bitsize,
               op->op_idx, o->output.name, o->inputs[0].name);
       break;
       
     case INT_CST_TREE_CODE:
-      fprintf(output, "UUdata_converter_FU #(.BITSIZE_in1(%d), "
+      fprintf(output, "cast #(.BITSIZE_in1(%d), "
               ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s));\n",
               o->inputs[0].bitsize, o->output.bitsize,
               op->op_idx, o->output.name, o->inputs[0].name);
