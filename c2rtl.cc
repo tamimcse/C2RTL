@@ -2178,12 +2178,12 @@ void dump_op (struct op_vertex *o, char *output)
       break;
 
     case MUX_TREE_CODE:
-      sprintf(output, "%d. %s = MUX(%s,%s, %s (selector))", o->op_idx, op->output.name,
+      sprintf(output, "%d. %s = MUX(%s, %s) Sel:%s", o->op_idx, op->output.name,
               op->inputs[0].name, op->inputs[1].name, op->inputs[2].name);
       break;
 
     case MEM_REF_TREE_CODE:
-      sprintf(output, "%d. %s = MEM_LOAD %s", o->op_idx, op->output.name,
+      sprintf(output, "%d. %s = * %s", o->op_idx, op->output.name,
               op->inputs[0].name);
       break;
       
