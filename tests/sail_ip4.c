@@ -4,7 +4,7 @@ uint8_t sail(uint32_t ip, uint8_t N16[100],
   uint16_t C16[100], uint8_t N24[100],
   uint16_t C24[100], uint8_t N32[100]) {
 
-  uint16_t idx, cidx;
+  unsigned int idx, cidx;
 
   idx = ip >> 16;
   cidx = C16[idx];
