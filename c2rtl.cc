@@ -1835,7 +1835,7 @@ static char *get_op_name (enum tree_code c)
     case NOP_TREE_CODE:
       return "NOP";
     case POINTER_PLUS_TREE_CODE:
-      return "*";
+      return "+";
     case MEM_REF_TREE_CODE:
       return "mem_load";
     case SSA_TREE_CODE:
@@ -1848,7 +1848,6 @@ static char *get_op_name (enum tree_code c)
       return "<<";
     case BIT_AND_TREE_CODE:
       return "&";
-
     case PLUS_TREE_CODE:
       return "+";
     case MINUS_TREE_CODE:
