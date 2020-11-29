@@ -2643,11 +2643,12 @@ struct my_first_pass : gimple_opt_pass
  
     printf ("\n");
     printf("------------------------------------------------------------\n");
-    printf("          Micro-architecture Transformation and Optimization \n");
+    printf("          Micro-architecture Optimization \n");
     printf("------------------------------------------------------------\n");
-    //SSA operations include an operation 
+    //compiler copy propagation 
     remove_ssa_op ();
     optimize_mult_op();
+    //operand width reduction
     convert_sized_const();
 
     printf ("\n");
