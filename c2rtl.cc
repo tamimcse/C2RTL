@@ -2713,32 +2713,26 @@ struct my_first_pass : gimple_opt_pass
     dump_cdfg();
     dump_cdfg_simplified();
             
+    //Scheduling is performed according to http://cas.ee.ic.ac.uk/people/gac1/Synthesis/Lecture9.pdf
+    //Similar scheduling is also performed in :
+    //Shao, Yakun Sophia, et al. "Aladdin: A pre-RTL, power-performance
+    //accelerator simulator enabling large design space exploration of 
+    //customized architectures." ACM/IEEE ISCA, 2014
     printf ("\n");
     printf("------------------------------------------------------------\n");
-    printf("          Topological sorting CDFG \n");
+    printf("          Scheduling \n");
     printf("------------------------------------------------------------\n");
+    printf("........Topological sorting CDFG....... \n");
     topological_sort();
     print_sorted_list();
-      
-    printf ("\n");
-    printf("------------------------------------------------------------\n");
-    printf("          ASAP Scheduling \n");
-    printf("------------------------------------------------------------\n");
+    printf("..........ASAP Scheduling..................\n");
     asap_schedule();
     print_path_latency();
-    
-    printf ("\n");
-    printf("------------------------------------------------------------\n");
-    printf("          ALAP Scheduling \n");
-    printf("------------------------------------------------------------\n");
+    printf("..........ALAP Scheduling..................\n");
     set_num_clock_cycles();
     alap_schedule();
     print_path_latency();
-
-    printf ("\n");
-    printf("------------------------------------------------------------\n");
-    printf("          Scheduling by clock cycle\n");
-    printf("------------------------------------------------------------\n");
+    printf("..........Scheduling by clock cycle....................\n");
     populate_schedule_by_clock_cycle();
     print_schedule_by_clock_cycle();
 
