@@ -65,7 +65,7 @@ int popcount64b(uint64_t x)
  * We don't support struct.
  * We don't support flag variable.
  */
-uint64_t cptrie(uint64_t c16_bitmap[SIZE16], uint32_t c16_popcnt[SIZE16],
+uint8_t cptrie(uint64_t c16_bitmap[SIZE16], uint32_t c16_popcnt[SIZE16],
         uint64_t b16_bitmap[SIZE16], uint32_t b16_popcnt[SIZE16],
         uint64_t c24_bitmap[SIZE24], uint32_t c24_popcnt[SIZE24],
         uint64_t b24_bitmap[SIZE24], uint32_t b24_popcnt[SIZE24],
@@ -95,7 +95,7 @@ uint64_t cptrie(uint64_t c16_bitmap[SIZE16], uint32_t c16_popcnt[SIZE16],
         uint64_t b120_bitmap[SIZE120], uint32_t b120_popcnt[SIZE120],
         uint64_t b128_bitmap[SIZE128], uint32_t b128_popcnt[SIZE128],
         uint8_t leafN[N_CNT], uint64_t ip1, uint64_t ip2) {
-  uint64_t n_idx;
+  uint32_t n_idx;
   uint32_t off;
   uint32_t idx, idx_sail;
   uint32_t ck_idx;
