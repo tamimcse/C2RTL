@@ -1805,6 +1805,9 @@ static void generate_mux (struct operation *op, int op_idx)
   }
   ops_cnt += (mux_cnt - 1);
   
+  //update return statement index
+  ret_ops_idx = ops_cnt - 1;
+  
   //Add the MUXs to the BB
   bb = lookup_bb_vertex (op->bb_id);
   remove_op_vertex (bb, op_idx);
