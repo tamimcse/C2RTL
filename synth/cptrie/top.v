@@ -18316,5 +18316,5 @@ module top(clock, b16_popcnt_2529_D, b16_bitmap_2528_D, b24_popcnt_2540_D, b24_b
   MUX_GATE #(.BITSIZE_in1(8), .BITSIZE_in2(8), .BITSIZE_out1(8)) op2639 (.out1(mux0), .in1(R9115), .in2(R9116), .sel(R8383));
   MUX_GATE #(.BITSIZE_in1(8), .BITSIZE_in2(8), .BITSIZE_out1(8)) op2666 (.out1(mux27), .in1(mux1), .in2(mux26), .sel(R3918));
   MUX_GATE #(.BITSIZE_in1(8), .BITSIZE_in2(8), .BITSIZE_out1(8)) op2667 (.out1(mux28), .in1(mux0), .in2(mux27), .sel(R3291));
-  REG_STD #(.BITSIZE_in1(8), .BITSIZE_out1(8)) op9123 (.out1(R9124), .clock(clock), .in1(mux0));
+  REG_STD #(.BITSIZE_in1(8), .BITSIZE_out1(8)) op9123 (.out1(R9124), .clock(clock), .in1(mux28));
 endmodule
