@@ -2,36 +2,44 @@
 
 === top ===
 
-   Number of wires:               2571
-   Number of wire bits:           6421
-   Number of public wires:        1344
-   Number of public wire bits:    5194
+   Number of wires:              24235
+   Number of wire bits:          28085
+   Number of public wires:       12951
+   Number of public wire bits:   16801
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               1237
-     AND2_X1                         1
-     BUF_X1                          8
-     DFF_X1                       1217
-     INV_X1                          3
+   Number of cells:              11324
+     AND2_X1                        59
+     AND3_X1                         1
+     AOI21_X1                        9
+     AOI221_X1                       1
+     BUF_X1                         12
+     DFF_X1                      11058
+     INV_X1                         40
      LOGIC0_X1                       1
      LOGIC1_X1                       1
      MUX2_X1                         1
-     NAND2_X1                        1
-     NAND3_X1                        1
-     NOR3_X1                         2
-     OAI21_X1                        1
+     NAND2_X1                       29
+     NAND3_X1                       33
+     NAND4_X1                        1
+     NOR2_X1                        34
+     NOR3_X1                         1
+     OAI21_X1                       38
+     OAI221_X1                       2
+     OR2_X1                          2
+     OR3_X1                          1
 
-   Chip area for module '\top': 5520.298000
+   Chip area for module '\top': 50248.198000
 
 20. Executing Verilog backend.
 Dumping module `\top'.
 
 Warnings: 611 unique messages, 675 total
-End of script. Logfile hash: 1e02a9d85f, CPU: user 626.04s system 46.20s, MEM: 657.54 MB peak
+End of script. Logfile hash: 3ceed4f3ec, CPU: user 669.27s system 46.43s, MEM: 681.30 MB peak
 Yosys 0.9+3621 (git sha1 66769a3f, gcc 7.5.0-3ubuntu1~18.04 -fPIC -Os)
-Time spent: 88% 1x flatten (595 sec), 7% 24x opt_clean (51 sec), ...
-11:12.73elapsed 99%CPU 673316memKB
+Time spent: 82% 1x flatten (593 sec), 9% 34x opt_clean (70 sec), ...
+11:56.27elapsed 99%CPU 697648memKB
 mkdir -p ./results/nangate45/top ./logs/nangate45/top ./reports/nangate45/top
 cp results/nangate45/top/1_1_yosys.v results/nangate45/top/1_synth.v
 mkdir -p ./results/nangate45/top ./logs/nangate45/top ./reports/nangate45/top
@@ -47,14 +55,14 @@ Notice 0: Finished LEF file:  ./platforms/nangate45/lef/NangateOpenCellLibrary.t
 Notice 0: Reading LEF file:  ./platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef
 Notice 0:     Created 134 library cells
 Notice 0: Finished LEF file:  ./platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef
-number instances in verilog is 1237
+number instances in verilog is 11324
 Info: Added 592 rows of 4369 sites.
 
 ==========================================================================
 report_checks
 --------------------------------------------------------------------------
-Startpoint: _1850_ (rising edge-triggered flip-flop clocked by core_clock)
-Endpoint: _1247_ (rising edge-triggered flip-flop clocked by core_clock)
+Startpoint: _17297_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _17250_ (rising edge-triggered flip-flop clocked by core_clock)
 Path Group: core_clock
 Path Type: max
 
@@ -62,26 +70,36 @@ Path Type: max
 -----------------------------------------------------------------------
            0.00    0.00    0.00   clock core_clock (rise edge)
                    0.00    0.00   clock network delay (ideal)
-           0.00    0.00    0.00 ^ _1850_/CK (DFF_X1)
-   1.96    0.01    0.09    0.09 ^ _1850_/Q (DFF_X1)
-           0.01    0.00    0.09 ^ _1232_/A3 (NAND3_X1)
-   3.80    0.02    0.03    0.11 v _1232_/ZN (NAND3_X1)
-           0.02    0.00    0.11 v _1233_/A3 (NOR3_X1)
-   1.45    0.02    0.05    0.16 ^ _1233_/ZN (NOR3_X1)
-           0.02    0.00    0.16 ^ _1247_/D (DFF_X1)
-                           0.16   data arrival time
+           0.00    0.00    0.00 ^ _17297_/CK (DFF_X1)
+   4.78    0.01    0.09    0.09 ^ _17297_/Q (DFF_X1)
+           0.01    0.00    0.09 ^ _11284_/A (BUF_X1)
+  18.34    0.04    0.06    0.16 ^ _11284_/Z (BUF_X1)
+           0.04    0.00    0.16 ^ _11352_/A1 (NAND3_X1)
+   1.84    0.02    0.03    0.18 v _11352_/ZN (NAND3_X1)
+           0.02    0.00    0.18 v _11355_/A2 (NAND3_X1)
+   3.98    0.02    0.03    0.21 ^ _11355_/ZN (NAND3_X1)
+           0.02    0.00    0.21 ^ _11361_/B1 (OAI221_X1)
+   1.72    0.02    0.03    0.24 v _11361_/ZN (OAI221_X1)
+           0.02    0.00    0.24 v _11362_/B2 (AOI21_X1)
+   1.97    0.02    0.04    0.28 ^ _11362_/ZN (AOI21_X1)
+           0.02    0.00    0.28 ^ _11366_/B1 (OAI21_X1)
+   1.87    0.01    0.02    0.29 v _11366_/ZN (OAI21_X1)
+           0.01    0.00    0.29 v _11370_/A1 (NAND3_X1)
+   1.45    0.01    0.02    0.31 ^ _11370_/ZN (NAND3_X1)
+           0.01    0.00    0.31 ^ _17250_/D (DFF_X1)
+                           0.31   data arrival time
 
            0.00    1.00    1.00   clock core_clock (rise edge)
                    0.00    1.00   clock network delay (ideal)
                    0.00    1.00   clock reconvergence pessimism
-                           1.00 ^ _1247_/CK (DFF_X1)
-                  -0.04    0.96   library setup time
-                           0.96   data required time
+                           1.00 ^ _17250_/CK (DFF_X1)
+                  -0.03    0.97   library setup time
+                           0.97   data required time
 -----------------------------------------------------------------------
-                           0.96   data required time
-                          -0.16   data arrival time
+                           0.97   data required time
+                          -0.31   data arrival time
 -----------------------------------------------------------------------
-                           0.80   slack (MET)
+                           0.66   slack (MET)
 
 
 
@@ -98,8 +116,8 @@ wns 0.00
 ==========================================================================
 report_design_area
 --------------------------------------------------------------------------
-Design area 5520 u^2 1% utilization.
-0:00.69elapsed 100%CPU 78488memKB
+Design area 50248 u^2 7% utilization.
+0:01.56elapsed 101%CPU 111452memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/io_placement.tcl) 2>&1 | tee ./logs/nangate45/top/2_2_floorplan_io.log
 OpenROAD 0.9.0 c370648541
 This program is licensed under the BSD-3 license. See the LICENSE file for details. 
@@ -115,8 +133,8 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/2_1_floorplan.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 1237 components and 7392 component-terminals.
-Notice 0:     Created 6359 nets and 4918 connections.
+Notice 0:     Created 11324 components and 67717 component-terminals.
+Notice 0:     Created 26287 nets and 45069 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/2_1_floorplan.def
 #Macro blocks found: 0
 Warning: using the default boundaries offset (5 microns)
@@ -125,8 +143,8 @@ WARNING: force pin spread option has no effect when using random pin placement
  > Running IO placement
  * Num of slots          10448
  * Num of I/O            3913
- * Num of I/O w/sink     15
- * Num of I/O w/o sink   3898
+ * Num of I/O w/sink     99
+ * Num of I/O w/o sink   3814
  * Slots Per Section     200
  * Slots Increase Factor 0.01
  * Usage Per Section     0.8
@@ -136,7 +154,7 @@ WARNING: force pin spread option has no effect when using random pin placement
 WARNING: running random pin placement
 RandomMode Even
  > IO placement done.
-0:00.59elapsed 100%CPU 80168memKB
+0:00.72elapsed 100%CPU 92320memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/tdms_place.tcl) 2>&1 | tee ./logs/nangate45/top/2_3_tdms_place.log
 OpenROAD 0.9.0 c370648541
 This program is licensed under the BSD-3 license. See the LICENSE file for details. 
@@ -152,11 +170,11 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/2_2_floorplan_io.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 1237 components and 7392 component-terminals.
-Notice 0:     Created 6359 nets and 4918 connections.
+Notice 0:     Created 11324 components and 67717 component-terminals.
+Notice 0:     Created 26287 nets and 45069 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/2_2_floorplan_io.def
 No macros found: Skipping global_placement
-0:00.59elapsed 100%CPU 73096memKB
+0:00.72elapsed 99%CPU 85332memKB
 ./util/fixIoPins.py --inputDef results/nangate45/top/2_3_floorplan_tdms.def --outputDef results/nangate45/top/2_3_floorplan_tdms.def --margin 70
 fixIoPins.py : Fixing Pins in Def file
 Replacements made - West:1128 South:829 East:1128 North:828
@@ -176,11 +194,11 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/2_3_floorplan_tdms.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 1237 components and 7392 component-terminals.
-Notice 0:     Created 6359 nets and 4918 connections.
+Notice 0:     Created 11324 components and 67717 component-terminals.
+Notice 0:     Created 26287 nets and 45069 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/2_3_floorplan_tdms.def
 No macros found: Skipping macro_placement
-0:00.59elapsed 100%CPU 73180memKB
+0:00.72elapsed 99%CPU 85540memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/tapcell.tcl) 2>&1 | tee ./logs/nangate45/top/2_5_tapcell.log
 OpenROAD 0.9.0 c370648541
 This program is licensed under the BSD-3 license. See the LICENSE file for details. 
@@ -196,8 +214,8 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/2_4_floorplan_macro.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 1237 components and 7392 component-terminals.
-Notice 0:     Created 6359 nets and 4918 connections.
+Notice 0:     Created 11324 components and 67717 component-terminals.
+Notice 0:     Created 26287 nets and 45069 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/2_4_floorplan_macro.def
 Running tapcell...
 Step 1: Cut rows...
@@ -209,7 +227,7 @@ Step 2: Insert endcaps...
 Step 3: Insert tapcells...
 [INFO] #Tapcells inserted: 1782
 Running tapcell... Done!
-0:01.01elapsed 99%CPU 87584memKB
+0:01.26elapsed 99%CPU 97952memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/pdn.tcl) 2>&1 | tee ./logs/nangate45/top/2_6_pdn.log
 OpenROAD 0.9.0 c370648541
 This program is licensed under the BSD-3 license. See the LICENSE file for details. 
@@ -225,8 +243,8 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/2_5_floorplan_tapcell.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 4203 components and 13324 component-terminals.
-Notice 0:     Created 6359 nets and 4918 connections.
+Notice 0:     Created 14290 components and 73649 component-terminals.
+Notice 0:     Created 26287 nets and 45069 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/2_5_floorplan_tapcell.def
 [INFO] [PDNG-0016] Power Delivery Network Generator: Generating PDN
 [INFO] [PDNG-0016]   config: ./platforms/nangate45/pdn.cfg
@@ -254,7 +272,7 @@ Type: macro, macro_2
 [INFO] [PDNG-0012] **** END INFO ****
 [INFO] [PDNG-0013] Inserting stdcell grid - grid
 [INFO] [PDNG-0015] Writing to database
-0:01.93elapsed 100%CPU 184632memKB
+0:02.76elapsed 99%CPU 228428memKB
 cp results/nangate45/top/2_6_floorplan_pdn.def results/nangate45/top/2_floorplan.def
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/global_place.tcl) 2>&1 | tee ./logs/nangate45/top/3_1_place_gp.log
 OpenROAD 0.9.0 c370648541
@@ -271,69 +289,100 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/2_floorplan.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 4203 components and 13324 component-terminals.
-Notice 0:     Created 2 special nets and 8406 connections.
-Notice 0:     Created 6359 nets and 4918 connections.
+Notice 0:     Created 14290 components and 73649 component-terminals.
+Notice 0:     Created 2 special nets and 28580 connections.
+Notice 0:     Created 26287 nets and 45069 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/2_floorplan.def
 [INFO] DBU = 2000
 [INFO] SiteSize = (380, 2800)
 [INFO] CoreAreaLxLy = (20140, 22400)
 [INFO] CoreAreaUxUy = (1680360, 1680000)
-[INFO] NumInstances = 4203
-[INFO] NumPlaceInstances = 1237
+[INFO] NumInstances = 14290
+[INFO] NumPlaceInstances = 11324
 [INFO] NumFixedInstances = 2966
 [INFO] NumDummyInstances = 0
-[INFO] NumNets = 6359
-[INFO] NumPins = 8831
+[INFO] NumNets = 26287
+[INFO] NumPins = 48982
 [INFO] DieAreaLxLy = (0, 0)
 [INFO] DieAreaUxUy = (1700260, 1701600)
 [INFO] CoreAreaLxLy = (20140, 22400)
 [INFO] CoreAreaUxUy = (1680360, 1680000)
 [INFO] CoreArea = 2751980672000
 [INFO] NonPlaceInstsArea = 3155824000
-[INFO] PlaceInstsArea = 27345864000
-[INFO] Util(%) = 0.994820
-[INFO] StdInstsArea = 27345864000
+[INFO] PlaceInstsArea = 249187736000
+[INFO] Util(%) = 9.065246
+[INFO] StdInstsArea = 249187736000
 [INFO] MacroInstsArea = 0
-[InitialPlace]  Iter: 1 CG Error: 0.0363386 HPWL: 49592900
-[InitialPlace]  Iter: 2 CG Error: 0.0206076 HPWL: 44721112
-[InitialPlace]  Iter: 3 CG Error: 0.00950574 HPWL: 45673958
-[InitialPlace]  Iter: 4 CG Error: 0.0198523 HPWL: 45487031
-[InitialPlace]  Iter: 5 CG Error: 0.00304171 HPWL: 45241374
-[InitialPlace]  Iter: 6 CG Error: 0.000924672 HPWL: 44925707
-[InitialPlace]  Iter: 7 CG Error: 0.000327908 HPWL: 44440488
-[InitialPlace]  Iter: 8 CG Error: 0.000118795 HPWL: 43860292
-[InitialPlace]  Iter: 9 CG Error: 0.000149115 HPWL: 43334661
-[InitialPlace]  Iter: 10 CG Error: 0.000131215 HPWL: 43089612
-[InitialPlace]  Iter: 11 CG Error: 0.00013479 HPWL: 43068615
-[InitialPlace]  Iter: 12 CG Error: 0.000110546 HPWL: 43025237
-[InitialPlace]  Iter: 13 CG Error: 6.80055e-05 HPWL: 43029188
-[InitialPlace]  Iter: 14 CG Error: 6.93864e-05 HPWL: 42992880
-[InitialPlace]  Iter: 15 CG Error: 5.77408e-05 HPWL: 42958040
-[InitialPlace]  Iter: 16 CG Error: 8.76299e-05 HPWL: 42952718
-[InitialPlace]  Iter: 17 CG Error: 4.54091e-05 HPWL: 42983321
-[InitialPlace]  Iter: 18 CG Error: 4.63075e-05 HPWL: 42960438
-[InitialPlace]  Iter: 19 CG Error: 2.51083e-05 HPWL: 42938825
-[InitialPlace]  Iter: 20 CG Error: 2.4343e-05 HPWL: 42897020
-[INFO] FillerInit: NumGCells = 36920
-[INFO] FillerInit: NumGNets = 6359
-[INFO] FillerInit: NumGPins = 8831
+[InitialPlace]  Iter: 1 CG Error: 0.0219073 HPWL: 374862860
+[InitialPlace]  Iter: 2 CG Error: 0.0104188 HPWL: 350209975
+[InitialPlace]  Iter: 3 CG Error: 0.00891547 HPWL: 365594463
+[InitialPlace]  Iter: 4 CG Error: 0.00165499 HPWL: 372112501
+[InitialPlace]  Iter: 5 CG Error: 0.000760325 HPWL: 375977479
+[InitialPlace]  Iter: 6 CG Error: 0.000326623 HPWL: 377329108
+[InitialPlace]  Iter: 7 CG Error: 0.000188215 HPWL: 377676152
+[InitialPlace]  Iter: 8 CG Error: 0.000135628 HPWL: 377173812
+[InitialPlace]  Iter: 9 CG Error: 0.000101239 HPWL: 376535563
+[InitialPlace]  Iter: 10 CG Error: 9.48656e-05 HPWL: 376169515
+[InitialPlace]  Iter: 11 CG Error: 8.18149e-05 HPWL: 375855065
+[InitialPlace]  Iter: 12 CG Error: 8.33093e-05 HPWL: 375762479
+[InitialPlace]  Iter: 13 CG Error: 8.26321e-05 HPWL: 375595255
+[InitialPlace]  Iter: 14 CG Error: 6.89956e-05 HPWL: 375623126
+[InitialPlace]  Iter: 15 CG Error: 6.88421e-05 HPWL: 375474889
+[InitialPlace]  Iter: 16 CG Error: 6.22872e-05 HPWL: 375470329
+[InitialPlace]  Iter: 17 CG Error: 6.73412e-05 HPWL: 375343889
+[InitialPlace]  Iter: 18 CG Error: 6.11698e-05 HPWL: 375325491
+[InitialPlace]  Iter: 19 CG Error: 5.43797e-05 HPWL: 375213978
+[InitialPlace]  Iter: 20 CG Error: 0.000148814 HPWL: 375201790
+[INFO] FillerInit: NumGCells = 37078
+[INFO] FillerInit: NumGNets = 26287
+[INFO] FillerInit: NumGPins = 48982
 [INFO] TargetDensity = 0.300000
-[INFO] AveragePlaceInstArea = 22106599
-[INFO] IdealBinArea = 73688664
-[INFO] IdealBinCnt = 37346
+[INFO] AveragePlaceInstArea = 22005275
+[INFO] IdealBinArea = 73350920
+[INFO] IdealBinCnt = 37518
 [INFO] TotalBinArea = 2751980672000
 [INFO] BinCnt = (128, 128)
 [INFO] BinSize = (12971, 12950)
 [INFO] NumBins = 16384
-[NesterovSolve] Iter: 1 overflow: 0.0922419 HPWL: 15237487
-[NesterovSolve] Iter: 10 overflow: 0.0907331 HPWL: 15234614
-[NesterovSolve] Iter: 20 overflow: 0.0899943 HPWL: 15231918
-[NesterovSolve] Iter: 30 overflow: 0.0881825 HPWL: 15231265
-[NesterovSolve] Iter: 40 overflow: 0.0866063 HPWL: 15238771
-[NesterovSolve] Iter: 50 overflow: 0.0876901 HPWL: 15243974
-[NesterovSolve] Finished with Overflow: 0.0884823
-0:01.72elapsed 100%CPU 112508memKB
+[NesterovSolve] Iter: 1 overflow: 0.755037 HPWL: 131127107
+[NesterovSolve] Iter: 10 overflow: 0.740932 HPWL: 138768558
+[NesterovSolve] Iter: 20 overflow: 0.725901 HPWL: 146983477
+[NesterovSolve] Iter: 30 overflow: 0.712999 HPWL: 151792175
+[NesterovSolve] Iter: 40 overflow: 0.702956 HPWL: 154571693
+[NesterovSolve] Iter: 50 overflow: 0.693376 HPWL: 156279535
+[NesterovSolve] Iter: 60 overflow: 0.684661 HPWL: 157838669
+[NesterovSolve] Iter: 70 overflow: 0.675546 HPWL: 159126687
+[NesterovSolve] Iter: 80 overflow: 0.667289 HPWL: 160079785
+[NesterovSolve] Iter: 90 overflow: 0.658314 HPWL: 160785885
+[NesterovSolve] Iter: 100 overflow: 0.648893 HPWL: 161388036
+[NesterovSolve] Iter: 110 overflow: 0.639463 HPWL: 161913725
+[NesterovSolve] Iter: 120 overflow: 0.629447 HPWL: 162464303
+[NesterovSolve] Iter: 130 overflow: 0.619548 HPWL: 163052246
+[NesterovSolve] Iter: 140 overflow: 0.606683 HPWL: 163675974
+[NesterovSolve] Iter: 150 overflow: 0.5919 HPWL: 164270254
+[NesterovSolve] Iter: 160 overflow: 0.576537 HPWL: 165075354
+[NesterovSolve] Iter: 170 overflow: 0.559052 HPWL: 166097791
+[NesterovSolve] Iter: 180 overflow: 0.539396 HPWL: 167393708
+[NesterovSolve] Iter: 190 overflow: 0.514927 HPWL: 169418693
+[NesterovSolve] Iter: 200 overflow: 0.485419 HPWL: 176331329
+[NesterovSolve] Iter: 210 overflow: 0.448827 HPWL: 179975758
+[NesterovSolve] Iter: 220 overflow: 0.402039 HPWL: 182411177
+[NesterovSolve] Iter: 230 overflow: 0.349815 HPWL: 182009520
+[NesterovSolve] Iter: 240 overflow: 0.300247 HPWL: 177951776
+[NesterovSolve] Iter: 250 overflow: 0.261162 HPWL: 174838431
+[NesterovSolve] Iter: 260 overflow: 0.236437 HPWL: 180030543
+[NesterovSolve] Iter: 270 overflow: 0.219998 HPWL: 196546859
+[NesterovSolve] Iter: 280 overflow: 0.204186 HPWL: 199304003
+[NesterovSolve] Iter: 290 overflow: 0.185939 HPWL: 201983628
+[NesterovSolve] Iter: 300 overflow: 0.164066 HPWL: 205736832
+[NesterovSolve] Iter: 310 overflow: 0.158387 HPWL: 186922209
+[NesterovSolve] Iter: 320 overflow: 0.145301 HPWL: 196367949
+[NesterovSolve] Iter: 330 overflow: 0.134984 HPWL: 187420069
+[NesterovSolve] Iter: 340 overflow: 0.124082 HPWL: 184598600
+[NesterovSolve] Iter: 350 overflow: 0.117067 HPWL: 177234627
+[NesterovSolve] Iter: 360 overflow: 0.107556 HPWL: 173385509
+[NesterovSolve] Finished with Overflow: 0.0999852
+0:09.14elapsed 99%CPU 135524memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/resize.tcl) 2>&1 | tee ./logs/nangate45/top/3_2_resizer.log
 OpenROAD 0.9.0 c370648541
 This program is licensed under the BSD-3 license. See the LICENSE file for details. 
@@ -349,16 +398,16 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/3_1_place_gp.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 4203 components and 13324 component-terminals.
-Notice 0:     Created 2 special nets and 8406 connections.
-Notice 0:     Created 6359 nets and 4918 connections.
+Notice 0:     Created 14290 components and 73649 component-terminals.
+Notice 0:     Created 2 special nets and 28580 connections.
+Notice 0:     Created 26287 nets and 45069 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/3_1_place_gp.def
 
 ==========================================================================
 report_checks
 --------------------------------------------------------------------------
-Startpoint: _1850_ (rising edge-triggered flip-flop clocked by core_clock)
-Endpoint: _1247_ (rising edge-triggered flip-flop clocked by core_clock)
+Startpoint: _17297_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _17982_ (rising edge-triggered flip-flop clocked by core_clock)
 Path Group: core_clock
 Path Type: max
 
@@ -366,24 +415,26 @@ Path Type: max
 ---------------------------------------------------------
    0.00    0.00   clock core_clock (rise edge)
    0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _1850_/CK (DFF_X1)
-   0.09    0.09 ^ _1850_/Q (DFF_X1)
-   0.07    0.15 v _1232_/ZN (NAND3_X1)
-   0.07    0.23 ^ _1233_/ZN (NOR3_X1)
-   0.00    0.23 ^ _1247_/D (DFF_X1)
-           0.23   data arrival time
+   0.00    0.00 ^ _17297_/CK (DFF_X1)
+   0.09    0.09 ^ _17297_/Q (DFF_X1)
+   0.07    0.16 ^ _11284_/Z (BUF_X1)
+   0.15    0.31 ^ _11325_/Z (BUF_X1)
+   0.22    0.53 v _11332_/ZN (OAI21_X1)
+   0.02    0.55 ^ _11333_/ZN (INV_X1)
+   0.00    0.55 ^ _17982_/D (DFF_X1)
+           0.55   data arrival time
 
    1.00    1.00   clock core_clock (rise edge)
    0.00    1.00   clock network delay (ideal)
    0.00    1.00   clock reconvergence pessimism
-           1.00 ^ _1247_/CK (DFF_X1)
-  -0.04    0.96   library setup time
-           0.96   data required time
+           1.00 ^ _17982_/CK (DFF_X1)
+  -0.03    0.97   library setup time
+           0.97   data required time
 ---------------------------------------------------------
-           0.96   data required time
-          -0.23   data arrival time
+           0.97   data required time
+          -0.55   data arrival time
 ---------------------------------------------------------
-           0.74   slack (MET)
+           0.41   slack (MET)
 
 
 
@@ -400,21 +451,25 @@ wns 0.00
 ==========================================================================
 report_design_area
 --------------------------------------------------------------------------
-Design area 6309 u^2 1% utilization.
+Design area 51037 u^2 7% utilization.
 
 ==========================================================================
 instance_count
 --------------------------------------------------------------------------
-4203
+14290
 
 ==========================================================================
 pin_count
 --------------------------------------------------------------------------
-4918
+45069
 
 Perform port buffering...
 Perform buffer insertion...
-Resized 1 instances.
+Found 1 slew violations.
+Found 1 capacitance violations.
+Found 1 long wires.
+Inserted 1 buffers in 1 nets.
+Resized 112 instances.
 Perform resizing after buffer insertion...
 Resized 0 instances.
 Repair tie lo fanout...
@@ -429,8 +484,8 @@ report_floating_nets
 ==========================================================================
 report_checks
 --------------------------------------------------------------------------
-Startpoint: _1850_ (rising edge-triggered flip-flop clocked by core_clock)
-Endpoint: _1247_ (rising edge-triggered flip-flop clocked by core_clock)
+Startpoint: _16870_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _11560_ (rising edge-triggered flip-flop clocked by core_clock)
 Path Group: core_clock
 Path Type: max
 
@@ -438,30 +493,32 @@ Path Type: max
 -----------------------------------------------------------------------
            0.00    0.00    0.00   clock core_clock (rise edge)
                    0.00    0.00   clock network delay (ideal)
-           0.00    0.00    0.00 ^ _1850_/CK (DFF_X1)
-   7.29    0.02    0.10    0.10 ^ _1850_/Q (DFF_X1)
-           0.02    0.00    0.10 ^ _1232_/A3 (NAND3_X4)
-  19.92    0.02    0.03    0.13 v _1232_/ZN (NAND3_X4)
-           0.02    0.01    0.14 v _1233_/A3 (NOR3_X1)
-   1.18    0.02    0.05    0.19 ^ _1233_/ZN (NOR3_X1)
-           0.02    0.00    0.19 ^ _1247_/D (DFF_X1)
-                           0.19   data arrival time
+           0.00    0.00    0.00 ^ _16870_/CK (DFF_X2)
+  47.94    0.04    0.14    0.14 ^ _16870_/Q (DFF_X2)
+           0.10    0.07    0.21 ^ _11419_/A1 (NAND3_X4)
+  17.46    0.03    0.04    0.25 v _11419_/ZN (NAND3_X4)
+           0.04    0.01    0.26 v _11420_/A2 (NOR2_X2)
+  13.92    0.04    0.06    0.33 ^ _11420_/ZN (NOR2_X2)
+           0.04    0.01    0.33 ^ _11422_/A2 (AND2_X1)
+   1.62    0.01    0.04    0.37 ^ _11422_/ZN (AND2_X1)
+           0.01    0.00    0.37 ^ _11560_/D (DFF_X1)
+                           0.37   data arrival time
 
            0.00    1.00    1.00   clock core_clock (rise edge)
                    0.00    1.00   clock network delay (ideal)
                    0.00    1.00   clock reconvergence pessimism
-                           1.00 ^ _1247_/CK (DFF_X1)
-                  -0.04    0.96   library setup time
-                           0.96   data required time
+                           1.00 ^ _11560_/CK (DFF_X1)
+                  -0.03    0.97   library setup time
+                           0.97   data required time
 -----------------------------------------------------------------------
-                           0.96   data required time
-                          -0.19   data arrival time
+                           0.97   data required time
+                          -0.37   data arrival time
 -----------------------------------------------------------------------
-                           0.78   slack (MET)
+                           0.60   slack (MET)
 
 
-Startpoint: _2013_ (rising edge-triggered flip-flop clocked by core_clock)
-Endpoint: _2019_ (rising edge-triggered flip-flop clocked by core_clock)
+Startpoint: _13069_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _13152_ (rising edge-triggered flip-flop clocked by core_clock)
 Path Group: core_clock
 Path Type: min
 
@@ -469,15 +526,15 @@ Path Type: min
 -----------------------------------------------------------------------
            0.00    0.00    0.00   clock core_clock (rise edge)
                    0.00    0.00   clock network delay (ideal)
-           0.00    0.00    0.00 ^ _2013_/CK (DFF_X1)
-   1.10    0.01    0.08    0.08 v _2013_/Q (DFF_X1)
-           0.01    0.00    0.08 v _2019_/D (DFF_X1)
+           0.00    0.00    0.00 ^ _13069_/CK (DFF_X1)
+   1.06    0.01    0.08    0.08 v _13069_/Q (DFF_X1)
+           0.01    0.00    0.08 v _13152_/D (DFF_X1)
                            0.08   data arrival time
 
            0.00    0.00    0.00   clock core_clock (rise edge)
                    0.00    0.00   clock network delay (ideal)
                    0.00    0.00   clock reconvergence pessimism
-                           0.00 ^ _2019_/CK (DFF_X1)
+                           0.00 ^ _13152_/CK (DFF_X1)
                    0.00    0.00   library hold time
                            0.00   data required time
 -----------------------------------------------------------------------
@@ -505,19 +562,19 @@ report_slew_violations
 ==========================================================================
 report_design_area
 --------------------------------------------------------------------------
-Design area 6315 u^2 1% utilization.
+Design area 51123 u^2 7% utilization.
 
 ==========================================================================
 instance_count
 --------------------------------------------------------------------------
-4208
+14296
 
 ==========================================================================
 pin_count
 --------------------------------------------------------------------------
-4923
+45076
 
-0:00.98elapsed 100%CPU 101248memKB
+0:06.19elapsed 101%CPU 142600memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/detail_place.tcl) 2>&1 | tee ./logs/nangate45/top/3_3_opendp.log
 OpenROAD 0.9.0 c370648541
 This program is licensed under the BSD-3 license. See the LICENSE file for details. 
@@ -533,38 +590,38 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/3_2_place_resized.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 4208 components and 13339 component-terminals.
-Notice 0:     Created 2 special nets and 8416 connections.
-Notice 0:     Created 6364 nets and 4923 connections.
+Notice 0:     Created 14296 components and 73668 component-terminals.
+Notice 0:     Created 2 special nets and 28592 connections.
+Notice 0:     Created 26293 nets and 45076 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/3_2_place_resized.def
 Design Stats
 --------------------------------
-total instances          4208
+total instances         14296
 multi row instances         0
 fixed instances          2966
-nets                     6366
+nets                    26295
 design area          687995.2 u^2
 fixed area              789.0 u^2
-movable area           5525.4 u^2
-utilization                 1 %
-utilization padded          1 %
+movable area          50333.1 u^2
+utilization                 7 %
+utilization padded          8 %
 rows                      592
 row height                1.4 u
 
 Placement Analysis
 --------------------------------
-total displacement     1499.8 u
-average displacement      0.4 u
-max displacement          7.5 u
-original HPWL          6254.7 u
-legalized HPWL         7315.5 u
-delta HPWL                 17 %
+total displacement    11430.1 u
+average displacement      0.8 u
+max displacement          6.3 u
+original HPWL         84370.1 u
+legalized HPWL        88040.7 u
+delta HPWL                  4 %
 
-Mirrored 69 instances
-HPWL before            7315.5 u
-HPWL after             7218.4 u
-HPWL delta                 -1 %
-0:01.20elapsed 100%CPU 199828memKB
+Mirrored 1734 instances
+HPWL before           88040.7 u
+HPWL after            84540.3 u
+HPWL delta                 -4 %
+0:29.28elapsed 99%CPU 205936memKB
 cp results/nangate45/top/3_3_place_dp.def results/nangate45/top/3_place.def
 cp results/nangate45/top/2_floorplan.sdc results/nangate45/top/3_place.sdc
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/cts.tcl) 2>&1 | tee ./logs/nangate45/top/4_1_cts.log
@@ -582,9 +639,9 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/3_place.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 4208 components and 13339 component-terminals.
-Notice 0:     Created 2 special nets and 8416 connections.
-Notice 0:     Created 6364 nets and 4923 connections.
+Notice 0:     Created 14296 components and 73668 component-terminals.
+Notice 0:     Created 2 special nets and 28592 connections.
+Notice 0:     Created 26293 nets and 45076 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/3_place.def
  *****************
  * TritonCTS 2.0 *
@@ -612,7 +669,7 @@ Notice 0: Finished DEF file: ./results/nangate45/top/3_place.def
  Looking for clock nets in the design
  Net "clock" found
  Initializing clock net for : "clock"
- Clock net "clock" has 1217 sinks
+ Clock net "clock" has 11058 sinks
  TritonCTS found 1 clock nets.
  ****************************
  *  Check characterization  *
@@ -622,128 +679,148 @@ Notice 0: Finished DEF file: ./results/nangate45/top/3_place.def
  *  Build clock trees  *
  ***********************
  Generating H-Tree topology for net clock...
-    Tot. number of sinks: 1217
+    Tot. number of sinks: 11058
     Number of static layers: 0
  Wire segment unit: 20000 dbu (10 um)
- Original sink region: [(38570, 317630), (1655470, 1124030)]
- Normalized sink region: [(1.9285, 15.8815), (82.7735, 56.2015)]
-    Width:  80.845
-    Height: 40.32
+ Original sink region: [(87590, 306430), (1620890, 1415230)]
+ Normalized sink region: [(4.3795, 15.3215), (81.0445, 70.7615)]
+    Width:  76.665
+    Height: 55.44
  Level 1
     Direction: Horizontal
-    # sinks per sub-region: 609
-    Sub-region size: 40.4225 X 40.32
+    # sinks per sub-region: 5529
+    Sub-region size: 38.3325 X 55.44
     Segment length (rounded): 20
     Key: 3192 outSlew: 1 load: 1 length: 8 isBuffered: 1
     Key: 3192 outSlew: 1 load: 1 length: 8 isBuffered: 1
     Key: 1161 outSlew: 12 load: 1 length: 4 isBuffered: 1
  Level 2
     Direction: Vertical
-    # sinks per sub-region: 305
-    Sub-region size: 40.4225 X 20.16
-    Segment length (rounded): 10
+    # sinks per sub-region: 2765
+    Sub-region size: 38.3325 X 27.72
+    Segment length (rounded): 14
     Key: 3332 outSlew: 2 load: 1 length: 8 isBuffered: 1
-    Key: 0 outSlew: 2 load: 1 length: 2 isBuffered: 0
+    Key: 2280 outSlew: 22 load: 1 length: 6 isBuffered: 1
  Level 3
     Direction: Horizontal
-    # sinks per sub-region: 153
-    Sub-region size: 20.2112 X 20.16
+    # sinks per sub-region: 1383
+    Sub-region size: 19.1662 X 27.72
     Segment length (rounded): 10
-    Key: 3206 outSlew: 1 load: 1 length: 8 isBuffered: 1
-    Key: 436 outSlew: 1 load: 1 length: 2 isBuffered: 1
+    Key: 3346 outSlew: 2 load: 1 length: 8 isBuffered: 1
+    Key: 0 outSlew: 2 load: 1 length: 2 isBuffered: 0
  Level 4
     Direction: Vertical
-    # sinks per sub-region: 77
-    Sub-region size: 20.2112 X 10.08
+    # sinks per sub-region: 692
+    Sub-region size: 19.1662 X 13.86
     Segment length (rounded): 6
-    Key: 2280 outSlew: 22 load: 1 length: 6 isBuffered: 1
+    Key: 2285 outSlew: 22 load: 1 length: 6 isBuffered: 1
  Level 5
     Direction: Horizontal
-    # sinks per sub-region: 39
-    Sub-region size: 10.1056 X 10.08
-    Segment length (rounded): 6
-    Key: 1990 outSlew: 2 load: 1 length: 6 isBuffered: 1
+    # sinks per sub-region: 346
+    Sub-region size: 9.58312 X 13.86
+    Segment length (rounded): 4
+    Key: 1138 outSlew: 2 load: 1 length: 4 isBuffered: 1
  Level 6
     Direction: Vertical
-    # sinks per sub-region: 20
-    Sub-region size: 10.1056 X 5.04
-    Segment length (rounded): 2
-    Key: 0 outSlew: 2 load: 1 length: 2 isBuffered: 0
+    # sinks per sub-region: 173
+    Sub-region size: 9.58312 X 6.93
+    Segment length (rounded): 4
+    Key: 1152 outSlew: 12 load: 1 length: 4 isBuffered: 1
  Level 7
     Direction: Horizontal
-    # sinks per sub-region: 10
-    Sub-region size: 5.05281 X 5.04
+    # sinks per sub-region: 87
+    Sub-region size: 4.79156 X 6.93
     Segment length (rounded): 2
-    Key: 34 outSlew: 3 load: 1 length: 2 isBuffered: 0
+    Key: 548 outSlew: 2 load: 1 length: 2 isBuffered: 1
+ [WARNING] Creating fake entries in the LUT.
+ Level 8
+    Direction: Vertical
+    # sinks per sub-region: 44
+    Sub-region size: 4.79156 X 3.465
+    Segment length (rounded): 1
+    Key: 5029 outSlew: 12 load: 1 length: 1 isBuffered: 1
+ Level 9
+    Direction: Horizontal
+    # sinks per sub-region: 22
+    Sub-region size: 2.39578 X 3.465
+    Segment length (rounded): 1
+    Key: 5039 outSlew: 12 load: 1 length: 1 isBuffered: 1
+ Level 10
+    Direction: Vertical
+    # sinks per sub-region: 11
+    Sub-region size: 2.39578 X 1.7325
+    Segment length (rounded): 1
+    Key: 5039 outSlew: 12 load: 1 length: 1 isBuffered: 1
  Stop criterion found. Max number of sinks is (15)
  Building clock sub nets...
- Number of sinks covered: 1217
+ Number of sinks covered: 11058
  Clock topology of net "clock" done.
  ****************
  * Post CTS opt *
  ****************
- Avg. source sink dist: 39194.1 dbu.
- Num outlier sinks: 11
+ Avg. source sink dist: 31373.3 dbu.
+ Num outlier sinks: 212
  ********************
  * Write data to DB *
  ********************
  Writing clock net "clock" to DB
-    Created 214 clock buffers.
-    Minimum number of buffers in the clock path: 10.
-    Maximum number of buffers in the clock path: 11.
-    Created 214 clock nets.
-    Fanout distribution for the current clock = 2:1, 3:1, 4:6, 5:12, 6:13, 7:14, 8:16, 9:10, 10:16, 11:7, 12:4, 13:4, 14:8, 15:2, 16:6, 17:2, 19:2, 20:1, 21:1, 22:1, 24:1.
-    Max level of the clock tree: 7.
+    Created 2267 clock buffers.
+    Minimum number of buffers in the clock path: 14.
+    Maximum number of buffers in the clock path: 15.
+    Created 2267 clock nets.
+    Fanout distribution for the current clock = 2:3, 3:14, 4:47, 5:43, 6:70, 7:68, 8:86, 9:88, 10:98, 11:71, 12:99, 13:83, 14:57, 15:48, 16:49, 17:28, 18:30, 19:14, 20:5, 21:7, 22:9, 23:2, 24:1, 25:1, 26:2, 27:1.
+    Max level of the clock tree: 10.
  ... End of TritonCTS execution.
 Design Stats
 --------------------------------
-total instances          4422
+total instances         16563
 multi row instances         0
 fixed instances          2966
-nets                     6580
+nets                    28562
 design area          687995.2 u^2
 fixed area              789.0 u^2
-movable area           5845.1 u^2
-utilization                 1 %
-utilization padded          1 %
+movable area          52368.8 u^2
+utilization                 8 %
+utilization padded          9 %
 rows                      592
 row height                1.4 u
 
 Placement Analysis
 --------------------------------
-total displacement      229.5 u
+total displacement     2332.4 u
 average displacement      0.1 u
-max displacement          4.1 u
-original HPWL         18521.6 u
-legalized HPWL        18671.2 u
-delta HPWL                  1 %
+max displacement          5.5 u
+original HPWL        161720.0 u
+legalized HPWL       165312.3 u
+delta HPWL                  2 %
 
 Repair hold violations...
-No hold violations found.
+Found 1 endpoints with hold violations.
+Inserted 1 hold buffers.
 Design Stats
 --------------------------------
-total instances          4422
+total instances         16564
 multi row instances         0
 fixed instances          2966
-nets                     6580
+nets                    28563
 design area          687995.2 u^2
 fixed area              789.0 u^2
-movable area           5845.1 u^2
-utilization                 1 %
-utilization padded          1 %
+movable area          52369.5 u^2
+utilization                 8 %
+utilization padded          9 %
 rows                      592
 row height                1.4 u
 
 Placement Analysis
 --------------------------------
-total displacement        0.0 u
+total displacement        1.2 u
 average displacement      0.0 u
-max displacement          0.0 u
-original HPWL         18671.2 u
-legalized HPWL        18671.2 u
-delta HPWL                  0 %
+max displacement          1.2 u
+original HPWL        165313.3 u
+legalized HPWL       165312.0 u
+delta HPWL                 -0 %
 
-0:04.97elapsed 99%CPU 230612memKB
+0:07.49elapsed 99%CPU 258024memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/fillcell.tcl) 2>&1 | tee ./logs/nangate45/top/4_2_cts_fillcell.log
 OpenROAD 0.9.0 c370648541
 This program is licensed under the BSD-3 license. See the LICENSE file for details. 
@@ -759,12 +836,12 @@ Notice 0:
 Reading DEF file: ./results/nangate45/top/4_1_cts.def
 Notice 0: Design: top
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 4422 components and 14195 component-terminals.
-Notice 0:     Created 2 special nets and 8844 connections.
-Notice 0:     Created 6578 nets and 5351 connections.
+Notice 0:     Created 16564 components and 82740 component-terminals.
+Notice 0:     Created 2 special nets and 33128 connections.
+Notice 0:     Created 28561 nets and 49612 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/4_1_cts.def
-Placed 92865 filler instances.
-0:01.14elapsed 99%CPU 328392memKB
+Placed 114577 filler instances.
+0:01.33elapsed 99%CPU 344608memKB
 cp results/nangate45/top/4_2_cts_fillcell.def results/nangate45/top/4_cts.def
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/global_route.tcl) 2>&1 | tee ./logs/nangate45/top/5_1_fastroute.log
 OpenROAD 0.9.0 c370648541
@@ -780,10 +857,11 @@ Notice 0: Finished LEF file:  ./platforms/nangate45/lef/NangateOpenCellLibrary.m
 Notice 0: 
 Reading DEF file: ./results/nangate45/top/4_cts.def
 Notice 0: Design: top
+Notice 0: 		Created 100000 Insts
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 97287 components and 199925 component-terminals.
-Notice 0:     Created 2 special nets and 194574 connections.
-Notice 0:     Created 6578 nets and 5351 connections.
+Notice 0:     Created 131141 components and 311894 component-terminals.
+Notice 0:     Created 2 special nets and 262282 connections.
+Notice 0:     Created 28561 nets and 49612 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/4_cts.def
 Warning: option -max_routing_layer is deprecated. Use option -layers {min max}
 Warning: option -layers_adjustments is deprecated. Use command set_global_routing_layer_adjustment layer adjustment
@@ -800,7 +878,7 @@ Warning: option -layers_adjustments is deprecated. Use command set_global_routin
 
 Initializing grid...
 [INFO] #DB Obstructions: 0
-[INFO] #DB Obstacles: 32359
+[INFO] #DB Obstacles: 298931
 [INFO] #DB Macros: 0
 Initializing grid... Done!
 Initializing routing layers...
@@ -816,14 +894,14 @@ Initializing nets...
 Checking pin placement...
 Checking pin placement... Done!
 [INFO] Minimum degree: 2
-[INFO] Maximum degree: 25
+[INFO] Maximum degree: 28
 Initializing nets... Done!
 Adjusting grid...
 Adjusting grid... Done!
 Computing track adjustments...
 Computing track adjustments... Done!
 Computing obstacles adjustments...
-[INFO] Processing 246696 obstacles in layer 1
+[INFO] Processing 730029 obstacles in layer 1
 [INFO] Processing 30 obstacles in layer 4
 [INFO] Processing 42 obstacles in layer 7
 Computing obstacles adjustments... Done!
@@ -842,16 +920,16 @@ Computing user defined layers adjustments...
 Computing user defined layers adjustments... Done!
 Running FastRoute...
 
-[INFO] WIRELEN : 9308, WIRELEN1 : 0
-[INFO] NumSeg  : 2571
+[INFO] WIRELEN : 83908, WIRELEN1 : 0
+[INFO] NumSeg  : 25298
 [INFO] NumShift: 0
 First L Route
-[INFO] WIRELEN : 9308, WIRELEN1 : 9308
-[INFO] NumSeg  : 2572
-[INFO] NumShift: 39
+[INFO] WIRELEN : 83895, WIRELEN1 : 83895
+[INFO] NumSeg  : 25287
+[INFO] NumShift: 338
 [Overflow Report] Total hCap    : 1786362
 [Overflow Report] Total vCap    : 1973540
-[Overflow Report] Total Usage   : 9308
+[Overflow Report] Total Usage   : 83895
 [Overflow Report] Max H Overflow: 0
 [Overflow Report] Max V Overflow: 0
 [Overflow Report] Max Overflow  : 0
@@ -863,7 +941,7 @@ First L Route
 Second L Route
 [Overflow Report] Total hCap    : 1786362
 [Overflow Report] Total vCap    : 1973540
-[Overflow Report] Total Usage   : 9308
+[Overflow Report] Total Usage   : 83895
 [Overflow Report] Max H Overflow: 0
 [Overflow Report] Max V Overflow: 0
 [Overflow Report] Max Overflow  : 0
@@ -875,7 +953,7 @@ Second L Route
 First Z Route
 [Overflow Report] Total hCap    : 1786362
 [Overflow Report] Total vCap    : 1973540
-[Overflow Report] Total Usage   : 9308
+[Overflow Report] Total Usage   : 83895
 [Overflow Report] Max H Overflow: 0
 [Overflow Report] Max V Overflow: 0
 [Overflow Report] Max Overflow  : 0
@@ -886,18 +964,18 @@ First Z Route
 
 [INFO] LV routing round 0, enlarge 10 
 [INFO] 10 threshold, 10 expand
-[Overflow Report] total Usage   : 9308
-[Overflow Report] Max H Overflow: 0
+[Overflow Report] total Usage   : 83895
+[Overflow Report] Max H Overflow: 2
 [Overflow Report] Max V Overflow: 0
-[Overflow Report] Max Overflow  : 0
-[Overflow Report] Num Overflow e: 0
-[Overflow Report] H   Overflow  : 0
+[Overflow Report] Max Overflow  : 2
+[Overflow Report] Num Overflow e: 22
+[Overflow Report] H   Overflow  : 31
 [Overflow Report] V   Overflow  : 0
-[Overflow Report] Final Overflow: 0
+[Overflow Report] Final Overflow: 31
 
 [INFO] LV routing round 1, enlarge 15 
 [INFO] 5 threshold, 15 expand
-[Overflow Report] total Usage   : 9308
+[Overflow Report] total Usage   : 83897
 [Overflow Report] Max H Overflow: 0
 [Overflow Report] Max V Overflow: 0
 [Overflow Report] Max Overflow  : 0
@@ -908,7 +986,7 @@ First Z Route
 
 [INFO] LV routing round 2, enlarge 20 
 [INFO] 1 threshold, 20 expand
-[Overflow Report] total Usage   : 9308
+[Overflow Report] total Usage   : 83897
 [Overflow Report] Max H Overflow: 0
 [Overflow Report] Max V Overflow: 0
 [Overflow Report] Max Overflow  : 0
@@ -919,9 +997,9 @@ First Z Route
 
 Usage checked
 Maze routing finished
-[INFO] P3 runtime: 0.001511 sec
+[INFO] P3 runtime: 0.003827 sec
 [INFO] Final 2D results: 
-[Overflow Report] total Usage   : 9308
+[Overflow Report] total Usage   : 83897
 [Overflow Report] Max H Overflow: 0
 [Overflow Report] Max V Overflow: 0
 [Overflow Report] Max Overflow  : 0
@@ -932,21 +1010,21 @@ Maze routing finished
 
 Layer Assignment Begins
 Layer assignment finished
-[INFO] 2D + Layer Assignment Runtime: 3.769402 sec
+[INFO] 2D + Layer Assignment Runtime: 3.929920 sec
 Post Processing Begins 
 Warning: option -output_file is deprecated. Use option -guide_file
 Post Processsing finished
  Starting via filling
-[INFO] Via related to pin nodes 5316
-[INFO] Via related stiner nodes 244
+[INFO] Via related to pin nodes 52679
+[INFO] Via related stiner nodes 2643
 Via filling finished
 
 Final usage/overflow report: 
 [INFO] Usage per layer: 
     Layer 1 usage: 0
-    Layer 2 usage: 4256
-    Layer 3 usage: 5085
-    Layer 4 usage: 0
+    Layer 2 usage: 40398
+    Layer 3 usage: 43229
+    Layer 4 usage: 610
     Layer 5 usage: 0
     Layer 6 usage: 0
     Layer 7 usage: 0
@@ -968,9 +1046,9 @@ Final usage/overflow report:
 
 [INFO] Use percentage per layer: 
     Layer 1 use percentage: 0.0%
-    Layer 2 use percentage: 0.52%
-    Layer 3 use percentage: 0.44%
-    Layer 4 use percentage: 0.00%
+    Layer 2 use percentage: 4.92%
+    Layer 3 use percentage: 3.77%
+    Layer 4 use percentage: 0.12%
     Layer 5 use percentage: 0.00%
     Layer 6 use percentage: 0.00%
     Layer 7 use percentage: 0.00%
@@ -990,7 +1068,7 @@ Final usage/overflow report:
     Layer 9 overflow: 0
     Layer 10 overflow: 0
 
-[Overflow Report] Total Usage   : 9341
+[Overflow Report] Total Usage   : 84237
 [Overflow Report] Total Capacity: 3759902
 [Overflow Report] Max H Overflow: 0
 [Overflow Report] Max V Overflow: 0
@@ -999,18 +1077,18 @@ Final usage/overflow report:
 [Overflow Report] V   Overflow  : 0
 [Overflow Report] Final Overflow: 0
 
-[INFO] Final usage          : 9341
-[INFO] Final number of vias : 6228
-[INFO] Final usage 3D       : 28025
+[INFO] Final usage          : 84237
+[INFO] Final number of vias : 62728
+[INFO] Final usage 3D       : 272421
 Getting results...
 Getting results... Done!
 
 Running FastRoute... Done!
-[INFO] Total wirelength: 26539 um
+[INFO] Total wirelength: 246170 um
 Writing guides...
-[INFO] Num routed nets: 1462
+[INFO] Num routed nets: 13716
 Writing guides... Done!
-0:05.11elapsed 99%CPU 290472memKB
+0:05.95elapsed 99%CPU 344304memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" TritonRoute ./objects/nangate45/top/TritonRoute.param) 2>&1 | tee ./logs/nangate45/top/5_2_TritonRoute.log
 
 reading lef ...
@@ -1031,22 +1109,25 @@ defIn read 60000 components
 defIn read 70000 components
 defIn read 80000 components
 defIn read 90000 components
+defIn read 100000 components
 defIn read 1000 pins
 defIn read 2000 pins
 defIn read 3000 pins
+defIn read 10000 nets
+defIn read 20000 nets
 
 design:      top
 die area:    ( 0 0 ) ( 1700260 1701600 )
 trackPts:    20
 defvias:     6
-#components: 97287
+#components: 131141
 #terminals:  3913
 #snets:      2
-#nets:       6578
+#nets:       28561
 
 reading guide ...
 
-#guides:     8994
+#guides:     88549
 Warning: metal4 does not have viaDef align with layer direction, generating new viaDef via4_FR...
 Warning: metal5 does not have viaDef align with layer direction, generating new viaDef via5_FR...
 Warning: metal6 does not have viaDef align with layer direction, generating new viaDef via6_FR...
@@ -1087,7 +1168,8 @@ instance analysis ...
   complete 70000 instances
   complete 80000 instances
   complete 90000 instances
-#unique instances = 30
+  complete 100000 instances
+#unique instances = 60
 
 init region query ...
   complete 10000 insts
@@ -1099,6 +1181,7 @@ init region query ...
   complete 70000 insts
   complete 80000 insts
   complete 90000 insts
+  complete 100000 insts
   complete FR_MASTERSLICE
   complete FR_VIA
   complete metal1
@@ -1123,7 +1206,7 @@ init region query ...
 
 FR_MASTERSLICE shape region query size = 0
 FR_VIA shape region query size = 0
-metal1 shape region query size = 255591
+metal1 shape region query size = 738924
 via1 shape region query size = 26685
 metal2 shape region query size = 19447
 via2 shape region query size = 26685
@@ -1145,19 +1228,29 @@ metal10 shape region query size = 0
 
 
 start pin access
-  complete 47 pins
-  complete 18 unique inst patterns
+  complete 100 pins
+  complete 159 pins
+  complete 48 unique inst patterns
   complete 1000 groups
-  complete 1456 groups
-Expt1 runtime (pin-level access point gen): 0.326254
-Expt2 runtime (design-level access pattern gen): 0.0335183
-#scanned instances     = 97287
-#unique  instances     = 30
-#stdCellGenAp          = 301
+  complete 2000 groups
+  complete 3000 groups
+  complete 4000 groups
+  complete 5000 groups
+  complete 6000 groups
+  complete 7000 groups
+  complete 8000 groups
+  complete 9000 groups
+  complete 10000 groups
+  complete 13598 groups
+Expt1 runtime (pin-level access point gen): 0.479493
+Expt2 runtime (design-level access pattern gen): 0.110891
+#scanned instances     = 131141
+#unique  instances     = 60
+#stdCellGenAp          = 1029
 #stdCellValidPlanarAp  = 0
-#stdCellValidViaAp     = 239
+#stdCellValidViaAp     = 772
 #stdCellPinNoAp        = 0
-#stdCellPinCnt         = 5351
+#stdCellPinCnt         = 49612
 #instTermValidViaApCnt = 0
 #macroGenAp            = 0
 #macroValidPlanarAp    = 0
@@ -1165,11 +1258,19 @@ Expt2 runtime (design-level access pattern gen): 0.0335183
 #macroNoAp             = 0
 
 complete pin access
-cpu time = 00:00:01, elapsed time = 00:00:00, memory = 89.91 (MB), peak = 89.91 (MB)
+cpu time = 00:00:02, elapsed time = 00:00:00, memory = 144.64 (MB), peak = 155.06 (MB)
 
 post process guides ...
 GCELLGRID X -1 DO 405 STEP 4200 ;
 GCELLGRID Y -1 DO 404 STEP 4200 ;
+  complete 10000 orig guides
+  complete 20000 orig guides
+  complete 30000 orig guides
+  complete 40000 orig guides
+  complete 50000 orig guides
+  complete 60000 orig guides
+  complete 70000 orig guides
+  complete 80000 orig guides
   complete FR_MASTERSLICE
   complete FR_VIA
   complete metal1
@@ -1191,8 +1292,11 @@ GCELLGRID Y -1 DO 404 STEP 4200 ;
   complete metal9
   complete via9
   complete metal10
+  complete 10000 nets
 
 init guide query ...
+  complete 10000 nets (guide)
+  complete 20000 nets (guide)
   complete FR_MASTERSLICE (guide)
   complete FR_VIA (guide)
   complete metal1 (guide)
@@ -1217,13 +1321,13 @@ init guide query ...
 
 FR_MASTERSLICE guide region query size = 0
 FR_VIA guide region query size = 0
-metal1 guide region query size = 3625
+metal1 guide region query size = 35103
 via1 guide region query size = 0
-metal2 guide region query size = 2875
+metal2 guide region query size = 29916
 via2 guide region query size = 0
-metal3 guide region query size = 1578
+metal3 guide region query size = 15988
 via3 guide region query size = 0
-metal4 guide region query size = 0
+metal4 guide region query size = 17
 via4 guide region query size = 0
 metal5 guide region query size = 0
 via5 guide region query size = 0
@@ -1241,11 +1345,11 @@ init gr pin query ...
 
 
 start track assignment
-Done with 2875 vertical wires in 9 frboxes and 5203 horizontal wires in 9 frboxes.
-Done with 249 vertical wires in 9 frboxes and 254 horizontal wires in 9 frboxes.
+Done with 29933 vertical wires in 9 frboxes and 51091 horizontal wires in 9 frboxes.
+Done with 2298 vertical wires in 9 frboxes and 2567 horizontal wires in 9 frboxes.
 
 complete track assignment
-cpu time = 00:00:04, elapsed time = 00:00:01, memory = 130.38 (MB), peak = 130.38 (MB)
+cpu time = 00:00:22, elapsed time = 00:00:06, memory = 401.52 (MB), peak = 401.52 (MB)
 
 post processing ...
 
@@ -1310,616 +1414,668 @@ initVia2ViaMinLenNew_cutSpc metal7 (d2d-x, d2d-y, d2u-x, d2u-y, u2d-x, u2d-y, u2
 initVia2ViaMinLenNew_cutSpc metal8 (d2d-x, d2d-y, d2u-x, d2u-y, u2d-x, u2d-y, u2u-x, u2u-y) = (1680, 1680, 0, 0, 0, 0, 3200, 3200)
 initVia2ViaMinLenNew_cutSpc metal9 (d2d-x, d2d-y, d2u-x, d2u-y, u2d-x, u2d-y, u2u-x, u2u-y) = (1680, 1680, 0, 0, 0, 0, 3360, 3360)
 initVia2ViaMinLenNew_cutSpc metal10 (d2d-x, d2d-y, d2u-x, d2u-y, u2d-x, u2d-y, u2u-x, u2u-y) = (3360, 3360, 0, 0, 0, 0, 0, 0)
-cpu time = 00:00:00, elapsed time = 00:00:00, memory = 130.38 (MB), peak = 130.38 (MB)
+cpu time = 00:00:00, elapsed time = 00:00:00, memory = 401.52 (MB), peak = 401.52 (MB)
 
 start detail routing ...
 start 0th optimization iteration ...
     completing 10% with 0 violations
-    elapsed time = 00:00:01, memory = 143.56 (MB)
+    elapsed time = 00:00:02, memory = 401.52 (MB)
     completing 20% with 0 violations
-    elapsed time = 00:00:03, memory = 165.48 (MB)
-    completing 30% with 596 violations
-    elapsed time = 00:00:04, memory = 179.66 (MB)
-    completing 40% with 596 violations
-    elapsed time = 00:00:06, memory = 179.66 (MB)
-    completing 50% with 596 violations
-    elapsed time = 00:00:07, memory = 181.98 (MB)
-    completing 60% with 781 violations
-    elapsed time = 00:00:09, memory = 181.98 (MB)
-    completing 70% with 781 violations
-    elapsed time = 00:00:11, memory = 181.98 (MB)
-    completing 80% with 864 violations
-    elapsed time = 00:00:12, memory = 182.49 (MB)
-    completing 90% with 864 violations
-    elapsed time = 00:00:14, memory = 182.49 (MB)
-    completing 100% with 585 violations
-    elapsed time = 00:00:15, memory = 182.49 (MB)
-  number of violations = 736
-cpu time = 00:01:02, elapsed time = 00:00:16, memory = 708.69 (MB), peak = 708.69 (MB)
-total wire length = 19696 um
-total wire length on LAYER metal1 = 32 um
-total wire length on LAYER metal2 = 9161 um
-total wire length on LAYER metal3 = 10502 um
-total wire length on LAYER metal4 = 0 um
+    elapsed time = 00:00:08, memory = 401.52 (MB)
+    completing 30% with 5264 violations
+    elapsed time = 00:00:10, memory = 401.52 (MB)
+    completing 40% with 5264 violations
+    elapsed time = 00:00:15, memory = 401.52 (MB)
+    completing 50% with 5264 violations
+    elapsed time = 00:00:19, memory = 401.52 (MB)
+    completing 60% with 6574 violations
+    elapsed time = 00:00:23, memory = 401.52 (MB)
+    completing 70% with 6574 violations
+    elapsed time = 00:00:28, memory = 401.52 (MB)
+    completing 80% with 7284 violations
+    elapsed time = 00:00:31, memory = 403.64 (MB)
+    completing 90% with 7284 violations
+    elapsed time = 00:00:35, memory = 404.93 (MB)
+    completing 100% with 4288 violations
+    elapsed time = 00:00:39, memory = 404.93 (MB)
+  number of violations = 5820
+cpu time = 00:02:37, elapsed time = 00:00:40, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 177111 um
+total wire length on LAYER metal1 = 996 um
+total wire length on LAYER metal2 = 86002 um
+total wire length on LAYER metal3 = 88844 um
+total wire length on LAYER metal4 = 1269 um
 total wire length on LAYER metal5 = 0 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7524
-up-via summary (total 7524):
+total number of vias = 73496
+up-via summary (total 73496):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4166
-         metal2    3358
-         metal3       0
-         metal4       0
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7524
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40062
+         metal2    33401
+         metal3       33
+         metal4        0
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   73496
 
 
 start 1st optimization iteration ...
-    completing 10% with 736 violations
-    elapsed time = 00:00:01, memory = 708.69 (MB)
-    completing 20% with 736 violations
-    elapsed time = 00:00:03, memory = 708.69 (MB)
-    completing 30% with 680 violations
-    elapsed time = 00:00:04, memory = 709.46 (MB)
-    completing 40% with 680 violations
-    elapsed time = 00:00:06, memory = 709.46 (MB)
-    completing 50% with 680 violations
-    elapsed time = 00:00:08, memory = 711.52 (MB)
-    completing 60% with 513 violations
-    elapsed time = 00:00:09, memory = 711.52 (MB)
-    completing 70% with 513 violations
-    elapsed time = 00:00:11, memory = 711.52 (MB)
-    completing 80% with 353 violations
-    elapsed time = 00:00:13, memory = 711.78 (MB)
-    completing 90% with 353 violations
-    elapsed time = 00:00:14, memory = 711.78 (MB)
-    completing 100% with 217 violations
-    elapsed time = 00:00:16, memory = 712.30 (MB)
-  number of violations = 217
-cpu time = 00:01:05, elapsed time = 00:00:16, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19693 um
-total wire length on LAYER metal1 = 25 um
-total wire length on LAYER metal2 = 9204 um
-total wire length on LAYER metal3 = 10464 um
-total wire length on LAYER metal4 = 0 um
+    completing 10% with 5820 violations
+    elapsed time = 00:00:02, memory = 957.93 (MB)
+    completing 20% with 5820 violations
+    elapsed time = 00:00:07, memory = 957.93 (MB)
+    completing 30% with 4769 violations
+    elapsed time = 00:00:09, memory = 957.93 (MB)
+    completing 40% with 4769 violations
+    elapsed time = 00:00:13, memory = 957.93 (MB)
+    completing 50% with 4769 violations
+    elapsed time = 00:00:17, memory = 957.93 (MB)
+    completing 60% with 3453 violations
+    elapsed time = 00:00:19, memory = 957.93 (MB)
+    completing 70% with 3453 violations
+    elapsed time = 00:00:24, memory = 957.93 (MB)
+    completing 80% with 2525 violations
+    elapsed time = 00:00:26, memory = 957.93 (MB)
+    completing 90% with 2525 violations
+    elapsed time = 00:00:30, memory = 957.93 (MB)
+    completing 100% with 1223 violations
+    elapsed time = 00:00:34, memory = 957.93 (MB)
+  number of violations = 1229
+cpu time = 00:02:15, elapsed time = 00:00:35, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176699 um
+total wire length on LAYER metal1 = 932 um
+total wire length on LAYER metal2 = 85786 um
+total wire length on LAYER metal3 = 88709 um
+total wire length on LAYER metal4 = 1270 um
 total wire length on LAYER metal5 = 0 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7585
-up-via summary (total 7585):
+total number of vias = 73923
+up-via summary (total 73923):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4166
-         metal2    3419
-         metal3       0
-         metal4       0
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7585
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40030
+         metal2    33860
+         metal3       33
+         metal4        0
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   73923
 
 
 start 2nd optimization iteration ...
-    completing 10% with 217 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 20% with 217 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 30% with 240 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 40% with 240 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 50% with 240 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 60% with 237 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-    completing 70% with 237 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-    completing 80% with 228 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-    completing 90% with 228 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-    completing 100% with 97 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-  number of violations = 97
-cpu time = 00:00:07, elapsed time = 00:00:02, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19696 um
-total wire length on LAYER metal1 = 24 um
-total wire length on LAYER metal2 = 9200 um
-total wire length on LAYER metal3 = 10471 um
-total wire length on LAYER metal4 = 0 um
+    completing 10% with 1229 violations
+    elapsed time = 00:00:00, memory = 957.93 (MB)
+    completing 20% with 1229 violations
+    elapsed time = 00:00:03, memory = 957.93 (MB)
+    completing 30% with 1428 violations
+    elapsed time = 00:00:03, memory = 957.93 (MB)
+    completing 40% with 1428 violations
+    elapsed time = 00:00:05, memory = 957.93 (MB)
+    completing 50% with 1428 violations
+    elapsed time = 00:00:06, memory = 957.93 (MB)
+    completing 60% with 1158 violations
+    elapsed time = 00:00:07, memory = 957.93 (MB)
+    completing 70% with 1158 violations
+    elapsed time = 00:00:09, memory = 957.93 (MB)
+    completing 80% with 1237 violations
+    elapsed time = 00:00:10, memory = 957.93 (MB)
+    completing 90% with 1237 violations
+    elapsed time = 00:00:12, memory = 957.93 (MB)
+    completing 100% with 1034 violations
+    elapsed time = 00:00:14, memory = 957.93 (MB)
+  number of violations = 1034
+cpu time = 00:00:55, elapsed time = 00:00:14, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176588 um
+total wire length on LAYER metal1 = 923 um
+total wire length on LAYER metal2 = 85721 um
+total wire length on LAYER metal3 = 88672 um
+total wire length on LAYER metal4 = 1271 um
 total wire length on LAYER metal5 = 0 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7617
-up-via summary (total 7617):
+total number of vias = 73987
+up-via summary (total 73987):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4164
-         metal2    3453
-         metal3       0
-         metal4       0
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7617
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40030
+         metal2    33923
+         metal3       34
+         metal4        0
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   73987
 
 
 start 3rd optimization iteration ...
-    completing 10% with 97 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 20% with 97 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 30% with 74 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-    completing 40% with 74 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-    completing 50% with 74 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-    completing 60% with 62 violations
-    elapsed time = 00:00:02, memory = 712.30 (MB)
-    completing 70% with 62 violations
-    elapsed time = 00:00:02, memory = 712.30 (MB)
-    completing 80% with 28 violations
-    elapsed time = 00:00:03, memory = 712.30 (MB)
-    completing 90% with 28 violations
-    elapsed time = 00:00:03, memory = 712.30 (MB)
-    completing 100% with 3 violations
-    elapsed time = 00:00:03, memory = 712.30 (MB)
-  number of violations = 3
-cpu time = 00:00:13, elapsed time = 00:00:03, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19702 um
-total wire length on LAYER metal1 = 204 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10280 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+    completing 10% with 1034 violations
+    elapsed time = 00:00:02, memory = 957.93 (MB)
+    completing 20% with 1034 violations
+    elapsed time = 00:00:10, memory = 957.93 (MB)
+    completing 30% with 889 violations
+    elapsed time = 00:00:12, memory = 957.93 (MB)
+    completing 40% with 889 violations
+    elapsed time = 00:00:17, memory = 957.93 (MB)
+    completing 50% with 889 violations
+    elapsed time = 00:00:20, memory = 957.93 (MB)
+    completing 60% with 662 violations
+    elapsed time = 00:00:23, memory = 957.93 (MB)
+    completing 70% with 662 violations
+    elapsed time = 00:00:29, memory = 957.93 (MB)
+    completing 80% with 493 violations
+    elapsed time = 00:00:31, memory = 957.93 (MB)
+    completing 90% with 493 violations
+    elapsed time = 00:00:33, memory = 957.93 (MB)
+    completing 100% with 219 violations
+    elapsed time = 00:00:36, memory = 957.93 (MB)
+  number of violations = 219
+cpu time = 00:02:24, elapsed time = 00:00:36, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176734 um
+total wire length on LAYER metal1 = 1191 um
+total wire length on LAYER metal2 = 85320 um
+total wire length on LAYER metal3 = 88555 um
+total wire length on LAYER metal4 = 1641 um
+total wire length on LAYER metal5 = 25 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7743
-up-via summary (total 7743):
+total number of vias = 75117
+up-via summary (total 75117):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4199
-         metal2    3530
-         metal3      12
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7743
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40235
+         metal2    34752
+         metal3      126
+         metal4        4
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75117
 
 
 start 4th optimization iteration ...
-    completing 10% with 3 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 20% with 3 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 30% with 2 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 40% with 2 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 50% with 2 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 60% with 2 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 70% with 2 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 80% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
-    completing 90% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-    completing 100% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
-  number of violations = 0
-cpu time = 00:00:04, elapsed time = 00:00:01, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19701 um
-total wire length on LAYER metal1 = 216 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10267 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+    completing 10% with 219 violations
+    elapsed time = 00:00:00, memory = 957.93 (MB)
+    completing 20% with 219 violations
+    elapsed time = 00:00:02, memory = 957.93 (MB)
+    completing 30% with 151 violations
+    elapsed time = 00:00:03, memory = 957.93 (MB)
+    completing 40% with 151 violations
+    elapsed time = 00:00:04, memory = 957.93 (MB)
+    completing 50% with 151 violations
+    elapsed time = 00:00:05, memory = 957.93 (MB)
+    completing 60% with 92 violations
+    elapsed time = 00:00:05, memory = 957.93 (MB)
+    completing 70% with 92 violations
+    elapsed time = 00:00:07, memory = 957.93 (MB)
+    completing 80% with 53 violations
+    elapsed time = 00:00:07, memory = 957.93 (MB)
+    completing 90% with 53 violations
+    elapsed time = 00:00:08, memory = 957.93 (MB)
+    completing 100% with 8 violations
+    elapsed time = 00:00:09, memory = 957.93 (MB)
+  number of violations = 8
+cpu time = 00:00:35, elapsed time = 00:00:09, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88441 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 30 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7741
-up-via summary (total 7741):
+total number of vias = 75319
+up-via summary (total 75319):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4200
-         metal2    3529
-         metal3      10
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7741
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40274
+         metal2    34903
+         metal3      138
+         metal4        4
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75319
+
+
+start 5th optimization iteration ...
+    completing 10% with 8 violations
+    elapsed time = 00:00:00, memory = 957.93 (MB)
+    completing 20% with 8 violations
+    elapsed time = 00:00:00, memory = 957.93 (MB)
+    completing 30% with 7 violations
+    elapsed time = 00:00:01, memory = 957.93 (MB)
+    completing 40% with 7 violations
+    elapsed time = 00:00:01, memory = 957.93 (MB)
+    completing 50% with 7 violations
+    elapsed time = 00:00:02, memory = 957.93 (MB)
+    completing 60% with 4 violations
+    elapsed time = 00:00:02, memory = 957.93 (MB)
+    completing 70% with 4 violations
+    elapsed time = 00:00:03, memory = 957.93 (MB)
+    completing 80% with 4 violations
+    elapsed time = 00:00:03, memory = 957.93 (MB)
+    completing 90% with 4 violations
+    elapsed time = 00:00:03, memory = 957.93 (MB)
+    completing 100% with 0 violations
+    elapsed time = 00:00:04, memory = 957.93 (MB)
+  number of violations = 0
+cpu time = 00:00:17, elapsed time = 00:00:04, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88438 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 33 um
+total wire length on LAYER metal6 = 0 um
+total wire length on LAYER metal7 = 0 um
+total wire length on LAYER metal8 = 0 um
+total wire length on LAYER metal9 = 0 um
+total wire length on LAYER metal10 = 0 um
+total number of vias = 75327
+up-via summary (total 75327):
+
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40276
+         metal2    34905
+         metal3      140
+         metal4        6
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75327
 
 
 start 17th optimization iteration ...
     completing 10% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:00, memory = 957.93 (MB)
     completing 20% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:00, memory = 957.93 (MB)
     completing 30% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 40% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 50% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 60% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:02, memory = 957.93 (MB)
     completing 70% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:02, memory = 957.93 (MB)
     completing 80% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 90% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 100% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
   number of violations = 0
-cpu time = 00:00:04, elapsed time = 00:00:01, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19701 um
-total wire length on LAYER metal1 = 216 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10267 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+cpu time = 00:00:15, elapsed time = 00:00:03, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88438 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 33 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7741
-up-via summary (total 7741):
+total number of vias = 75327
+up-via summary (total 75327):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4200
-         metal2    3529
-         metal3      10
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7741
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40276
+         metal2    34905
+         metal3      140
+         metal4        6
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75327
 
 
 start 25th optimization iteration ...
     completing 10% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:00, memory = 957.93 (MB)
     completing 20% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 30% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 40% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 50% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:02, memory = 957.93 (MB)
     completing 60% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:02, memory = 957.93 (MB)
     completing 70% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 80% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 90% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 100% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
   number of violations = 0
-cpu time = 00:00:05, elapsed time = 00:00:01, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19701 um
-total wire length on LAYER metal1 = 216 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10267 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+cpu time = 00:00:17, elapsed time = 00:00:04, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88438 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 33 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7741
-up-via summary (total 7741):
+total number of vias = 75327
+up-via summary (total 75327):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4200
-         metal2    3529
-         metal3      10
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7741
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40276
+         metal2    34905
+         metal3      140
+         metal4        6
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75327
 
 
 start 33rd optimization iteration ...
     completing 10% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:00, memory = 957.93 (MB)
     completing 20% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 30% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 40% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:02, memory = 957.93 (MB)
     completing 50% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 60% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 70% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 80% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 90% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:05, memory = 957.93 (MB)
     completing 100% with 0 violations
-    elapsed time = 00:00:02, memory = 712.30 (MB)
+    elapsed time = 00:00:06, memory = 957.93 (MB)
   number of violations = 0
-cpu time = 00:00:08, elapsed time = 00:00:02, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19701 um
-total wire length on LAYER metal1 = 216 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10267 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+cpu time = 00:00:24, elapsed time = 00:00:06, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88438 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 33 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7741
-up-via summary (total 7741):
+total number of vias = 75327
+up-via summary (total 75327):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4200
-         metal2    3529
-         metal3      10
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7741
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40276
+         metal2    34905
+         metal3      140
+         metal4        6
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75327
 
 
 start 41st optimization iteration ...
     completing 10% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:00, memory = 957.93 (MB)
     completing 20% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 30% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 40% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:02, memory = 957.93 (MB)
     completing 50% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 60% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 70% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 80% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 90% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:05, memory = 957.93 (MB)
     completing 100% with 0 violations
-    elapsed time = 00:00:02, memory = 712.30 (MB)
+    elapsed time = 00:00:06, memory = 957.93 (MB)
   number of violations = 0
-cpu time = 00:00:08, elapsed time = 00:00:02, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19701 um
-total wire length on LAYER metal1 = 216 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10267 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+cpu time = 00:00:24, elapsed time = 00:00:06, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88438 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 33 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7741
-up-via summary (total 7741):
+total number of vias = 75327
+up-via summary (total 75327):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4200
-         metal2    3529
-         metal3      10
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7741
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40276
+         metal2    34905
+         metal3      140
+         metal4        6
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75327
 
 
 start 49th optimization iteration ...
     completing 10% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:00, memory = 957.93 (MB)
     completing 20% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 30% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 40% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:02, memory = 957.93 (MB)
     completing 50% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 60% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 70% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 80% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 90% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:05, memory = 957.93 (MB)
     completing 100% with 0 violations
-    elapsed time = 00:00:02, memory = 712.30 (MB)
+    elapsed time = 00:00:06, memory = 957.93 (MB)
   number of violations = 0
-cpu time = 00:00:08, elapsed time = 00:00:02, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19701 um
-total wire length on LAYER metal1 = 216 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10267 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+cpu time = 00:00:24, elapsed time = 00:00:06, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88438 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 33 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7741
-up-via summary (total 7741):
+total number of vias = 75327
+up-via summary (total 75327):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4200
-         metal2    3529
-         metal3      10
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7741
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40276
+         metal2    34905
+         metal3      140
+         metal4        6
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75327
 
 
 start 57th optimization iteration ...
     completing 10% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:00, memory = 957.93 (MB)
     completing 20% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 30% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:01, memory = 957.93 (MB)
     completing 40% with 0 violations
-    elapsed time = 00:00:00, memory = 712.30 (MB)
+    elapsed time = 00:00:02, memory = 957.93 (MB)
     completing 50% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 60% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:03, memory = 957.93 (MB)
     completing 70% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 80% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:04, memory = 957.93 (MB)
     completing 90% with 0 violations
-    elapsed time = 00:00:01, memory = 712.30 (MB)
+    elapsed time = 00:00:05, memory = 957.93 (MB)
     completing 100% with 0 violations
-    elapsed time = 00:00:02, memory = 712.30 (MB)
+    elapsed time = 00:00:06, memory = 957.93 (MB)
   number of violations = 0
-cpu time = 00:00:08, elapsed time = 00:00:02, memory = 712.30 (MB), peak = 712.30 (MB)
-total wire length = 19701 um
-total wire length on LAYER metal1 = 216 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10267 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+cpu time = 00:00:24, elapsed time = 00:00:06, memory = 957.93 (MB), peak = 957.93 (MB)
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88438 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 33 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7741
-up-via summary (total 7741):
+total number of vias = 75327
+up-via summary (total 75327):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4200
-         metal2    3529
-         metal3      10
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7741
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40276
+         metal2    34905
+         metal3      140
+         metal4        6
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75327
 
 
 complete detail routing
-total wire length = 19701 um
-total wire length on LAYER metal1 = 216 um
-total wire length on LAYER metal2 = 9179 um
-total wire length on LAYER metal3 = 10267 um
-total wire length on LAYER metal4 = 23 um
-total wire length on LAYER metal5 = 14 um
+total wire length = 176753 um
+total wire length on LAYER metal1 = 1333 um
+total wire length on LAYER metal2 = 85180 um
+total wire length on LAYER metal3 = 88438 um
+total wire length on LAYER metal4 = 1767 um
+total wire length on LAYER metal5 = 33 um
 total wire length on LAYER metal6 = 0 um
 total wire length on LAYER metal7 = 0 um
 total wire length on LAYER metal8 = 0 um
 total wire length on LAYER metal9 = 0 um
 total wire length on LAYER metal10 = 0 um
-total number of vias = 7741
-up-via summary (total 7741):
+total number of vias = 75327
+up-via summary (total 75327):
 
------------------------
- FR_MASTERSLICE       0
-         metal1    4200
-         metal2    3529
-         metal3      10
-         metal4       2
-         metal5       0
-         metal6       0
-         metal7       0
-         metal8       0
-         metal9       0
------------------------
-                   7741
+------------------------
+ FR_MASTERSLICE        0
+         metal1    40276
+         metal2    34905
+         metal3      140
+         metal4        6
+         metal5        0
+         metal6        0
+         metal7        0
+         metal8        0
+         metal9        0
+------------------------
+                   75327
 
-cpu time = 00:03:15, elapsed time = 00:00:50, memory = 712.30 (MB), peak = 712.30 (MB)
+cpu time = 00:11:17, elapsed time = 00:02:54, memory = 957.93 (MB), peak = 957.93 (MB)
 
 post processing ...
 
-Runtime taken (hrt): 54.2131
-0:54.27elapsed 373%CPU 729392memKB
+Runtime taken (hrt): 184.836
+3:05.01elapsed 381%CPU 980924memKB
 cp results/nangate45/top/4_cts.sdc results/nangate45/top/5_route.sdc
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" openroad -no_init -exit ./scripts/final_report.tcl) 2>&1 | tee ./logs/nangate45/top/6_report.log
 OpenROAD 0.9.0 c370648541
@@ -1935,18 +2091,19 @@ Notice 0: Finished LEF file:  ./platforms/nangate45/lef/NangateOpenCellLibrary.m
 Notice 0: 
 Reading DEF file: ./results/nangate45/top/5_route.def
 Notice 0: Design: top
+Notice 0: 		Created 100000 Insts
 Notice 0:     Created 3913 pins.
-Notice 0:     Created 97287 components and 199925 component-terminals.
-Notice 0:     Created 2 special nets and 194574 connections.
-Notice 0:     Created 6578 nets and 5351 connections.
+Notice 0:     Created 131141 components and 311894 component-terminals.
+Notice 0:     Created 2 special nets and 262282 connections.
+Notice 0:     Created 28561 nets and 49612 connections.
 Notice 0: Finished DEF file: ./results/nangate45/top/5_route.def
-Notice 0: Split top of 272 T shapes.
+Notice 0: Split top of 2858 T shapes.
 
 ==========================================================================
 report_checks -path_delay min
 --------------------------------------------------------------------------
-Startpoint: _1346_ (rising edge-triggered flip-flop clocked by core_clock)
-Endpoint: _1352_ (rising edge-triggered flip-flop clocked by core_clock)
+Startpoint: _17397_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _17410_ (rising edge-triggered flip-flop clocked by core_clock)
 Path Group: core_clock
 Path Type: min
 
@@ -1964,33 +2121,48 @@ Fanout     Cap    Slew   Delay    Time   Description
      1    4.98                           clknet_1_0_0_clock (net)
                   0.01    0.00    0.06 ^ clkbuf_1_0_1_clock/A (CLKBUF_X1)
                   0.01    0.03    0.09 ^ clkbuf_1_0_1_clock/Z (CLKBUF_X1)
-     1    1.87                           clknet_1_0_1_clock (net)
+     1    1.81                           clknet_1_0_1_clock (net)
                   0.01    0.00    0.09 ^ clkbuf_1_0_2_clock/A (CLKBUF_X1)
-                  0.02    0.05    0.14 ^ clkbuf_1_0_2_clock/Z (CLKBUF_X1)
-     2    8.69                           clknet_1_0_2_clock (net)
-                  0.02    0.00    0.14 ^ clkbuf_2_1_0_clock/A (CLKBUF_X1)
-                  0.03    0.06    0.19 ^ clkbuf_2_1_0_clock/Z (CLKBUF_X1)
-     2   10.20                           clknet_2_1_0_clock (net)
-                  0.03    0.00    0.19 ^ clkbuf_3_2_0_clock/A (CLKBUF_X1)
-                  0.01    0.04    0.23 ^ clkbuf_3_2_0_clock/Z (CLKBUF_X1)
-     1    1.83                           clknet_3_2_0_clock (net)
-                  0.01    0.00    0.23 ^ clkbuf_3_2_1_clock/A (CLKBUF_X1)
-                  0.01    0.03    0.26 ^ clkbuf_3_2_1_clock/Z (CLKBUF_X1)
-     2    3.65                           clknet_3_2_1_clock (net)
-                  0.01    0.00    0.26 ^ clkbuf_4_4_0_clock/A (CLKBUF_X1)
-                  0.02    0.05    0.31 ^ clkbuf_4_4_0_clock/Z (CLKBUF_X1)
-     2    8.81                           clknet_4_4_0_clock (net)
-                  0.02    0.00    0.31 ^ clkbuf_5_9_0_clock/A (CLKBUF_X1)
-                  0.04    0.07    0.38 ^ clkbuf_5_9_0_clock/Z (CLKBUF_X1)
-     4   16.66                           clknet_5_9_0_clock (net)
-                  0.04    0.00    0.38 ^ clkbuf_7_37__f_clock/A (BUF_X4)
-                  0.01    0.03    0.41 ^ clkbuf_7_37__f_clock/Z (BUF_X4)
-     6    6.69                           clknet_7_37__leaf_clock (net)
-                  0.01    0.00    0.41 ^ _1346_/CK (DFF_X1)
-                  0.01    0.08    0.49 v _1346_/Q (DFF_X1)
-     1    1.14                           op2992.reg_out1[5] (net)
-                  0.01    0.00    0.49 v _1352_/D (DFF_X1)
-                                  0.49   data arrival time
+                  0.02    0.04    0.13 ^ clkbuf_1_0_2_clock/Z (CLKBUF_X1)
+     2    8.31                           clknet_1_0_2_clock (net)
+                  0.02    0.00    0.14 ^ clkbuf_2_0_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.17 ^ clkbuf_2_0_0_clock/Z (CLKBUF_X1)
+     1    1.86                           clknet_2_0_0_clock (net)
+                  0.01    0.00    0.17 ^ clkbuf_2_0_1_clock/A (CLKBUF_X1)
+                  0.03    0.05    0.22 ^ clkbuf_2_0_1_clock/Z (CLKBUF_X1)
+     2   11.95                           clknet_2_0_1_clock (net)
+                  0.03    0.00    0.23 ^ clkbuf_3_0_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.27 ^ clkbuf_3_0_0_clock/Z (CLKBUF_X1)
+     2    3.75                           clknet_3_0_0_clock (net)
+                  0.01    0.00    0.27 ^ clkbuf_4_1_0_clock/A (CLKBUF_X1)
+                  0.02    0.04    0.31 ^ clkbuf_4_1_0_clock/Z (CLKBUF_X1)
+     2    7.48                           clknet_4_1_0_clock (net)
+                  0.02    0.00    0.32 ^ clkbuf_5_2_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.35 ^ clkbuf_5_2_0_clock/Z (CLKBUF_X1)
+     2    3.06                           clknet_5_2_0_clock (net)
+                  0.01    0.00    0.35 ^ clkbuf_6_5_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.39 ^ clkbuf_6_5_0_clock/Z (CLKBUF_X1)
+     2    4.34                           clknet_6_5_0_clock (net)
+                  0.01    0.00    0.39 ^ clkbuf_7_10_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.42 ^ clkbuf_7_10_0_clock/Z (CLKBUF_X1)
+     2    1.85                           clknet_7_10_0_clock (net)
+                  0.01    0.00    0.42 ^ clkbuf_8_20_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.45 ^ clkbuf_8_20_0_clock/Z (CLKBUF_X1)
+     2    2.10                           clknet_8_20_0_clock (net)
+                  0.01    0.00    0.45 ^ clkbuf_9_41_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.48 ^ clkbuf_9_41_0_clock/Z (CLKBUF_X1)
+     2    2.21                           clknet_9_41_0_clock (net)
+                  0.01    0.00    0.48 ^ clkbuf_10_82_0_clock/A (CLKBUF_X1)
+                  0.04    0.06    0.54 ^ clkbuf_10_82_0_clock/Z (CLKBUF_X1)
+     6   14.69                           clknet_10_82_0_clock (net)
+                  0.04    0.00    0.54 ^ clkbuf_opt_41_clock/A (BUF_X4)
+                  0.01    0.03    0.57 ^ clkbuf_opt_41_clock/Z (BUF_X4)
+     1    5.32                           clknet_opt_41_clock (net)
+                  0.01    0.00    0.57 ^ _17397_/CK (DFF_X1)
+                  0.01    0.08    0.65 v _17397_/Q (DFF_X1)
+     1    1.21                           op2894.reg_out1[5] (net)
+                  0.01    0.00    0.65 v _17410_/D (DFF_X1)
+                                  0.65   data arrival time
 
                           0.00    0.00   clock core_clock (rise edge)
                           0.00    0.00   clock source latency
@@ -2004,48 +2176,60 @@ Fanout     Cap    Slew   Delay    Time   Description
      1    4.98                           clknet_1_0_0_clock (net)
                   0.01    0.00    0.06 ^ clkbuf_1_0_1_clock/A (CLKBUF_X1)
                   0.01    0.03    0.09 ^ clkbuf_1_0_1_clock/Z (CLKBUF_X1)
-     1    1.87                           clknet_1_0_1_clock (net)
+     1    1.81                           clknet_1_0_1_clock (net)
                   0.01    0.00    0.09 ^ clkbuf_1_0_2_clock/A (CLKBUF_X1)
-                  0.02    0.05    0.14 ^ clkbuf_1_0_2_clock/Z (CLKBUF_X1)
-     2    8.69                           clknet_1_0_2_clock (net)
-                  0.02    0.00    0.14 ^ clkbuf_2_1_0_clock/A (CLKBUF_X1)
-                  0.03    0.06    0.19 ^ clkbuf_2_1_0_clock/Z (CLKBUF_X1)
-     2   10.20                           clknet_2_1_0_clock (net)
-                  0.03    0.00    0.19 ^ clkbuf_3_3_0_clock/A (CLKBUF_X1)
-                  0.01    0.04    0.23 ^ clkbuf_3_3_0_clock/Z (CLKBUF_X1)
-     1    1.90                           clknet_3_3_0_clock (net)
-                  0.01    0.00    0.23 ^ clkbuf_3_3_1_clock/A (CLKBUF_X1)
-                  0.01    0.03    0.26 ^ clkbuf_3_3_1_clock/Z (CLKBUF_X1)
-     2    3.65                           clknet_3_3_1_clock (net)
-                  0.01    0.00    0.26 ^ clkbuf_4_6_0_clock/A (CLKBUF_X1)
-                  0.02    0.04    0.31 ^ clkbuf_4_6_0_clock/Z (CLKBUF_X1)
-     2    7.05                           clknet_4_6_0_clock (net)
-                  0.02    0.00    0.31 ^ clkbuf_5_12_0_clock/A (CLKBUF_X1)
-                  0.04    0.07    0.38 ^ clkbuf_5_12_0_clock/Z (CLKBUF_X1)
-     4   17.50                           clknet_5_12_0_clock (net)
-                  0.04    0.00    0.38 ^ clkbuf_7_51__f_clock/A (BUF_X4)
-                  0.01    0.03    0.41 ^ clkbuf_7_51__f_clock/Z (BUF_X4)
-     2    7.87                           clknet_7_51__leaf_clock (net)
-                  0.01    0.00    0.41 ^ clkbuf_opt_10_clock/A (BUF_X4)
-                  0.01    0.02    0.43 ^ clkbuf_opt_10_clock/Z (BUF_X4)
-     1    9.68                           clknet_opt_10_clock (net)
-                  0.01    0.00    0.44 ^ _1352_/CK (DFF_X1)
-                          0.00    0.44   clock reconvergence pessimism
-                          0.00    0.44   library hold time
-                                  0.44   data required time
+                  0.02    0.04    0.13 ^ clkbuf_1_0_2_clock/Z (CLKBUF_X1)
+     2    8.31                           clknet_1_0_2_clock (net)
+                  0.02    0.00    0.14 ^ clkbuf_2_0_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.17 ^ clkbuf_2_0_0_clock/Z (CLKBUF_X1)
+     1    1.86                           clknet_2_0_0_clock (net)
+                  0.01    0.00    0.17 ^ clkbuf_2_0_1_clock/A (CLKBUF_X1)
+                  0.03    0.05    0.22 ^ clkbuf_2_0_1_clock/Z (CLKBUF_X1)
+     2   11.95                           clknet_2_0_1_clock (net)
+                  0.03    0.00    0.23 ^ clkbuf_3_0_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.27 ^ clkbuf_3_0_0_clock/Z (CLKBUF_X1)
+     2    3.75                           clknet_3_0_0_clock (net)
+                  0.01    0.00    0.27 ^ clkbuf_4_1_0_clock/A (CLKBUF_X1)
+                  0.02    0.04    0.31 ^ clkbuf_4_1_0_clock/Z (CLKBUF_X1)
+     2    7.48                           clknet_4_1_0_clock (net)
+                  0.02    0.00    0.32 ^ clkbuf_5_2_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.35 ^ clkbuf_5_2_0_clock/Z (CLKBUF_X1)
+     2    3.06                           clknet_5_2_0_clock (net)
+                  0.01    0.00    0.35 ^ clkbuf_6_5_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.39 ^ clkbuf_6_5_0_clock/Z (CLKBUF_X1)
+     2    4.34                           clknet_6_5_0_clock (net)
+                  0.01    0.00    0.39 ^ clkbuf_7_10_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.42 ^ clkbuf_7_10_0_clock/Z (CLKBUF_X1)
+     2    1.85                           clknet_7_10_0_clock (net)
+                  0.01    0.00    0.42 ^ clkbuf_8_21_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.45 ^ clkbuf_8_21_0_clock/Z (CLKBUF_X1)
+     2    2.12                           clknet_8_21_0_clock (net)
+                  0.01    0.00    0.45 ^ clkbuf_9_43_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.48 ^ clkbuf_9_43_0_clock/Z (CLKBUF_X1)
+     2    2.16                           clknet_9_43_0_clock (net)
+                  0.01    0.00    0.48 ^ clkbuf_10_87_0_clock/A (CLKBUF_X1)
+                  0.10    0.13    0.61 ^ clkbuf_10_87_0_clock/Z (CLKBUF_X1)
+    12   42.54                           clknet_10_87_0_clock (net)
+                  0.10    0.00    0.61 ^ clkbuf_opt_60_clock/A (BUF_X4)
+                  0.01    0.03    0.64 ^ clkbuf_opt_60_clock/Z (BUF_X4)
+     1    5.31                           clknet_opt_60_clock (net)
+                  0.01    0.00    0.64 ^ _17410_/CK (DFF_X1)
+                          0.00    0.64   clock reconvergence pessimism
+                          0.00    0.64   library hold time
+                                  0.64   data required time
 -----------------------------------------------------------------------------
-                                  0.44   data required time
-                                 -0.49   data arrival time
+                                  0.64   data required time
+                                 -0.65   data arrival time
 -----------------------------------------------------------------------------
-                                  0.05   slack (MET)
+                                  0.01   slack (MET)
 
 
 
 ==========================================================================
 report_checks -path_delay max
 --------------------------------------------------------------------------
-Startpoint: _1850_ (rising edge-triggered flip-flop clocked by core_clock)
-Endpoint: _1248_ (rising edge-triggered flip-flop clocked by core_clock)
+Startpoint: _12986_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _11581_ (rising edge-triggered flip-flop clocked by core_clock)
 Path Group: core_clock
 Path Type: max
 
@@ -2065,37 +2249,55 @@ Fanout     Cap    Slew   Delay    Time   Description
                   0.01    0.03    0.09 ^ clkbuf_1_1_1_clock/Z (CLKBUF_X1)
      1    1.81                           clknet_1_1_1_clock (net)
                   0.01    0.00    0.09 ^ clkbuf_1_1_2_clock/A (CLKBUF_X1)
-                  0.02    0.05    0.14 ^ clkbuf_1_1_2_clock/Z (CLKBUF_X1)
-     2    8.49                           clknet_1_1_2_clock (net)
-                  0.02    0.00    0.14 ^ clkbuf_2_3_0_clock/A (CLKBUF_X1)
-                  0.03    0.06    0.19 ^ clkbuf_2_3_0_clock/Z (CLKBUF_X1)
-     2   10.95                           clknet_2_3_0_clock (net)
-                  0.03    0.00    0.19 ^ clkbuf_3_6_0_clock/A (CLKBUF_X1)
-                  0.01    0.04    0.23 ^ clkbuf_3_6_0_clock/Z (CLKBUF_X1)
-     1    1.82                           clknet_3_6_0_clock (net)
-                  0.01    0.00    0.23 ^ clkbuf_3_6_1_clock/A (CLKBUF_X1)
-                  0.01    0.03    0.27 ^ clkbuf_3_6_1_clock/Z (CLKBUF_X1)
-     2    3.65                           clknet_3_6_1_clock (net)
-                  0.01    0.00    0.27 ^ clkbuf_4_12_0_clock/A (CLKBUF_X1)
-                  0.02    0.05    0.32 ^ clkbuf_4_12_0_clock/Z (CLKBUF_X1)
-     2    9.51                           clknet_4_12_0_clock (net)
-                  0.03    0.00    0.32 ^ clkbuf_5_24_0_clock/A (CLKBUF_X1)
-                  0.04    0.07    0.39 ^ clkbuf_5_24_0_clock/Z (CLKBUF_X1)
-     4   16.49                           clknet_5_24_0_clock (net)
-                  0.04    0.00    0.39 ^ clkbuf_7_99__f_clock/A (BUF_X4)
-                  0.01    0.03    0.42 ^ clkbuf_7_99__f_clock/Z (BUF_X4)
-    10   18.46                           clknet_7_99__leaf_clock (net)
-                  0.01    0.00    0.43 ^ _1850_/CK (DFF_X1)
-                  0.02    0.10    0.53 ^ _1850_/Q (DFF_X1)
-     1    7.34                           op3076.reg_out1[5] (net)
-                  0.02    0.00    0.53 ^ _1232_/A3 (NAND3_X4)
-                  0.02    0.03    0.56 v _1232_/ZN (NAND3_X4)
-     2   19.67                           _0007_ (net)
-                  0.02    0.01    0.57 v _1235_/A3 (NOR3_X1)
-                  0.02    0.05    0.62 ^ _1235_/ZN (NOR3_X1)
-     1    1.46                           _0002_ (net)
-                  0.02    0.00    0.62 ^ _1248_/D (DFF_X1)
-                                  0.62   data arrival time
+                  0.02    0.04    0.13 ^ clkbuf_1_1_2_clock/Z (CLKBUF_X1)
+     2    8.04                           clknet_1_1_2_clock (net)
+                  0.02    0.00    0.14 ^ clkbuf_2_2_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.17 ^ clkbuf_2_2_0_clock/Z (CLKBUF_X1)
+     1    1.75                           clknet_2_2_0_clock (net)
+                  0.01    0.00    0.17 ^ clkbuf_2_2_1_clock/A (CLKBUF_X1)
+                  0.03    0.05    0.22 ^ clkbuf_2_2_1_clock/Z (CLKBUF_X1)
+     2   12.04                           clknet_2_2_1_clock (net)
+                  0.03    0.00    0.23 ^ clkbuf_3_5_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.27 ^ clkbuf_3_5_0_clock/Z (CLKBUF_X1)
+     2    3.20                           clknet_3_5_0_clock (net)
+                  0.01    0.00    0.27 ^ clkbuf_4_10_0_clock/A (CLKBUF_X1)
+                  0.02    0.04    0.31 ^ clkbuf_4_10_0_clock/Z (CLKBUF_X1)
+     2    7.39                           clknet_4_10_0_clock (net)
+                  0.02    0.00    0.31 ^ clkbuf_5_21_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.35 ^ clkbuf_5_21_0_clock/Z (CLKBUF_X1)
+     2    3.36                           clknet_5_21_0_clock (net)
+                  0.01    0.00    0.35 ^ clkbuf_6_42_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.39 ^ clkbuf_6_42_0_clock/Z (CLKBUF_X1)
+     2    4.72                           clknet_6_42_0_clock (net)
+                  0.01    0.00    0.39 ^ clkbuf_7_85_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.42 ^ clkbuf_7_85_0_clock/Z (CLKBUF_X1)
+     2    1.85                           clknet_7_85_0_clock (net)
+                  0.01    0.00    0.42 ^ clkbuf_8_170_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.45 ^ clkbuf_8_170_0_clock/Z (CLKBUF_X1)
+     2    2.06                           clknet_8_170_0_clock (net)
+                  0.01    0.00    0.45 ^ clkbuf_9_341_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.48 ^ clkbuf_9_341_0_clock/Z (CLKBUF_X1)
+     2    2.37                           clknet_9_341_0_clock (net)
+                  0.01    0.00    0.48 ^ clkbuf_10_682_0_clock/A (CLKBUF_X1)
+                  0.06    0.08    0.57 ^ clkbuf_10_682_0_clock/Z (CLKBUF_X1)
+     7   24.65                           clknet_10_682_0_clock (net)
+                  0.06    0.00    0.57 ^ clkbuf_opt_135_clock/A (BUF_X4)
+                  0.01    0.03    0.60 ^ clkbuf_opt_135_clock/Z (BUF_X4)
+     1    8.57                           clknet_opt_135_clock (net)
+                  0.01    0.00    0.60 ^ _12986_/CK (DFF_X2)
+                  0.05    0.15    0.75 ^ _12986_/Q (DFF_X2)
+     2   53.43                           op7704.reg_out1[5] (net)
+                  0.12    0.09    0.83 ^ _11474_/A3 (NAND3_X1)
+                  0.02    0.04    0.87 v _11474_/ZN (NAND3_X1)
+     1    3.56                           _00215_ (net)
+                  0.02    0.00    0.87 v _11475_/A2 (NOR2_X2)
+                  0.03    0.05    0.92 ^ _11475_/ZN (NOR2_X2)
+     2    9.68                           _00216_ (net)
+                  0.03    0.00    0.92 ^ _11476_/A2 (AND2_X1)
+                  0.01    0.04    0.96 ^ _11476_/ZN (AND2_X1)
+     1    1.34                           _00060_ (net)
+                  0.01    0.00    0.96 ^ _11581_/D (DFF_X1)
+                                  0.96   data arrival time
 
                           1.00    1.00   clock core_clock (rise edge)
                           0.00    1.00   clock source latency
@@ -2111,43 +2313,55 @@ Fanout     Cap    Slew   Delay    Time   Description
                   0.01    0.03    1.09 ^ clkbuf_1_1_1_clock/Z (CLKBUF_X1)
      1    1.81                           clknet_1_1_1_clock (net)
                   0.01    0.00    1.09 ^ clkbuf_1_1_2_clock/A (CLKBUF_X1)
-                  0.02    0.05    1.14 ^ clkbuf_1_1_2_clock/Z (CLKBUF_X1)
-     2    8.49                           clknet_1_1_2_clock (net)
+                  0.02    0.04    1.13 ^ clkbuf_1_1_2_clock/Z (CLKBUF_X1)
+     2    8.04                           clknet_1_1_2_clock (net)
                   0.02    0.00    1.14 ^ clkbuf_2_3_0_clock/A (CLKBUF_X1)
-                  0.03    0.06    1.19 ^ clkbuf_2_3_0_clock/Z (CLKBUF_X1)
-     2   10.95                           clknet_2_3_0_clock (net)
-                  0.03    0.00    1.19 ^ clkbuf_3_7_0_clock/A (CLKBUF_X1)
-                  0.01    0.04    1.23 ^ clkbuf_3_7_0_clock/Z (CLKBUF_X1)
-     1    1.75                           clknet_3_7_0_clock (net)
-                  0.01    0.00    1.23 ^ clkbuf_3_7_1_clock/A (CLKBUF_X1)
-                  0.01    0.03    1.26 ^ clkbuf_3_7_1_clock/Z (CLKBUF_X1)
-     2    3.03                           clknet_3_7_1_clock (net)
-                  0.01    0.00    1.26 ^ clkbuf_4_14_0_clock/A (CLKBUF_X1)
-                  0.02    0.05    1.31 ^ clkbuf_4_14_0_clock/Z (CLKBUF_X1)
-     2    8.16                           clknet_4_14_0_clock (net)
-                  0.02    0.00    1.31 ^ clkbuf_5_29_0_clock/A (CLKBUF_X1)
-                  0.04    0.07    1.38 ^ clkbuf_5_29_0_clock/Z (CLKBUF_X1)
-     4   16.12                           clknet_5_29_0_clock (net)
-                  0.04    0.00    1.38 ^ clkbuf_7_119__f_clock/A (BUF_X4)
-                  0.01    0.03    1.41 ^ clkbuf_7_119__f_clock/Z (BUF_X4)
-    14   15.98                           clknet_7_119__leaf_clock (net)
-                  0.01    0.00    1.42 ^ _1248_/CK (DFF_X1)
-                          0.00    1.42   clock reconvergence pessimism
-                         -0.03    1.38   library setup time
-                                  1.38   data required time
+                  0.01    0.03    1.17 ^ clkbuf_2_3_0_clock/Z (CLKBUF_X1)
+     1    1.90                           clknet_2_3_0_clock (net)
+                  0.01    0.00    1.17 ^ clkbuf_2_3_1_clock/A (CLKBUF_X1)
+                  0.03    0.05    1.22 ^ clkbuf_2_3_1_clock/Z (CLKBUF_X1)
+     2   12.01                           clknet_2_3_1_clock (net)
+                  0.03    0.00    1.23 ^ clkbuf_3_6_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    1.27 ^ clkbuf_3_6_0_clock/Z (CLKBUF_X1)
+     2    3.56                           clknet_3_6_0_clock (net)
+                  0.01    0.00    1.27 ^ clkbuf_4_13_0_clock/A (CLKBUF_X1)
+                  0.02    0.05    1.31 ^ clkbuf_4_13_0_clock/Z (CLKBUF_X1)
+     2    7.86                           clknet_4_13_0_clock (net)
+                  0.02    0.00    1.32 ^ clkbuf_5_26_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    1.35 ^ clkbuf_5_26_0_clock/Z (CLKBUF_X1)
+     2    3.63                           clknet_5_26_0_clock (net)
+                  0.01    0.00    1.35 ^ clkbuf_6_53_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    1.39 ^ clkbuf_6_53_0_clock/Z (CLKBUF_X1)
+     2    4.65                           clknet_6_53_0_clock (net)
+                  0.01    0.00    1.39 ^ clkbuf_7_107_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    1.43 ^ clkbuf_7_107_0_clock/Z (CLKBUF_X1)
+     2    2.12                           clknet_7_107_0_clock (net)
+                  0.01    0.00    1.43 ^ clkbuf_8_214_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    1.46 ^ clkbuf_8_214_0_clock/Z (CLKBUF_X1)
+     2    2.30                           clknet_8_214_0_clock (net)
+                  0.01    0.00    1.46 ^ clkbuf_9_428_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    1.49 ^ clkbuf_9_428_0_clock/Z (CLKBUF_X1)
+     2    2.15                           clknet_9_428_0_clock (net)
+                  0.01    0.00    1.49 ^ clkbuf_10_857_0_clock/A (CLKBUF_X1)
+                  0.03    0.06    1.54 ^ clkbuf_10_857_0_clock/Z (CLKBUF_X1)
+    12   13.30                           clknet_10_857_0_clock (net)
+                  0.03    0.00    1.54 ^ _11581_/CK (DFF_X1)
+                          0.00    1.54   clock reconvergence pessimism
+                         -0.03    1.52   library setup time
+                                  1.52   data required time
 -----------------------------------------------------------------------------
-                                  1.38   data required time
-                                 -0.62   data arrival time
+                                  1.52   data required time
+                                 -0.96   data arrival time
 -----------------------------------------------------------------------------
-                                  0.76   slack (MET)
+                                  0.56   slack (MET)
 
 
 
 ==========================================================================
 report_checks -unconstrained
 --------------------------------------------------------------------------
-Startpoint: _1850_ (rising edge-triggered flip-flop clocked by core_clock)
-Endpoint: _1248_ (rising edge-triggered flip-flop clocked by core_clock)
+Startpoint: _12986_ (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: _11581_ (rising edge-triggered flip-flop clocked by core_clock)
 Path Group: core_clock
 Path Type: max
 
@@ -2167,37 +2381,55 @@ Fanout     Cap    Slew   Delay    Time   Description
                   0.01    0.03    0.09 ^ clkbuf_1_1_1_clock/Z (CLKBUF_X1)
      1    1.81                           clknet_1_1_1_clock (net)
                   0.01    0.00    0.09 ^ clkbuf_1_1_2_clock/A (CLKBUF_X1)
-                  0.02    0.05    0.14 ^ clkbuf_1_1_2_clock/Z (CLKBUF_X1)
-     2    8.49                           clknet_1_1_2_clock (net)
-                  0.02    0.00    0.14 ^ clkbuf_2_3_0_clock/A (CLKBUF_X1)
-                  0.03    0.06    0.19 ^ clkbuf_2_3_0_clock/Z (CLKBUF_X1)
-     2   10.95                           clknet_2_3_0_clock (net)
-                  0.03    0.00    0.19 ^ clkbuf_3_6_0_clock/A (CLKBUF_X1)
-                  0.01    0.04    0.23 ^ clkbuf_3_6_0_clock/Z (CLKBUF_X1)
-     1    1.82                           clknet_3_6_0_clock (net)
-                  0.01    0.00    0.23 ^ clkbuf_3_6_1_clock/A (CLKBUF_X1)
-                  0.01    0.03    0.27 ^ clkbuf_3_6_1_clock/Z (CLKBUF_X1)
-     2    3.65                           clknet_3_6_1_clock (net)
-                  0.01    0.00    0.27 ^ clkbuf_4_12_0_clock/A (CLKBUF_X1)
-                  0.02    0.05    0.32 ^ clkbuf_4_12_0_clock/Z (CLKBUF_X1)
-     2    9.51                           clknet_4_12_0_clock (net)
-                  0.03    0.00    0.32 ^ clkbuf_5_24_0_clock/A (CLKBUF_X1)
-                  0.04    0.07    0.39 ^ clkbuf_5_24_0_clock/Z (CLKBUF_X1)
-     4   16.49                           clknet_5_24_0_clock (net)
-                  0.04    0.00    0.39 ^ clkbuf_7_99__f_clock/A (BUF_X4)
-                  0.01    0.03    0.42 ^ clkbuf_7_99__f_clock/Z (BUF_X4)
-    10   18.46                           clknet_7_99__leaf_clock (net)
-                  0.01    0.00    0.43 ^ _1850_/CK (DFF_X1)
-                  0.02    0.10    0.53 ^ _1850_/Q (DFF_X1)
-     1    7.34                           op3076.reg_out1[5] (net)
-                  0.02    0.00    0.53 ^ _1232_/A3 (NAND3_X4)
-                  0.02    0.03    0.56 v _1232_/ZN (NAND3_X4)
-     2   19.67                           _0007_ (net)
-                  0.02    0.01    0.57 v _1235_/A3 (NOR3_X1)
-                  0.02    0.05    0.62 ^ _1235_/ZN (NOR3_X1)
-     1    1.46                           _0002_ (net)
-                  0.02    0.00    0.62 ^ _1248_/D (DFF_X1)
-                                  0.62   data arrival time
+                  0.02    0.04    0.13 ^ clkbuf_1_1_2_clock/Z (CLKBUF_X1)
+     2    8.04                           clknet_1_1_2_clock (net)
+                  0.02    0.00    0.14 ^ clkbuf_2_2_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.17 ^ clkbuf_2_2_0_clock/Z (CLKBUF_X1)
+     1    1.75                           clknet_2_2_0_clock (net)
+                  0.01    0.00    0.17 ^ clkbuf_2_2_1_clock/A (CLKBUF_X1)
+                  0.03    0.05    0.22 ^ clkbuf_2_2_1_clock/Z (CLKBUF_X1)
+     2   12.04                           clknet_2_2_1_clock (net)
+                  0.03    0.00    0.23 ^ clkbuf_3_5_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.27 ^ clkbuf_3_5_0_clock/Z (CLKBUF_X1)
+     2    3.20                           clknet_3_5_0_clock (net)
+                  0.01    0.00    0.27 ^ clkbuf_4_10_0_clock/A (CLKBUF_X1)
+                  0.02    0.04    0.31 ^ clkbuf_4_10_0_clock/Z (CLKBUF_X1)
+     2    7.39                           clknet_4_10_0_clock (net)
+                  0.02    0.00    0.31 ^ clkbuf_5_21_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.35 ^ clkbuf_5_21_0_clock/Z (CLKBUF_X1)
+     2    3.36                           clknet_5_21_0_clock (net)
+                  0.01    0.00    0.35 ^ clkbuf_6_42_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    0.39 ^ clkbuf_6_42_0_clock/Z (CLKBUF_X1)
+     2    4.72                           clknet_6_42_0_clock (net)
+                  0.01    0.00    0.39 ^ clkbuf_7_85_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.42 ^ clkbuf_7_85_0_clock/Z (CLKBUF_X1)
+     2    1.85                           clknet_7_85_0_clock (net)
+                  0.01    0.00    0.42 ^ clkbuf_8_170_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.45 ^ clkbuf_8_170_0_clock/Z (CLKBUF_X1)
+     2    2.06                           clknet_8_170_0_clock (net)
+                  0.01    0.00    0.45 ^ clkbuf_9_341_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    0.48 ^ clkbuf_9_341_0_clock/Z (CLKBUF_X1)
+     2    2.37                           clknet_9_341_0_clock (net)
+                  0.01    0.00    0.48 ^ clkbuf_10_682_0_clock/A (CLKBUF_X1)
+                  0.06    0.08    0.57 ^ clkbuf_10_682_0_clock/Z (CLKBUF_X1)
+     7   24.65                           clknet_10_682_0_clock (net)
+                  0.06    0.00    0.57 ^ clkbuf_opt_135_clock/A (BUF_X4)
+                  0.01    0.03    0.60 ^ clkbuf_opt_135_clock/Z (BUF_X4)
+     1    8.57                           clknet_opt_135_clock (net)
+                  0.01    0.00    0.60 ^ _12986_/CK (DFF_X2)
+                  0.05    0.15    0.75 ^ _12986_/Q (DFF_X2)
+     2   53.43                           op7704.reg_out1[5] (net)
+                  0.12    0.09    0.83 ^ _11474_/A3 (NAND3_X1)
+                  0.02    0.04    0.87 v _11474_/ZN (NAND3_X1)
+     1    3.56                           _00215_ (net)
+                  0.02    0.00    0.87 v _11475_/A2 (NOR2_X2)
+                  0.03    0.05    0.92 ^ _11475_/ZN (NOR2_X2)
+     2    9.68                           _00216_ (net)
+                  0.03    0.00    0.92 ^ _11476_/A2 (AND2_X1)
+                  0.01    0.04    0.96 ^ _11476_/ZN (AND2_X1)
+     1    1.34                           _00060_ (net)
+                  0.01    0.00    0.96 ^ _11581_/D (DFF_X1)
+                                  0.96   data arrival time
 
                           1.00    1.00   clock core_clock (rise edge)
                           0.00    1.00   clock source latency
@@ -2213,35 +2445,47 @@ Fanout     Cap    Slew   Delay    Time   Description
                   0.01    0.03    1.09 ^ clkbuf_1_1_1_clock/Z (CLKBUF_X1)
      1    1.81                           clknet_1_1_1_clock (net)
                   0.01    0.00    1.09 ^ clkbuf_1_1_2_clock/A (CLKBUF_X1)
-                  0.02    0.05    1.14 ^ clkbuf_1_1_2_clock/Z (CLKBUF_X1)
-     2    8.49                           clknet_1_1_2_clock (net)
+                  0.02    0.04    1.13 ^ clkbuf_1_1_2_clock/Z (CLKBUF_X1)
+     2    8.04                           clknet_1_1_2_clock (net)
                   0.02    0.00    1.14 ^ clkbuf_2_3_0_clock/A (CLKBUF_X1)
-                  0.03    0.06    1.19 ^ clkbuf_2_3_0_clock/Z (CLKBUF_X1)
-     2   10.95                           clknet_2_3_0_clock (net)
-                  0.03    0.00    1.19 ^ clkbuf_3_7_0_clock/A (CLKBUF_X1)
-                  0.01    0.04    1.23 ^ clkbuf_3_7_0_clock/Z (CLKBUF_X1)
-     1    1.75                           clknet_3_7_0_clock (net)
-                  0.01    0.00    1.23 ^ clkbuf_3_7_1_clock/A (CLKBUF_X1)
-                  0.01    0.03    1.26 ^ clkbuf_3_7_1_clock/Z (CLKBUF_X1)
-     2    3.03                           clknet_3_7_1_clock (net)
-                  0.01    0.00    1.26 ^ clkbuf_4_14_0_clock/A (CLKBUF_X1)
-                  0.02    0.05    1.31 ^ clkbuf_4_14_0_clock/Z (CLKBUF_X1)
-     2    8.16                           clknet_4_14_0_clock (net)
-                  0.02    0.00    1.31 ^ clkbuf_5_29_0_clock/A (CLKBUF_X1)
-                  0.04    0.07    1.38 ^ clkbuf_5_29_0_clock/Z (CLKBUF_X1)
-     4   16.12                           clknet_5_29_0_clock (net)
-                  0.04    0.00    1.38 ^ clkbuf_7_119__f_clock/A (BUF_X4)
-                  0.01    0.03    1.41 ^ clkbuf_7_119__f_clock/Z (BUF_X4)
-    14   15.98                           clknet_7_119__leaf_clock (net)
-                  0.01    0.00    1.42 ^ _1248_/CK (DFF_X1)
-                          0.00    1.42   clock reconvergence pessimism
-                         -0.03    1.38   library setup time
-                                  1.38   data required time
+                  0.01    0.03    1.17 ^ clkbuf_2_3_0_clock/Z (CLKBUF_X1)
+     1    1.90                           clknet_2_3_0_clock (net)
+                  0.01    0.00    1.17 ^ clkbuf_2_3_1_clock/A (CLKBUF_X1)
+                  0.03    0.05    1.22 ^ clkbuf_2_3_1_clock/Z (CLKBUF_X1)
+     2   12.01                           clknet_2_3_1_clock (net)
+                  0.03    0.00    1.23 ^ clkbuf_3_6_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    1.27 ^ clkbuf_3_6_0_clock/Z (CLKBUF_X1)
+     2    3.56                           clknet_3_6_0_clock (net)
+                  0.01    0.00    1.27 ^ clkbuf_4_13_0_clock/A (CLKBUF_X1)
+                  0.02    0.05    1.31 ^ clkbuf_4_13_0_clock/Z (CLKBUF_X1)
+     2    7.86                           clknet_4_13_0_clock (net)
+                  0.02    0.00    1.32 ^ clkbuf_5_26_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    1.35 ^ clkbuf_5_26_0_clock/Z (CLKBUF_X1)
+     2    3.63                           clknet_5_26_0_clock (net)
+                  0.01    0.00    1.35 ^ clkbuf_6_53_0_clock/A (CLKBUF_X1)
+                  0.01    0.04    1.39 ^ clkbuf_6_53_0_clock/Z (CLKBUF_X1)
+     2    4.65                           clknet_6_53_0_clock (net)
+                  0.01    0.00    1.39 ^ clkbuf_7_107_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    1.43 ^ clkbuf_7_107_0_clock/Z (CLKBUF_X1)
+     2    2.12                           clknet_7_107_0_clock (net)
+                  0.01    0.00    1.43 ^ clkbuf_8_214_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    1.46 ^ clkbuf_8_214_0_clock/Z (CLKBUF_X1)
+     2    2.30                           clknet_8_214_0_clock (net)
+                  0.01    0.00    1.46 ^ clkbuf_9_428_0_clock/A (CLKBUF_X1)
+                  0.01    0.03    1.49 ^ clkbuf_9_428_0_clock/Z (CLKBUF_X1)
+     2    2.15                           clknet_9_428_0_clock (net)
+                  0.01    0.00    1.49 ^ clkbuf_10_857_0_clock/A (CLKBUF_X1)
+                  0.03    0.06    1.54 ^ clkbuf_10_857_0_clock/Z (CLKBUF_X1)
+    12   13.30                           clknet_10_857_0_clock (net)
+                  0.03    0.00    1.54 ^ _11581_/CK (DFF_X1)
+                          0.00    1.54   clock reconvergence pessimism
+                         -0.03    1.52   library setup time
+                                  1.52   data required time
 -----------------------------------------------------------------------------
-                                  1.38   data required time
-                                 -0.62   data arrival time
+                                  1.52   data required time
+                                 -0.96   data arrival time
 -----------------------------------------------------------------------------
-                                  0.76   slack (MET)
+                                  0.56   slack (MET)
 
 
 
@@ -2264,10 +2508,10 @@ report_clock_skew
 --------------------------------------------------------------------------
 Clock core_clock
 Latency      CRPR       Skew
-_1918_/CK ^
-   0.44
-_1924_/CK ^
-   0.41      0.00       0.03
+_18338_/CK ^
+   0.62
+_11597_/CK ^
+   0.53      0.00       0.09
 
 
 ==========================================================================
@@ -2276,13 +2520,13 @@ report_power
 Group                  Internal  Switching    Leakage      Total
                           Power      Power      Power      Power
 ----------------------------------------------------------------
-Sequential             5.54e-03   9.34e-05   9.63e-05   5.73e-03  49.7%
-Combinational          2.91e-03   2.87e-03   1.33e-05   5.79e-03  50.3%
+Sequential             5.23e-02   9.57e-04   8.78e-04   5.41e-02  61.7%
+Combinational          1.23e-02   2.12e-02   4.83e-05   3.36e-02  38.3%
 Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
 Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
 ----------------------------------------------------------------
-Total                  8.44e-03   2.96e-03   1.10e-04   1.15e-02 100.0%
-                          73.3%      25.7%       1.0%
+Total                  6.46e-02   2.22e-02   9.26e-04   8.77e-02 100.0%
+                          73.7%      25.3%       1.1%
 
 ==========================================================================
 report_design_area
@@ -2292,14 +2536,14 @@ Design area 687995 u^2 100% utilization.
 ==========================================================================
 instance_count
 --------------------------------------------------------------------------
-97287
+131141
 
 ==========================================================================
 pin_count
 --------------------------------------------------------------------------
-5351
+49612
 [INFO] Deleted 0 routing obstructions
-0:05.60elapsed 100%CPU 152944memKB
+0:07.74elapsed 101%CPU 251908memKB
 (/usr/bin/time -f "%Eelapsed %PCPU %MmemKB" stdbuf -o L klayout -zz -rd design_name=top \
         -rd in_def=./results/nangate45/top/6_final.def \
         -rd in_gds="./platforms/nangate45/gds/NangateOpenCellLibrary.gds  " \
@@ -2448,5 +2692,6 @@ pin_count
 [INFO] Checking for missing GDS...
 [INFO] All LEF cells have matching GDS cells
 [INFO] Writing out GDS 'results/nangate45/top/6_1_merged.gds'
-0:02.14elapsed 99%CPU 422144memKB
+0:03.05elapsed 99%CPU 513652memKB
 cp results/nangate45/top/6_1_merged.gds results/nangate45/top/6_final.gds
+
