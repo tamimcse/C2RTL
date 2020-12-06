@@ -1887,7 +1887,7 @@ static void dump_gimple_cond (const gcond *gs)
   struct operation *new_op = get_next_available_op();
   new_op->code = gimple_cond_code (gs);
   strcpy(new_op->name, get_op_name (gimple_cond_code (gs)));
-  sprintf(output, "cond%d", ops_cnt - 1/*index to the cond operation*/);
+  sprintf(output, "ifout%d", ops_cnt - 1/*index to the cond operation*/);
   strcpy(new_op->output.name, output);
   new_op->output.bitsize = 1; 
   new_op->num_inputs = 2;
