@@ -2142,7 +2142,7 @@ void add_module_decl (FILE *out)
 void add_include_ip (FILE *output)
 {
   fprintf (output, "`include \"ip.v\"\n");
-  fprintf (output, "`include \"sram.v\"\n\n");
+  fprintf (output, "`include \"macros.v\"\n\n");
 }
 
 void add_module_end (FILE *output) 
