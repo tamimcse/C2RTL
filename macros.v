@@ -1,29 +1,23 @@
-//https://esrd2014.blogspot.com/p/synchronous-static-ram.html#:~:text=Static%20Random%2DAccess%20Memory%20(SRAM,which%20must%20be%20periodically%20refreshed.
-module syncRAM( dataIn, dataOut, Addr, CS, WE, RD, Clk);
-parameter ADR   = 8;
-parameter DAT   = 8;
-parameter DPTH  = 8;
+//SRAM wrapper. It internnaly uses regfile or lib/lef created by fakeram.
+//Simolar wrapper is also used in Swerv in OpenROAD
+module SRAM(CLK, ADR, D, Q, WE);
+  input CLK, WE;
+  input [10:0] ADR;
+  input [38:0] D;
+  output [38:0] Q;
+  wire CLK, WE;
+  wire [10:0] ADR;
+  wire [38:0] D;
+  wire [38:0] Q;
 
-//ports
-input   [DAT-1:0]  dataIn;
-output reg [DAT-1:0]  dataOut;
-input   [ADR-1:0]  Addr;
-input CS, WE, RD, Clk;
+  fakeram45_2048x39 mem (
+    .clk      (CLK     ),
+    .rd_out   (Q       ),
+    .ce_in    (1'b1    ),
+    .we_in    (WE      ),
+    .w_mask_in({39{WE}}),
+    .addr_in  (ADR     ),
+    .wd_in    (D       )
+  );
 
-//internal variables
-reg [DAT-1:0] SRAM [DPTH-1:0];
-
-always @ (posedge Clk)
-begin
- if (CS == 1'b1) begin
-  if (WE == 1'b1 && RD == 1'b0) begin
-   SRAM [Addr] = dataIn;
-  end
-  else if (RD == 1'b1 && WE == 1'b0) begin
-   dataOut = 3;//SRAM [Addr]; 
-  end
-  else;
- end
- else;
-end
 endmodule
