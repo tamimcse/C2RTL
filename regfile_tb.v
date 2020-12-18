@@ -1,7 +1,7 @@
 //https://esrd2014.blogspot.com/p/synchronous-static-ram.html#:~:text=Static%20Random%2DAccess%20Memory%20(SRAM,which%20must%20be%20periodically%20refreshed.
 
 `timescale 1ns / 1ps
-module syncRAM_tb;
+module regfile_tb;
  // Inputs
  reg [7:0] dataIn;
  reg [7:0] Addr;
@@ -14,7 +14,7 @@ module syncRAM_tb;
  wire [7:0] dataOut;
 
  // Instantiate the Uniit Under Test (UUT)
- syncRAM uut (.dataIn(dataIn), .dataOut(dataOut), .Addr(Addr), .CS(CS), .WE(WE), .RD(RD), .Clk(Clk));
+ regfile uut (.dataIn(dataIn), .dataOut(dataOut), .Addr(Addr), .CS(CS), .WE(WE), .RD(RD), .Clk(Clk));
 
  initial begin
   $monitor("%d, Clk=%b, WE=%b, RD=%b, CS=%b Addr=%d, dataIn=%d,	dataOut=%d", $time, Clk, WE, RD, CS, Addr, dataIn, dataOut);
