@@ -31,6 +31,9 @@
 #include "gimple-iterator.h"
 #include "gimple-walk.h"
 
+//If it is not defined, it use SRAM
+#define USE_REG_FILE
+
 // We must assert that this plugin is GPL compatible
 int plugin_is_GPL_compatible;
 
@@ -2142,7 +2145,11 @@ void add_module_decl (FILE *out)
 void add_include_ip (FILE *output)
 {
   fprintf (output, "`include \"ip.v\"\n");
+#ifdef USE_REG_FILE
+  fprintf (output, "`include \"regfile.v\"\n\n");
+#else
   fprintf (output, "`include \"macros.v\"\n\n");
+#endif
 }
 
 void add_module_end (FILE *output) 
@@ -2296,9 +2303,14 @@ void add_operations (FILE *output, struct op_vertex *op)
       break;
 
     case MEM_REF_TREE_CODE:
-      fprintf(output, "syncRAM #(.ADR(16), .ADR(16), .DPTH(10)) op%d ("
+#ifdef USE_REG_FILE
+      fprintf(output, "regfile #(.ADR(16), .ADR(16), .DPTH(10)) op%d ("
               ".CS(1), .Clk(clock), .RD(1), .WE(0), .dataIn(0), .dataOut(%s), .Addr(%s));\n",
               op->op_idx, o->output.name, o->inputs[0].name);
+#else
+      fprintf(output, "SRAM op%d (.CLK(clock), .WE(1'b0), .D(1'b0), .Q(%s),"
+              ".ADR(%s));\n", op->op_idx, o->output.name, o->inputs[0].name);
+#endif
       break;
       
     default:
