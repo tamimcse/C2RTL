@@ -32,7 +32,7 @@
 #include "gimple-walk.h"
 
 //If it is not defined, it use SRAM
-#define USE_REG_FILE
+//#define USE_REG_FILE
 
 // We must assert that this plugin is GPL compatible
 int plugin_is_GPL_compatible;

@@ -1,3 +1,5 @@
+`include "fakeram45_2048x39.v"
+
 //SRAM wrapper. It internnaly uses regfile or lib/lef created by fakeram.
 //Simolar wrapper is also used in Swerv in OpenROAD
 module SRAM(CLK, ADR, D, Q, WE);
