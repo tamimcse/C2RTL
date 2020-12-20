@@ -8,9 +8,9 @@ module fakeram45_2048x39
    clk,
    ce_in
 );
-   parameter BITS = 39;
-   parameter WORD_DEPTH = 2048;
-   parameter ADDR_WIDTH = 11;
+   parameter BITS = 8;
+   parameter WORD_DEPTH = 8;
+   parameter ADDR_WIDTH = 8;
    parameter corrupt_mem_on_X_p = 1;
 
    output reg [BITS-1:0]    rd_out;
@@ -58,20 +58,20 @@ endmodule
 //Simolar wrapper is also used in Swerv in OpenROAD
 module SRAM(CLK, ADR, D, Q, WE);
   input CLK, WE;
-  input [10:0] ADR;
-  input [38:0] D;
-  output [38:0] Q;
+  input [7:0] ADR;
+  input [7:0] D;
+  output [7:0] Q;
   wire CLK, WE;
-  wire [10:0] ADR;
-  wire [38:0] D;
-  wire [38:0] Q;
+  wire [7:0] ADR;
+  wire [7:0] D;
+  wire [7:0] Q;
 
   fakeram45_2048x39 mem (
     .clk      (CLK     ),
     .rd_out   (Q       ),
     .ce_in    (1'b1    ),
     .we_in    (WE      ),
-    .w_mask_in({39{WE}}),
+    .w_mask_in({8{WE}}),
     .addr_in  (ADR     ),
     .wd_in    (D       )
   );
