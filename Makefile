@@ -50,5 +50,8 @@ poptrie_ip6: $(PLUGIN)
 heavy_hitter_detection: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/heavy_hitter_detection.c
 
+rcp: $(PLUGIN)
+	$(CCPLUGIN) -c -o /dev/null tests/rcp.c
+
 test: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/test.c
