@@ -47,5 +47,8 @@ cptrie_ip6: $(PLUGIN)
 poptrie_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/poptrie_ip6.c
 
+heavy_hitter_detection: $(PLUGIN)
+	$(CCPLUGIN) -c -o /dev/null tests/heavy_hitter_detection.c
+
 test: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/test.c
