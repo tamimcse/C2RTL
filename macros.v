@@ -55,7 +55,8 @@ module fakeram45_2048x39
 endmodule
 
 //SRAM wrapper. It internnaly uses regfile or lib/lef created by fakeram.
-//Simolar wrapper is also used in Swerv in OpenROAD
+//This is adopted from:
+//https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/master/flow/designs/nangate45/swerv/macros.v
 module SRAM(CLK, ADR, D, Q, WE);
   input CLK, WE;
   input [7:0] ADR;
