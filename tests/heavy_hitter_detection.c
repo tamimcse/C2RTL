@@ -10,11 +10,8 @@ https://github.com/packet-transactions/domino-examples/blob/master/domino_progra
 
 #define NUM_ENTRIES 4096
 
-int sketch_cnt_1[NUM_ENTRIES] = {0};
-int sketch_cnt_2[NUM_ENTRIES] = {0};
-int sketch_cnt_3[NUM_ENTRIES] = {0};
-
-bool count_min_sketch(int sport, int dport) {
+bool count_min_sketch(int sport, int dport, int sketch_cnt_1[NUM_ENTRIES], 
+  int sketch_cnt_2[NUM_ENTRIES], int sketch_cnt_3[NUM_ENTRIES]) {
   int sketch1_idx;
   int sketch2_idx;
   int sketch3_idx;
