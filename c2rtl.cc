@@ -2034,7 +2034,7 @@ static void remove_assigment_op ()
       }
       //Just to check if everything is going well or not
       if (!found) {
-        printf ("SSA operation couldn't handled properly !!!!\n");
+        printf ("Assignment operation couldn't find the previous operation where input is set !!!!\n");
         exit (1);
       }
       //remove the SSA operation
