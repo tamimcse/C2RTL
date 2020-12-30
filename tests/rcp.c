@@ -8,9 +8,9 @@ https://github.com/tamimcse/domino-examples/blob/master/domino-programs/rcp-real
 #define T 50 //Control Interval in ms
 #define A 50000 //1000*T
 
-int rcp(int rtt, int tick, int queue, int size_bytes, int feedback_rate, int states[2]) {
-  int R = 200; //RCP feedback rate in MB/s
-  int S = 0; //Spare capacity in MB/s
+int rcp(int rtt, int tick, int queue, int size_bytes, int states[2]) {
+  int R; //RCP feedback rate in MB/s
+  int S; //Spare capacity in MB/s
   int RTT; // Running average of RTT in ms
   int B; //Number of Bytes received
 
@@ -37,7 +37,6 @@ int rcp(int rtt, int tick, int queue, int size_bytes, int feedback_rate, int sta
   states[0] = RTT;
   states[1] = B;
 
-  //if current feedback rate is smaller, don't update it
-  return (feedback_rate > R)? R : -1;
+  return R;
 }
 
