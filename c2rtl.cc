@@ -2025,7 +2025,7 @@ static void remove_ssa_op ()
     if (is_ssa_op(&ops[i])) {
       found = false;
       //find the previous operation to which the SSA op should be added to
-      for (j = i - 1; j >= 0; j++) {        
+      for (j = i - 1; j >= 0; j--) {
         if (!strcmp (ops[i].inputs[0].name, ops[j].output.name)) {
           //update the output of previous operation with the output of SSA operation
           strcpy(ops[j].output.name, ops[i].output.name);
