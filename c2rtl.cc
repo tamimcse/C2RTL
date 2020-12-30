@@ -233,7 +233,7 @@ bool is_mux_op (struct operation *op)
   return op->code == MUX_TREE_CODE;
 }
 
-bool is_ssa_op (struct operation *op)
+bool is_assignment_op (struct operation *op)
 {
   return op->code == SSA_TREE_CODE;
 }
@@ -2014,15 +2014,14 @@ static void convert_sized_const ()
   }
 }
 
-//SSA pass often creates SSA operation which does a simple assignment. 
-//Here we eliminate those
-static void remove_ssa_op ()
+//SSA pass often creates unnecessary assignment operation which should be eliminated
+static void remove_assigment_op ()
 {
   int i, j;
   bool found;
   
   for (i = 0; i < ops_cnt; ) {
-    if (is_ssa_op(&ops[i])) {
+    if (is_assignment_op(&ops[i])) {
       found = false;
       //find the previous operation to which the SSA op should be added to
       for (j = i - 1; j >= 0; j--) {
@@ -2647,7 +2646,7 @@ struct my_first_pass : gimple_opt_pass
     printf("          Micro-architecture Optimization \n");
     printf("------------------------------------------------------------\n");
     //compiler copy propagation 
-    remove_ssa_op ();
+    remove_assigment_op ();
     optimize_mult_op();
     //operand width reduction
     convert_sized_const();
