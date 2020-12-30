@@ -3,16 +3,18 @@ This code has been adapted from:
 https://github.com/tamimcse/domino-examples/blob/master/domino-programs/rcp-real.c
 */
 
+#include <stdint.h>
+
 //Capacity of the line card in megabytes
 #define C 64000 
 #define T 50 //Control Interval in ms
 #define A 50000 //1000*T
 
-int rcp(int rtt, int tick, int queue, int size_bytes, int states[2]) {
-  int R; //RCP feedback rate in MB/s
-  int S; //Spare capacity in MB/s
-  int RTT; // Running average of RTT in ms
-  int B; //Number of Bytes received
+uint32_t rcp(uint32_t rtt, uint32_t tick, uint32_t queue, uint32_t size_bytes, uint32_t states[2]) {
+  uint32_t R; //RCP feedback rate in MB/s
+  uint32_t S; //Spare capacity in MB/s
+  uint32_t RTT; // Running average of RTT in ms
+  uint32_t B; //Number of Bytes received
 
   //retrieve the states
   RTT = states[0];
