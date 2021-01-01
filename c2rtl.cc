@@ -213,7 +213,8 @@ enum gimple_tree_code {
 
 bool is_cond_op (struct operation *op)
 {
-  return (op->code == NE_EXPR_TREE_CODE) || (op->code == GT_EXPR_TREE_CODE);
+  return (op->code == EQ_EXPR_TREE_CODE) || (op->code == NE_EXPR_TREE_CODE) ||
+          (op->code == GT_EXPR_TREE_CODE);
 }
 
 bool is_cond_op (struct op_vertex *op)
