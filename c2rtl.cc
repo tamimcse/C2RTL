@@ -193,6 +193,8 @@ enum gimple_tree_code {
   NOP_TREE_CODE = 121,
   MULT_TREE_CODE = 69,
   POINTER_PLUS_TREE_CODE = 70,
+  DIV_TREE_CODE = 72,
+  MOD_TREE_CODE = 76,
   MEM_REF_TREE_CODE = 158,
   COMPONENT_REF_TREE_CODE = 45,
   SSA_TREE_CODE = 146,
@@ -243,6 +245,16 @@ bool is_mult_op (struct operation *op)
   return op->code == MULT_TREE_CODE;
 }
 
+bool is_div_op (struct operation *op)
+{
+  return op->code == DIV_TREE_CODE;
+}
+
+bool is_mod_op (struct operation *op)
+{
+  return op->code == MOD_TREE_CODE;
+}
+
 bool is_reg_op (struct operation *op)
 {
   return op->code == SAVE_EXPR;
@@ -259,6 +271,8 @@ void init_latency ()
   latency[RSHIFT_TREE_CODE] = 0.35000000000000003;//Taken from Babbu
   latency[NOP_TREE_CODE] = .19;//Taken from Bambu
   latency[MULT_TREE_CODE] = .93;
+  latency[DIV_TREE_CODE] = .93;
+  latency[MOD_TREE_CODE] = .93;
   latency[POINTER_PLUS_TREE_CODE] = 0.64000000000000001;//Taken from Bambu
   latency[MEM_REF_TREE_CODE] = .95;
   latency[NE_EXPR_TREE_CODE] = .06;
@@ -1835,6 +1849,10 @@ static char *get_op_name (enum tree_code c)
       return ">>";
     case MULT_TREE_CODE:
       return "*";
+    case DIV_TREE_CODE:
+      return "/";
+    case MOD_TREE_CODE:
+      return "%";
     case NOP_TREE_CODE:
       return "NOP";
     case POINTER_PLUS_TREE_CODE:
@@ -1860,6 +1878,7 @@ static char *get_op_name (enum tree_code c)
     case MUX_TREE_CODE:
       return "MUX";
     default:
+      printf ("tree_code %d not implemented! \n", (int)c);
       return "UNFOUND OPERATION";    
   }    
 }
@@ -2219,6 +2238,18 @@ void add_operations (FILE *output, struct op_vertex *op)
       
     case MULT_TREE_CODE:
       fprintf(output, "MUL_GATE #(.clock(clock), .BITSIZE_in1(%d), .BITSIZE_in2(%d), "
+              ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
+              o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
+              op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
+      break;
+      
+    case DIV_TREE_CODE:
+      fprintf(output, "DIV_GATE #(.WIDTH(%d)) op%d (.Res(%s), .A(%s), .B(%s));\n",
+              o->inputs[0].bitsize, op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
+      break;
+      
+    case MOD_TREE_CODE:
+      fprintf(output, "MOD_GATE #(.clock(clock), .BITSIZE_in1(%d), .BITSIZE_in2(%d), "
               ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
               o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
               op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
