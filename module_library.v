@@ -483,6 +483,22 @@ endmodule
 // Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
 // License: PANDA_LGPLv3
 `timescale 1ns / 1ps
+module WIDE_MUL_GATE(clock, in1, in2, out1);
+  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1, PIPE_PARAMETER=0;
+  // IN
+  input clock;
+  input [BITSIZE_in1-1:0] in1;
+  input [BITSIZE_in2-1:0] in2;
+  // OUT
+  output [BITSIZE_out1-1:0] out1;
+  MUL_GATE #(.BITSIZE_in1(BITSIZE_in1), .BITSIZE_in2(BITSIZE_in2), .BITSIZE_out1(BITSIZE_out1), .PIPE_PARAMETER(PIPE_PARAMETER)) m1 (.out1(out1), .clock(clock), .in1(in1), .in2(in2));
+endmodule
+
+// This component is part of the BAMBU/PANDA IP LIBRARY
+// Copyright (C) 2004-2020 Politecnico di Milano
+// Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
+// License: PANDA_LGPLv3
+`timescale 1ns / 1ps
 module MOD_GATE(clock, in1, in2, out1);
   parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1, PIPE_PARAMETER=0;
   // IN
