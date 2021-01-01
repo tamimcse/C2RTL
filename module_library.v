@@ -278,7 +278,7 @@ endmodule
 // Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
 // License: PANDA_LGPLv3
 `timescale 1ns / 1ps
-module ui_eq_expr_FU(in1, in2, out1);
+module EQ_EXPR(in1, in2, out1);
   parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1;
   // IN
   input [BITSIZE_in1-1:0] in1;
