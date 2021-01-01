@@ -442,6 +442,143 @@ endmodule
 
 
 // This component is part of the BAMBU/PANDA IP LIBRARY
+// Copyright (C) 2004-2020 Politecnico di Milano
+// Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
+// License: PANDA_LGPLv3
+`timescale 1ns / 1ps
+module MOD_GATE(clock, in1, in2, out1);
+  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1, PIPE_PARAMETER=0;
+  // IN
+  input clock;
+  input [BITSIZE_in1-1:0] in1;
+  input [BITSIZE_in2-1:0] in2;
+  // OUT
+  output [BITSIZE_out1-1:0] out1;
+  parameter required_iterations = BITSIZE_in1 > PIPE_PARAMETER ? BITSIZE_in1 : PIPE_PARAMETER;
+  parameter STEPS = ((required_iterations)/(PIPE_PARAMETER+1)) + (((required_iterations)%(PIPE_PARAMETER+1)) ? 1 : 0);
+  parameter num_length = STEPS * (PIPE_PARAMETER+1);
+  parameter denom_length = BITSIZE_in2+1;
+  parameter temp_length = num_length+denom_length;
+  parameter PIPE_PARAMETER_T = PIPE_PARAMETER > temp_length-denom_length ? temp_length-denom_length : PIPE_PARAMETER;
+  parameter quot_length = temp_length - denom_length + 1;
+  parameter xquot_length = quot_length < BITSIZE_out1 ? quot_length : BITSIZE_out1;
+  
+  wire [BITSIZE_in1-1:0] xnum;
+  wire [BITSIZE_in2-1:0] xdenom;
+   
+  function [BITSIZE_out1-1:0] UMOD;
+    input [BITSIZE_in1-1:0] fxnum;
+    input [BITSIZE_in2-1:0] fxdenom;
+    reg [quot_length-1:0] quot;
+    integer column, j;
+    reg term;
+    reg [temp_length-1:0] temp;
+    reg signed [denom_length:0] sum;
+  begin
+    temp = {temp_length{1'b0}};
+    temp[num_length-1:0] = fxnum;
+    sum = {denom_length+1{1'b0}};
+  
+    quot = {quot_length{1'b0}};
+    for(j = temp_length-denom_length; j >= 0; j = j - 1)
+    begin
+      sum = $signed({1'b0, temp[j +: denom_length]})-$signed({2'b00, fxdenom});
+      quot[j] = ~sum[denom_length];
+      for(column = 0; column < denom_length; column = column + 1)
+      begin
+        term = ((quot[j] & sum[column])) | ((~quot[j] & temp[column+j]));
+        temp[column+j] = term;
+      end
+    end
+    UMOD = {BITSIZE_out1{1'b0}};
+    UMOD[xquot_length-1:0] = temp[xquot_length-1:0];
+  end
+  endfunction
+  
+  generate
+    if(PIPE_PARAMETER_T>0)
+    begin
+      reg [BITSIZE_out1-1:0] frem;
+      reg [temp_length-1:0] temp[PIPE_PARAMETER_T-1:0];
+      reg [BITSIZE_in2-1:0] xdenom_arr[PIPE_PARAMETER_T-1:0];
+      reg [quot_length-1:0] quot[PIPE_PARAMETER_T-1:0];
+  
+      always @(temp[0] or quot[0] or xdenom_arr[0])
+      begin : last_block
+        reg [temp_length-1:0] t_temp;
+        reg signed [denom_length:0] sum;
+        reg [quot_length-1:0] t_quot;
+        integer j, st;
+   
+        // let's start computing the output
+        t_temp = temp[0];
+        t_quot = quot[0];
+        sum = {denom_length+1{1'b0}};
+        j=0;
+        for(st = STEPS-1; st >=0 ; st = st - 1)
+        begin
+          sum = $signed({1'b0, t_temp[(j+st) +: denom_length]})-$signed({2'b00, xdenom_arr[0]});
+          t_quot[st+j] = ~sum[denom_length];
+          t_temp[st+j+:denom_length] = t_quot[st+j] ? sum[denom_length-1:0] :t_temp[st+j+:denom_length];
+        end
+        frem = t_temp;
+      end
+      always @(posedge clock)
+      begin : intermediate_block
+        reg [temp_length-1:0] t_temp;
+        reg signed [denom_length:0] sum;
+        reg [quot_length-1:0] t_quot;
+        integer j, st, pp;
+        /// intermediate steps
+        for(pp = 1; pp < PIPE_PARAMETER_T; pp = pp + 1)
+        begin
+          t_temp = temp[pp];
+          t_quot = quot[pp];
+          sum = {denom_length+1{1'b0}};
+          j=pp*STEPS;
+          for(st = STEPS-1; st >=0 ; st = st - 1)
+          begin
+            sum = $signed({1'b0, t_temp[(j+st) +: denom_length]})-$signed({2'b00, xdenom_arr[pp]});
+            t_quot[st+j] = ~sum[denom_length];
+            t_temp[st+j+:denom_length] = t_quot[st+j] ? sum[denom_length-1:0] :t_temp[st+j+:denom_length];
+          end
+          quot[pp-1] <= t_quot;
+          temp[pp-1] <= t_temp;
+          xdenom_arr[pp-1] <= xdenom_arr[pp]; 
+        end
+  
+        /// first stage initialization
+        t_temp = {temp_length{1'b0}};
+        t_temp[num_length-1:0] = xnum;
+        t_quot = {quot_length{1'b0}};
+        sum = {denom_length+1{1'b0}};
+        j=-STEPS+((PIPE_PARAMETER_T+1)*STEPS);
+        for(st=STEPS+(temp_length-denom_length-((PIPE_PARAMETER_T+1)*STEPS)); st >=0 ; st = st - 1)
+        begin
+          sum = $signed({1'b0, t_temp[(j+st) +: denom_length]})-$signed({2'b00, xdenom});
+          t_quot[st+j] = ~sum[denom_length];
+          t_temp[st+j+:denom_length] = t_quot[st+j] ? sum[denom_length-1:0] :t_temp[st+j+:denom_length];
+        end
+        quot[PIPE_PARAMETER_T-1] <= t_quot;
+        temp[PIPE_PARAMETER_T-1] <= t_temp;
+        xdenom_arr[PIPE_PARAMETER_T-1] <= xdenom;
+      end
+      assign out1 = frem;
+    end
+    else
+    begin
+      wire [BITSIZE_out1-1:0] frem;
+      assign frem = UMOD(xnum, xdenom);
+      assign out1 = frem;
+    end
+  endgenerate
+  
+  assign xnum = in1;
+  assign xdenom = in2;
+endmodule
+
+
+// This component is part of the BAMBU/PANDA IP LIBRARY
 // Copyright (C) 2013-2020 Politecnico di Milano
 // Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
 // License: PANDA_LGPLv3
