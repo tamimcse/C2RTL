@@ -188,6 +188,7 @@ struct bb_vertex *cdfg_root;
 //List of all the BBs
 STAILQ_HEAD(, bb_vertex) bb_list = STAILQ_HEAD_INITIALIZER(bb_list);
 
+//This code has been set based on GCC (tree.def file)
 enum gimple_tree_code {
   RSHIFT_TREE_CODE = 89,
   NOP_TREE_CODE = 121,
@@ -198,9 +199,12 @@ enum gimple_tree_code {
   MEM_REF_TREE_CODE = 158,
   COMPONENT_REF_TREE_CODE = 45,
   SSA_TREE_CODE = 146,
-  EQ_EXPR_TREE_CODE = 106,/*==*/
-  NE_EXPR_TREE_CODE = 107,/*!=*/
+  LT_EXPR_TREE_CODE = 102,
+  LE_EXPR_TREE_CODE = 103,
   GT_EXPR_TREE_CODE = 104,
+  GE_EXPR_TREE_CODE = 105,
+  EQ_EXPR_TREE_CODE = 106,
+  NE_EXPR_TREE_CODE = 107,
   LSHIFT_TREE_CODE = 88,
   BIT_AND_TREE_CODE = 94,
   PLUS_TREE_CODE = 67,
@@ -213,8 +217,7 @@ enum gimple_tree_code {
 
 bool is_cond_op (struct operation *op)
 {
-  return (op->code == EQ_EXPR_TREE_CODE) || (op->code == NE_EXPR_TREE_CODE) ||
-          (op->code == GT_EXPR_TREE_CODE);
+  return (op->code >= LT_EXPR_TREE_CODE) && (op->code <= NE_EXPR_TREE_CODE);
 }
 
 bool is_cond_op (struct op_vertex *op)
@@ -280,6 +283,9 @@ void init_latency ()
   latency[NE_EXPR_TREE_CODE] = .06;
   latency[EQ_EXPR_TREE_CODE] = .06;
   latency[GT_EXPR_TREE_CODE] = .1;
+  latency[GE_EXPR_TREE_CODE] = .1;
+  latency[LT_EXPR_TREE_CODE] = .1;
+  latency[LE_EXPR_TREE_CODE] = .1;
   latency[LSHIFT_TREE_CODE] = 0.65000000000000002;//Taken from Bambu
   latency[BIT_AND_TREE_CODE] = .05;
   latency[PLUS_TREE_CODE] = .35;
@@ -1870,6 +1876,12 @@ static char *get_op_name (enum tree_code c)
       return "==";
     case GT_EXPR_TREE_CODE:
       return ">";
+    case GE_EXPR_TREE_CODE:
+      return ">=";
+    case LT_EXPR_TREE_CODE:
+      return "<";
+    case LE_EXPR_TREE_CODE:
+      return "<=";
     case LSHIFT_TREE_CODE:
       return "<<";
     case BIT_AND_TREE_CODE:
@@ -1885,8 +1897,8 @@ static char *get_op_name (enum tree_code c)
     case INT_CST_TREE_CODE:
       return "=";
     default:
-      printf ("tree_code %d not implemented! \n", (int)c);
-      return "UNFOUND OPERATION";    
+      printf ("Unfound operation! Please implement tree_code %d. \n", (int)c);
+      exit (1);
   }    
 }
 
@@ -2188,8 +2200,11 @@ void dump_op (struct op_vertex *o, char *output)
     case BIT_AND_TREE_CODE:
     case NE_EXPR_TREE_CODE:
     case EQ_EXPR_TREE_CODE:
-    case INT_CST_TREE_CODE:
     case GT_EXPR_TREE_CODE:
+    case GE_EXPR_TREE_CODE:
+    case LT_EXPR_TREE_CODE:
+    case LE_EXPR_TREE_CODE:
+    case INT_CST_TREE_CODE:
       sprintf(output, "%d. %s = %s %s %s", o->op_idx, op->output.name,
               op->inputs[0].name, op->name, op->inputs[1].name);
       break;
@@ -2312,7 +2327,6 @@ void add_operations (FILE *output, struct op_vertex *op)
               op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
       break;
       
-      
     case EQ_EXPR_TREE_CODE:
       fprintf(output, "EQ_EXPR #(.BITSIZE_in1(%d), .BITSIZE_in2(%d),"
               ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
@@ -2322,6 +2336,27 @@ void add_operations (FILE *output, struct op_vertex *op)
       
     case GT_EXPR_TREE_CODE:
       fprintf(output, "GT_EXPR #(.BITSIZE_in1(%d), .BITSIZE_in2(%d),"
+              ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
+              o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
+              op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
+      break;
+      
+    case GE_EXPR_TREE_CODE:
+      fprintf(output, "GE_EXPR #(.BITSIZE_in1(%d), .BITSIZE_in2(%d),"
+              ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
+              o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
+              op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
+      break;
+      
+    case LT_EXPR_TREE_CODE:
+      fprintf(output, "LT_EXPR #(.BITSIZE_in1(%d), .BITSIZE_in2(%d),"
+              ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
+              o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
+              op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
+      break;
+      
+    case LE_EXPR_TREE_CODE:
+      fprintf(output, "LE_EXPR #(.BITSIZE_in1(%d), .BITSIZE_in2(%d),"
               ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
               o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
               op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);

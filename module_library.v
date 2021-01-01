@@ -299,6 +299,52 @@ module NE_EXPR(in1, in2, out1);
   assign out1 = in1 != in2;
 endmodule
 
+`timescale 1ns / 1ps
+module GT_EXPR(in1, in2, out1);
+  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1;
+  // IN
+  input [BITSIZE_in1-1:0] in1;
+  input [BITSIZE_in2-1:0] in2;
+  // OUT
+  output [BITSIZE_out1-1:0] out1;
+  assign out1 = in1 > in2;
+endmodule
+
+
+`timescale 1ns / 1ps
+module GE_EXPR(in1, in2, out1);
+  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1;
+  // IN
+  input [BITSIZE_in1-1:0] in1;
+  input [BITSIZE_in2-1:0] in2;
+  // OUT
+  output [BITSIZE_out1-1:0] out1;
+  assign out1 = in1 >= in2;
+endmodule
+
+`timescale 1ns / 1ps
+module LT_EXPR(in1, in2, out1);
+  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1;
+  // IN
+  input [BITSIZE_in1-1:0] in1;
+  input [BITSIZE_in2-1:0] in2;
+  // OUT
+  output [BITSIZE_out1-1:0] out1;
+  assign out1 = in1 < in2;
+endmodule
+
+
+`timescale 1ns / 1ps
+module LE_EXPR(in1, in2, out1);
+  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1;
+  // IN
+  input [BITSIZE_in1-1:0] in1;
+  input [BITSIZE_in2-1:0] in2;
+  // OUT
+  output [BITSIZE_out1-1:0] out1;
+  assign out1 = in1 <= in2;
+endmodule
+
 // This component is part of the BAMBU/PANDA IP LIBRARY
 // Copyright (C) 2004-2020 Politecnico di Milano
 // Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
