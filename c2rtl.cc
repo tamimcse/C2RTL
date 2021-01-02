@@ -316,7 +316,8 @@ struct mux {
   int bb_id;
 };
 
-void print_mux (struct mux *m) {
+void print_mux (struct mux *m)
+{
   int i;
   
   printf ("Selectors =");
@@ -337,7 +338,8 @@ int num_mux = 0;
 #define MUX_TREE_SIZE 100
 
 //Generates MUX tree of 2-input muxes from a many-input MUX
-void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_cnt) {
+void mux_tree_generation (struct mux *mux, struct operation op_arr[], int *mux_cnt)
+{
   int sel_idx, input_idx, i, j, p, q, in0, in1;
   char output[100];
   struct operation mux_arr0[MUX_TREE_SIZE];
