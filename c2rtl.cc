@@ -798,7 +798,7 @@ const char * get_name1(tree node)
 
 static void print_op (struct operation *op)
 {
-  printf ("bb= %d op = %s op code = %d output = %s(%d) Inputs: ", op->bb_id, op->name, op->code,
+  printf ("bb%d op: %s op-code: %d output: %s(%d) Inputs: ", op->bb_id, op->name, op->code,
           op->output.name, op->output.bitsize);
   for (int i = 0; i < (int)op->num_inputs; i++) {
     printf (" %s(%d)", op->inputs[i].name, op->inputs[i].bitsize);
