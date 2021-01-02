@@ -1704,6 +1704,7 @@ static void dump_gimple_return (const greturn *gs)
   struct operation *last_op = &ops[ops_cnt - 1];
   assert(is_phi_op(last_op));
   set_name(&last_op->output, t);
+  printf ("After setting the output of the PHI operation: ");
   print_op(last_op);
   
   //store the index of the return statement
