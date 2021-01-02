@@ -2260,7 +2260,7 @@ void add_operations (FILE *output, struct op_vertex *op)
       break;
       
     case MULT_TREE_CODE:
-      fprintf(output, "MUL_GATE #(.clock(clock), .BITSIZE_in1(%d), .BITSIZE_in2(%d), "
+      fprintf(output, "MUL_GATE #(.BITSIZE_in1(%d), .BITSIZE_in2(%d), "
               ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
               o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
               op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);

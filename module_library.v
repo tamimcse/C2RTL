@@ -475,70 +475,17 @@ module SUB_GATE(in1, in2, out1);
   assign out1 = in1 - in2;
 endmodule
 
-// This component is part of the BAMBU/PANDA IP LIBRARY
-// Copyright (C) 2004-2020 Politecnico di Milano
-// Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
-// License: PANDA_LGPLv3
 `timescale 1ns / 1ps
-module MUL_GATE(clock, in1, in2, out1);
-  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1, PIPE_PARAMETER=0;
+module MUL_GATE(in1, in2, out1);
+  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1;
   // IN
-  input clock;
   input [BITSIZE_in1-1:0] in1;
   input [BITSIZE_in2-1:0] in2;
   // OUT
   output [BITSIZE_out1-1:0] out1;
-  generate
-    if(PIPE_PARAMETER==1)
-    begin
-      reg signed [BITSIZE_out1-1:0] out1_reg;
-      assign out1 = out1_reg;
-      always @(posedge clock)
-      begin
-        out1_reg <= in1 * in2;
-      end
-    end
-    else if(PIPE_PARAMETER>1)
-    begin
-      reg [BITSIZE_in1-1:0] in1_in;
-      reg [BITSIZE_in2-1:0] in2_in;
-      wire [BITSIZE_out1-1:0] mult_res;
-      reg [BITSIZE_out1-1:0] mul [PIPE_PARAMETER-2:0];
-      integer i;
-      assign mult_res = in1_in * in2_in;
-      always @(posedge clock)
-      begin
-        in1_in <= in1;
-        in2_in <= in2;
-        mul[PIPE_PARAMETER-2] <= mult_res;
-        for (i=0; i<PIPE_PARAMETER-2; i=i+1)
-          mul[i] <= mul[i+1];
-      end
-      assign out1 = mul[0];
-    end
-    else
-    begin
-      assign out1 = in1 * in2;
-    end
-  endgenerate
-
+  assign out1 = in1 * in2;
 endmodule
 
-// This component is part of the BAMBU/PANDA IP LIBRARY
-// Copyright (C) 2004-2020 Politecnico di Milano
-// Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
-// License: PANDA_LGPLv3
-`timescale 1ns / 1ps
-module WIDE_MUL_GATE(clock, in1, in2, out1);
-  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1, PIPE_PARAMETER=0;
-  // IN
-  input clock;
-  input [BITSIZE_in1-1:0] in1;
-  input [BITSIZE_in2-1:0] in2;
-  // OUT
-  output [BITSIZE_out1-1:0] out1;
-  MUL_GATE #(.BITSIZE_in1(BITSIZE_in1), .BITSIZE_in2(BITSIZE_in2), .BITSIZE_out1(BITSIZE_out1), .PIPE_PARAMETER(PIPE_PARAMETER)) m1 (.out1(out1), .clock(clock), .in1(in1), .in2(in2));
-endmodule
 
 //This is adopted from:
 // https://verilogcodes.blogspot.com/2015/11/synthesisable-verilog-code-for-division.html
