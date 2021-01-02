@@ -2728,7 +2728,7 @@ struct my_first_pass : gimple_opt_pass
     printf("          Micro-architecture Optimization \n");
     printf("------------------------------------------------------------\n");
     //compiler copy propagation 
-    remove_assigment_op ();
+//    remove_assigment_op ();
     optimize_mult_op();
     //operand width reduction
     convert_sized_const();
