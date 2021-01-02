@@ -1810,6 +1810,12 @@ static void generate_mux (struct operation *op, int op_idx)
     }
   }
   
+  //This is an unnecessary PHI operation, so simply remove it
+  if (big_mux.num_inputs == 0 && op_idx == ret_ops_idx) {
+    ret_ops_idx = --ops_cnt - 1;
+    return;
+  }
+  
   struct operation muxs[MUX_TREE_SIZE];
   int mux_cnt = 0;
   mux_tree_generation (&big_mux, muxs, &mux_cnt);
