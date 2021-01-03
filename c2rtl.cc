@@ -993,10 +993,12 @@ static void set_predicates_to_child_bb (struct bb_vertex *bb_v)
     chield_bb = last_op->control_edges[i];
     STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], new_pred, nextptr);
     //predicates of a BB should be added to the successor BBs
-    STAILQ_FOREACH(pp, &bb_v->pred_list[0], nextptr) {
-      //Don't make function call in STAILQ_INSERT_HEAD()
-      pred = create_predicate(pp);
-      STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], pred, nextptr);
+    if (bb_v->pred_list) {
+      STAILQ_FOREACH(pp, &bb_v->pred_list[0], nextptr) {
+        //Don't make function call in STAILQ_INSERT_HEAD()
+        pred = create_predicate(pp);
+        STAILQ_INSERT_HEAD(&chield_bb->pred_list[chield_bb->num_preds], pred, nextptr);
+      }
     }
     chield_bb->num_preds++;      
   }
@@ -1012,6 +1014,11 @@ static void allocate_predicate (struct bb_vertex *bb)
 {
   int i;
 
+  //malloc(0)'s behaviour is undefined, so don't do it
+  if (!bb->in_degree) {
+    bb->pred_list = NULL;
+    return;    
+  }      
   bb->pred_list = (struct pred_list_head *) xmalloc(bb->in_degree * sizeof (*bb->pred_list));
   for (i = 0; i < bb->in_degree; i++) {
     STAILQ_INIT(&bb->pred_list[i]);
