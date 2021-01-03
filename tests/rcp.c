@@ -10,35 +10,30 @@ https://github.com/tamimcse/domino-examples/blob/master/domino-programs/rcp-real
 #define T 50 //Control Interval in ms
 #define A 50000 //1000*T
 
+
+//states[0] = Running average of RTT in ms
+//states[1] = Number of Bytes received
+//states[2] = RCP feedback rate in MB/s
 uint32_t rcp(uint32_t rtt, uint32_t tick, uint32_t queue, uint32_t size_bytes, uint32_t states[2]) {
-  uint32_t R; //RCP feedback rate in MB/s
   uint32_t S; //Spare capacity in MB/s
   uint32_t RTT; // Running average of RTT in ms
-  uint32_t B; //Number of Bytes received
-
-  //retrieve the states
-  RTT = states[0];
-  B = states[1];
-
-  //Calculate running average of RTT
-  RTT = (RTT * 49 + rtt)/50;  
-
+  
   //Control interval has expired, so
   // calculate the feeback throughput
   // and reset the state variables
   if (tick % T == 0) {
-    S = C - B/A;
-    B = 0;
-    R *= 1+((S-((queue/RTT)/2))*T/RTT)/C;
+    RTT = states[0];
+    S = C - states[1]/A;
+    states[1] = 0;
+    states[2] *= 1+((S-((queue/RTT)/2))*T/RTT)/C;
+    return states[2];
   }
   else {
-    B += size_bytes; 
+    //Calculate running average of RTT
+    states[0] = (states[0] * 49 + rtt)/50;
+    //Update the number of Bytes received
+    states[1] += size_bytes;
+    return states[2];
   }
-
-  //update the states
-  states[0] = RTT;
-  states[1] = B;
-
-  return R;
 }
 
