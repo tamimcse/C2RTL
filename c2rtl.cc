@@ -2069,42 +2069,47 @@ static void convert_sized_const ()
   }
 }
 
-//SSA pass often creates unnecessary assignment operation which should be eliminated
-static void remove_assigment_op ()
+//Generate PHI operations if they are implicit
+static void generate_phi_op ()
 {
-  int i, j;
-  bool found;
+  int i, j, k, m;
+  char *in_name;
   
-  for (i = 0; i < ops_cnt; ) {
-    if (is_assignment_op(&ops[i])) {
-      found = false;
-      //find the previous operation to which the SSA op should be added to
-      for (j = i - 1; j >= 0; j--) {
-        if (!strcmp (ops[i].inputs[0].name, ops[j].output.name)) {
-          //update the output of previous operation with the output of SSA operation
-          strcpy(ops[j].output.name, ops[i].output.name);
+  for (i = 0; i < ops_cnt; i++) {
+    for (j = 0; j < ops[i].num_inputs; j++) {
+      in_name = ops[i].inputs[j].name;
+      //If it is input, or starts with '_', or doesn't contain '_', then do nothing
+      if (in_name[0] == '_' || strstr(in_name, "_D") || !strchr(in_name, '_'))
+        continue;
+      //check if the input has been set in by a previous operation
+      bool found = false;
+      for (k = i - 1; k >= 0; k--) {
+        if (!strcmp(in_name, ops[k].output.name)) {
           found = true;
           break;
         }
       }
-      //Just to check if everything is going well or not
+      //Implicit PHI node, need to insert a PHI node
       if (!found) {
-        printf ("Assignment operation couldn't find the previous operation where input is set !!!!\n");
-        exit (1);
+        //move all the following operation one step right to create a
+        //space for the new PHI operation
+        for (m = ops_cnt - 1; m >= i; m--) {
+          ops [m + 1] = ops[m];
+        }
+        ops[m].bb_id = ops[m+1].bb_id;
+        ops[m].code = (enum tree_code)PHI_TREE_CODE;
+        strcpy(ops[m].name, "PHI");
+        ops[m].num_inputs = 0;
+        ops[m].output.bitsize =  ops[i].inputs[j].bitsize;
+        strcpy(ops[m].output.name, ops[i].inputs[j].name);
+        ops_cnt++;
       }
-      //remove the SSA operation
-      for (j = i + 1; j < ops_cnt; j++) {
-        ops[j - 1] = ops[j];  
-      }
-      ops_cnt--;
-    } else {
-      i++;
     }
   }
 }
 
-//Generate PHI operations if they are implicit
-static void generate_phi_op ()
+//SSA pass often creates unnecessary assignment operation which should be eliminated
+static void remove_assigment_op ()
 {
   int i, j;
   bool found;
@@ -2773,6 +2778,12 @@ struct my_first_pass : gimple_opt_pass
     {
       extract_operations(bb);
     }
+    
+    printf ("\n");
+    printf("------------------------------------------------------------\n");
+    printf("          Printing SSA Operations \n");
+    printf("------------------------------------------------------------\n");
+    print_ops();
  
     printf ("\n");
     printf("------------------------------------------------------------\n");
@@ -2787,11 +2798,6 @@ struct my_first_pass : gimple_opt_pass
     optimize_mult_op();
     //operand width reduction
     convert_sized_const();
-
-    printf ("\n");
-    printf("------------------------------------------------------------\n");
-    printf("          Printing SSA Operations \n");
-    printf("------------------------------------------------------------\n");
     print_ops();
       
     printf ("\n");
