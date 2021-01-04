@@ -2792,7 +2792,7 @@ struct my_first_pass : gimple_opt_pass
     //sometimes GCC doesn't generate PHI operation, especially when branch
     //statements don't have return statement (branch merging). The PHI operation
     //is implicit in this case. This function generate explicit PHI operation
-    generate_phi_op ();
+//    generate_phi_op ();
     //compiler copy propagation 
 //    remove_assigment_op ();
     optimize_mult_op();
