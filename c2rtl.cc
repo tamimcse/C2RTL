@@ -2103,6 +2103,40 @@ static void remove_assigment_op ()
   }
 }
 
+//Generate PHI operations if they are implicit
+static void generate_phi_op ()
+{
+  int i, j;
+  bool found;
+  
+  for (i = 0; i < ops_cnt; ) {
+    if (is_assignment_op(&ops[i])) {
+      found = false;
+      //find the previous operation to which the SSA op should be added to
+      for (j = i - 1; j >= 0; j--) {
+        if (!strcmp (ops[i].inputs[0].name, ops[j].output.name)) {
+          //update the output of previous operation with the output of SSA operation
+          strcpy(ops[j].output.name, ops[i].output.name);
+          found = true;
+          break;
+        }
+      }
+      //Just to check if everything is going well or not
+      if (!found) {
+        printf ("Assignment operation couldn't find the previous operation where input is set !!!!\n");
+        exit (1);
+      }
+      //remove the SSA operation
+      for (j = i + 1; j < ops_cnt; j++) {
+        ops[j - 1] = ops[j];  
+      }
+      ops_cnt--;
+    } else {
+      i++;
+    }
+  }
+}
+
 static void extract_operations (basic_block bb)
 {
   fprintf(stderr, "Basic Block %d\n", bb->index);
@@ -2744,6 +2778,10 @@ struct my_first_pass : gimple_opt_pass
     printf("------------------------------------------------------------\n");
     printf("          Micro-architecture Optimization \n");
     printf("------------------------------------------------------------\n");
+    //sometimes GCC doesn't generate PHI operation, especially when branch
+    //statements don't have return statement (branch merging). The PHI operation
+    //is implicit in this case. This function generate explicit PHI operation
+    generate_phi_op ();
     //compiler copy propagation 
 //    remove_assigment_op ();
     optimize_mult_op();
