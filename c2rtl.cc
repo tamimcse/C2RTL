@@ -2251,6 +2251,7 @@ void dump_op (struct op_vertex *o, char *output)
     case PLUS_TREE_CODE:
     case MINUS_TREE_CODE:
     case MULT_TREE_CODE:
+    case DIV_TREE_CODE:
     case RSHIFT_TREE_CODE:
     case LSHIFT_TREE_CODE:
     case BIT_AND_TREE_CODE:
