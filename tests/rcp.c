@@ -1,38 +1,37 @@
 /*
-This code has been adapted from:
-https://github.com/tamimcse/domino-examples/blob/master/domino-programs/rcp-real.c
+Based on:
+MD Iftakharul Islam et.al. "Leveraging Domino to Implement RCP in a Stateful Programmable Pipeline", IEEE HPSR 2019
 */
 
 #include <stdint.h>
 
-//Capacity of the line card in megabytes
-#define C 64000 
-#define T 50 //Control Interval in ms
-#define A 50000 //1000*T
-
+#define ALPHA (1)
+#define BETA (1/2)
 
 //states[0] = Running average of RTT in ms
 //states[1] = Number of Bytes received
 //states[2] = RCP feedback rate in MB/s
-uint32_t rcp(uint32_t rtt, uint32_t tick, uint32_t queue, uint32_t size_bytes, uint32_t states[2]) {
-  uint32_t S; //Spare capacity in MB/s
-  uint32_t RTT; // Running average of RTT in ms
+//states[3] = clock tick when the RCP rate has been calculated
+//rtt: is the RTT of the packet
+//tick: is the current time
+//queue: current queue size
+//packet_size: size of the packet in bytes
+//control_interval: control interval in ms 
+//capacity: capacity in megabytes
+uint32_t rcp(uint32_t rtt, uint32_t tick, uint32_t queue, uint32_t packet_size, int control_interval, int capacity, uint32_t states[]) {
+  uint32_t spare_capacity;
   
-  //Control interval has expired, so
-  // calculate the feeback throughput
-  // and reset the state variables
-  if (tick % T == 0) {
-    RTT = states[0];
-    S = C - states[1]/A;
+  if ((tick - states[3]) > control_interval) {
+    spare_capacity = capacity - states[1] / (1000 * control_interval);
+    states[0] = (states[0] * 49 + rtt)/50;
     states[1] = 0;
-    states[2] *= 1+((S-((queue/RTT)/2))*T/RTT)/C;
+    states[2] *= 1 + ((control_interval/states[0]) * (ALPHA * spare_capacity - (BETA * queue)/states[0]))/capacity;
+    states[3] = tick;
     return states[2];
   }
   else {
-    //Calculate running average of RTT
     states[0] = (states[0] * 49 + rtt)/50;
-    //Update the number of Bytes received
-    states[1] += size_bytes;
+    states[1] += packet_size;
     return states[2];
   }
 }
