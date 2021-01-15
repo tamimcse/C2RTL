@@ -226,19 +226,14 @@ module bit_or(in1, in2, out1);
   assign out1 = in1 | in2;
 endmodule
 
-// This component is part of the BAMBU/PANDA IP LIBRARY
-// Copyright (C) 2004-2020 Politecnico di Milano
-// Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
-// License: PANDA_LGPLv3
 `timescale 1ns / 1ps
-module ui_bit_ior_expr_FU(in1, in2, out1);
-  parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1;
+module bit_not(in1, out1);
+  parameter BITSIZE_in1=1, BITSIZE_out1=1;
   // IN
   input [BITSIZE_in1-1:0] in1;
-  input [BITSIZE_in2-1:0] in2;
   // OUT
   output [BITSIZE_out1-1:0] out1;
-  assign out1 = in1 | in2;
+  assign out1 = !in1;
 endmodule
 
 // This component is part of the BAMBU/PANDA IP LIBRARY
@@ -246,7 +241,7 @@ endmodule
 // Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
 // License: PANDA_LGPLv3
 `timescale 1ns / 1ps
-module ui_bit_xor_expr_FU(in1, in2, out1);
+module bit_xor(in1, in2, out1);
   parameter BITSIZE_in1=1, BITSIZE_in2=1, BITSIZE_out1=1;
   // IN
   input [BITSIZE_in1-1:0] in1;

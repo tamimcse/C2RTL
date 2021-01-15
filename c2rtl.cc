@@ -206,7 +206,10 @@ enum gimple_tree_code {
   EQ_EXPR_TREE_CODE = 106,
   NE_EXPR_TREE_CODE = 107,
   LSHIFT_TREE_CODE = 88,
+  BIT_OR_TREE_CODE = 92,
+  BIT_XOR_TREE_CODE = 93,
   BIT_AND_TREE_CODE = 94,
+  BIT_NOT_TREE_CODE = 95,
   PLUS_TREE_CODE = 67,
   MINUS_TREE_CODE = 68,
   PHI_TREE_CODE = 33,/*PHI*/
@@ -287,7 +290,10 @@ void init_latency ()
   latency[LT_EXPR_TREE_CODE] = .1;
   latency[LE_EXPR_TREE_CODE] = .1;
   latency[LSHIFT_TREE_CODE] = 0.65000000000000002;//Taken from Bambu
+  latency[BIT_OR_TREE_CODE] = .05;
+  latency[BIT_XOR_TREE_CODE] = .05;
   latency[BIT_AND_TREE_CODE] = .05;
+  latency[BIT_NOT_TREE_CODE] = .05;
   latency[PLUS_TREE_CODE] = .35;
   latency[MINUS_TREE_CODE] = .35;
   latency[MUX_TREE_CODE] = .115;
@@ -1901,8 +1907,14 @@ static char *get_op_name (enum tree_code c)
       return "<=";
     case LSHIFT_TREE_CODE:
       return "<<";
+    case BIT_OR_TREE_CODE:
+      return "|";
+    case BIT_XOR_TREE_CODE:
+      return "^";
     case BIT_AND_TREE_CODE:
       return "&";
+    case BIT_NOT_TREE_CODE:
+      return "!";
     case PLUS_TREE_CODE:
       return "+";
     case MINUS_TREE_CODE:
@@ -2254,6 +2266,8 @@ void dump_op (struct op_vertex *o, char *output)
     case DIV_TREE_CODE:
     case RSHIFT_TREE_CODE:
     case LSHIFT_TREE_CODE:
+    case BIT_OR_TREE_CODE:
+    case BIT_XOR_TREE_CODE:        
     case BIT_AND_TREE_CODE:
     case NE_EXPR_TREE_CODE:
     case EQ_EXPR_TREE_CODE:
@@ -2268,6 +2282,11 @@ void dump_op (struct op_vertex *o, char *output)
       
     case NOP_TREE_CODE:
       sprintf(output, "%d. %s = cast (%s)", o->op_idx, op->output.name,
+              op->inputs[0].name);
+      break;
+      
+    case BIT_NOT_TREE_CODE:
+      sprintf(output, "%d. %s = !%s", o->op_idx, op->output.name,
               op->inputs[0].name);
       break;
       
@@ -2369,12 +2388,33 @@ void add_operations (FILE *output, struct op_vertex *op)
               o->inputs[0].bitsize, o->output.bitsize,
               op->op_idx, o->output.name, o->inputs[0].name);
       break;
+
+    case BIT_OR_TREE_CODE:
+      fprintf(output, "bit_or #(.BITSIZE_in1(%d), .BITSIZE_in2(%d), "
+              ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
+              o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
+              op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
+      break;
+      
+    case BIT_XOR_TREE_CODE:
+      fprintf(output, "bit_xor #(.BITSIZE_in1(%d), .BITSIZE_in2(%d), "
+              ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
+              o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
+              op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
+      break;
       
     case BIT_AND_TREE_CODE:
       fprintf(output, "bit_and #(.BITSIZE_in1(%d), .BITSIZE_in2(%d), "
               ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s), .in2(%s));\n",
               o->inputs[0].bitsize, o->inputs[1].bitsize, o->output.bitsize,
               op->op_idx, o->output.name, o->inputs[0].name, o->inputs[1].name);
+      break;
+      
+    case BIT_NOT_TREE_CODE:
+      fprintf(output, "bit_not #(.BITSIZE_in1(%d), "
+              ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s));\n",
+              o->inputs[0].bitsize, o->output.bitsize,
+              op->op_idx, o->output.name, o->inputs[0].name);
       break;
       
     case NE_EXPR_TREE_CODE:
