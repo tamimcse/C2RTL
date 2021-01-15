@@ -30,9 +30,15 @@ uint8_t tabtree(uint32_t ip_src, uint32_t ip_dst,
   uint16_t sb_action = sb_leaf >> 16;
   
   if (ss_priority > bs_priority) {
-    return ss_priority > sb_priority ? ss_action : sb_action;
+    if (ss_priority > sb_priority)
+      return ss_action;
+    else
+      return sb_action;
   } else {
-    return bs_priority > sb_priority ? bs_action : sb_action;
+    if (bs_priority > sb_priority)
+      return bs_action;
+    else
+      return sb_action;
   }
 }
 
