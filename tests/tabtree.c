@@ -23,22 +23,22 @@ uint8_t tabtree(uint32_t ip_src, uint32_t ip_dst,
 
   //Merge the result
   uint16_t ss_priority = ss_leaf && 0XFFFF;
-  uint16_t ss_action = ss_leaf >> 16;
+  uint16_t ss_matchid = ss_leaf >> 16;
   uint16_t bs_priority = bs_leaf && 0XFFFF;
-  uint16_t bs_action = bs_leaf >> 16;
+  uint16_t bs_matchid = bs_leaf >> 16;
   uint16_t sb_priority = sb_leaf && 0XFFFF;
-  uint16_t sb_action = sb_leaf >> 16;
+  uint16_t sb_matchid = sb_leaf >> 16;
   
   if (ss_priority > bs_priority) {
     if (ss_priority > sb_priority)
-      return ss_action;
+      return ss_matchid;
     else
-      return sb_action;
+      return sb_matchid;
   } else {
     if (bs_priority > sb_priority)
-      return bs_action;
+      return bs_matchid;
     else
-      return sb_action;
+      return sb_matchid;
   }
 }
 
