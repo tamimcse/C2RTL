@@ -2246,7 +2246,7 @@ void add_module_decl (FILE *out)
 
 void add_include_ip (FILE *output)
 {
-  fprintf (output, "`include \"module_library.v\"\n");
+  fprintf (output, "`include \"component_library.v\"\n");
   fprintf (output, "`include \"macros.v\"\n\n");
 }
 
