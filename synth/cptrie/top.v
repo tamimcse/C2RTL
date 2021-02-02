@@ -1,4 +1,4 @@
-`include "module_library.v"
+`include "component_library.v"
 `include "macros.v"
 
 `timescale 1ns / 1ps
