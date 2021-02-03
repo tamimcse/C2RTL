@@ -1,7 +1,13 @@
 /*
-* CutSplit based packet classification. Here, rules are partitioned (cut) into 3 subtrees: (small,small), (big, small) and (small, big) subtree (based on source and destination IP addresses). Each subtree is then split based on multiple bitfields.
+CutSplit based packet classification. 
 
-In CuitSplit, if there are (big,big) rules (less likely), they should be implemented as HyperSplit. We don't implement that. Like many other meachnisms, we assume that those rules would be placed in TCAM
+Step 1. CutSplit removes (big,big) rules if they exist (less likely, and should be very few). Those rules should be classified by HyperSplit or  TCAM
+
+Step 2. Rules are partitioned into 3 subsets: (small,small), (big, small) and (small, big) subsets (based on source and destination IP addresses). 
+
+Step 3. Each subset is represented as a tree. It first applies cutting based on the small field followed by splitting with bounded worst case performance.
+
+
 */
 #include <stdint.h>
 
