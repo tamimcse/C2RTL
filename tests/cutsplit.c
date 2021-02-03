@@ -5,7 +5,7 @@ Step 1. CutSplit removes (big,big) rules if they exist (less likely, and should 
 
 Step 2. Rules are partitioned into 3 subsets: (small,small), (big, small) and (small, big) subsets (based on source and destination IP addresses). 
 
-Step 3. Each subset is represented as a tree. It first applies cutting based on the small field followed by splitting with bounded worst case performance.
+Step 3. Each subset is represented as a tree. It first applies cutting based on the small field until there is no rule replication. Then apply splitting with a bounded worst case performance.
 
 
 */
