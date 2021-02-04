@@ -50,6 +50,9 @@ poptrie_ip6: $(PLUGIN)
 cutsplit: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/cutsplit.c
 
+hybridcut: $(PLUGIN)
+	$(CCPLUGIN) -c -o /dev/null tests/hybridcut.c
+
 ethernet_forwarding: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/ethernet_forwarding.c
 
