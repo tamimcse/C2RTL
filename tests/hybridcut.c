@@ -5,9 +5,7 @@ Step 1. HybridCut removes big rules if they exist (less likely, and should be ve
 
 Step 2. HybridRules partition rules into four subset; small_src_ip, small_dst_ip, small_src_port, small_dst_port.
 
-Step 3. Each subset is represented as a tree. It first applies FiCut based on the small field. It then apply until there is no rule replication. Then apply splitting with a bounded worst case performance. Note that, in ASIC, the number of cut area has to be predetermined.
-
-
+Step 3. Each subset is represented as a tree. It first applies FiCut based on the small field. It then applies HyperCut (two dimentional cut).
 */
 #include <stdint.h>
 
