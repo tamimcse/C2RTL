@@ -5,7 +5,9 @@ Step 1. CutSplit removes (big,big) rules if they exist (less likely, and should 
 
 Step 2. CutSplit partition rules into 3 subsets: (small,small), (big, small) and (small, big) subsets (based on source and destination IP addresses). 
 
-Step 3. Each subset is represented as a tree. It first applies cutting based on the small field until there is no rule replication. Then apply splitting with a bounded worst case performance. Note that, in ASIC, the number of cut area has to be predetermined.
+Step 3. Each subset is represented as a tree. It first applies cutting based on the small field(s) until it reaches the bin threachthod. 
+
+Step 4. It Then applies HyperSplit on the leaves of the trees.
 
 
 */

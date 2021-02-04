@@ -5,7 +5,9 @@ Step 1. HybridCut removes big rules if they exist (less likely, and should be ve
 
 Step 2. HybridRules partition rules into four subset; small_src_ip, small_dst_ip, small_src_port, small_dst_port.
 
-Step 3. Each subset is represented as a tree. It first applies FiCut based on the small field. It then applies HyperCut (two dimentional cut).
+Step 3. Each subset is represented as a tree. It first applies FiCut based on the small field. 
+
+Step 4. It then applies HyperCut (two dimentional cut) on the leaves of the trees.
 */
 #include <stdint.h>
 
