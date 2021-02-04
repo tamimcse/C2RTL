@@ -1,9 +1,9 @@
 /*
 CutSplit based packet classification. 
 
-Step 1. CutSplit removes (big,big) rules if they exist (less likely, and should be very few). Those rules should be classified by HyperSplit or  TCAM
+Step 1. CutSplit removes (big,big) rules if they exist (less likely, and should be very few). Those rules should be classified by HyperSplit or TCAM
 
-Step 2. Rules are partitioned into 3 subsets: (small,small), (big, small) and (small, big) subsets (based on source and destination IP addresses). 
+Step 2. CutSplit partition rules into 3 subsets: (small,small), (big, small) and (small, big) subsets (based on source and destination IP addresses). 
 
 Step 3. Each subset is represented as a tree. It first applies cutting based on the small field until there is no rule replication. Then apply splitting with a bounded worst case performance. Note that, in ASIC, the number of cut area has to be predetermined.
 
