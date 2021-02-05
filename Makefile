@@ -47,6 +47,10 @@ cptrie_ip6: $(PLUGIN)
 poptrie_ip6: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/poptrie_ip6.c
 
+
+tabtree: $(PLUGIN)
+	$(CCPLUGIN) -c -o /dev/null tests/tabtree.c
+
 cutsplit: $(PLUGIN)
 	$(CCPLUGIN) -c -o /dev/null tests/cutsplit.c
 

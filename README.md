@@ -34,3 +34,7 @@ It generates `top.v` and `top_tb.v` from `tests/sail_ip6.c`.
 `make cutsplit`
 
 It generates `top.v` and `top_tb.v` from `tests/cutsplit.c`.
+
+`make tabtree`
+
+It generates `top.v` and `top_tb.v` from `tests/tabtree.c`.
