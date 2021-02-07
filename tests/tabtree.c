@@ -1,16 +1,13 @@
 /*
 CutSplit based packet classification. 
 
-Step 1. CutSplit removes (big,big) rules if they exist (less likely, and should be very few). Those rules should be classified by HyperSplit or TCAM
+Step 1. TabTree removes (big,big) rules if they exist (less likely, and should be very few). Those rules should be classified by HyperSplit or TCAM
 
-Step 2. CutSplit partition rules into 3 subsets: (small,small), (big, small) and (small, big) subsets (based on source and destination IP addresses). 
+Step 2. TabTree partition rules into 3 subsets: (small,small), (big, small) and (small, big) subsets (based on source and destination IP addresses). 
 
-Step 3. Each subset is represented as a tree. It first applies cutting based on the small field(s) until it reaches the bin threachthod. 
-
-Step 4. It Then applies HyperSplit on the leaves of the trees.
-
-
+Step 3. Each subset is represented as a bit-selecting tree. If a leaf has more rules that the threachthod, it appplies PTSS on the leaf. But, here we will select more bits such that leaves always reach threashold. 
 */
+
 #include <stdint.h>
 
 uint8_t tabtree(uint32_t ip_src, uint32_t ip_dst,
