@@ -2383,7 +2383,7 @@ void add_operations (FILE *output, struct op_vertex *op)
       break;
       
     case SSA_TREE_CODE:
-      fprintf(output, "SSA_OP #(.BITSIZE_in1(%d), "
+      fprintf(output, "assignment #(.BITSIZE_in1(%d), "
               ".BITSIZE_out1(%d)) op%d (.out1(%s), .in1(%s));\n",
               o->inputs[0].bitsize, o->output.bitsize,
               op->op_idx, o->output.name, o->inputs[0].name);
