@@ -10,7 +10,7 @@ Step 3. Each subset is represented as a bit-selecting tree. If a leaf has more r
 
 #include <stdint.h>
 
-uint8_t tabtree(uint32_t ip_src, uint32_t ip_dst,
+uint16_t tabtree(uint32_t ip_src, uint32_t ip_dst,
   uint32_t ss_subset[64], int ssbit1, int ssbit2, int ssbit3, int ssbit4, int ssbit5, int ssbit6,  /*(small, small) subset along with bit position*/
   uint32_t bs_subset[64], int bsbit1, int bsbit2, int bsbit3, int bsbit4, int bsbit5, int bsbit6,  /*(big, small) subset along with bit position*/
   uint32_t sb_subset[64], int sbbit1, int sbbit2, int sbbit3, int sbbit4, int sbbit5, int sbbit6)  /*(small, big) subset along with bit position*/
