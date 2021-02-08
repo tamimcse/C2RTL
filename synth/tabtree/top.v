@@ -29,9 +29,9 @@ module top(clock, sb_subset_108_D, sbbit6_106_D, sbbit5_105_D, sbbit4_104_D, sbb
   input [31:0] ssbit1_81_D;
   input [31:0] ip_src_80_D;
   //OUT
-  output [7:0] R140;
+  output [15:0] R140;
   //WIRES
-  wire [7:0] R140;
+  wire [15:0] R140;
   wire [31:0] R139;
   wire [31:0] R138;
   wire [31:0] R137;
@@ -71,14 +71,14 @@ module top(clock, sb_subset_108_D, sbbit6_106_D, sbbit5_105_D, sbbit4_104_D, sbb
   wire [31:0] R103;
   wire [31:0] R102;
   wire [31:0] R101;
-  wire [7:0] mux2;
-  wire [7:0] mux1;
-  wire [7:0] mux0;
-  wire [7:0] _116;
-  wire [7:0] _117;
+  wire [15:0] mux2;
+  wire [15:0] mux1;
+  wire [15:0] mux0;
+  wire [15:0] _116;
+  wire [15:0] _117;
   wire [0:0] ifout94;
-  wire [7:0] _118;
-  wire [7:0] _119;
+  wire [15:0] _118;
+  wire [15:0] _119;
   wire [0:0] ifout91;
   wire [0:0] ifout90;
   wire [15:0] sb_matchid_115;
@@ -303,12 +303,12 @@ module top(clock, sb_subset_108_D, sbbit6_106_D, sbbit5_105_D, sbbit4_104_D, sbb
   cast #(.BITSIZE_in1(32), .BITSIZE_out1(16)) op83 (.out1(ss_matchid_111), .in1(_76));
   GT_EXPR #(.BITSIZE_in1(16), .BITSIZE_in2(16),.BITSIZE_out1(1)) op94 (.out1(ifout94), .in1(bs_priority_112), .in2(sb_priority_114));
   GT_EXPR #(.BITSIZE_in1(16), .BITSIZE_in2(16),.BITSIZE_out1(1)) op91 (.out1(ifout91), .in1(ss_priority_110), .in2(sb_priority_114));
-  cast #(.BITSIZE_in1(16), .BITSIZE_out1(8)) op96 (.out1(_116), .in1(sb_matchid_115));
-  cast #(.BITSIZE_in1(16), .BITSIZE_out1(8)) op95 (.out1(_117), .in1(bs_matchid_113));
-  cast #(.BITSIZE_in1(16), .BITSIZE_out1(8)) op93 (.out1(_118), .in1(sb_matchid_115));
-  cast #(.BITSIZE_in1(16), .BITSIZE_out1(8)) op92 (.out1(_119), .in1(ss_matchid_111));
-  MUX_GATE #(.BITSIZE_in1(8), .BITSIZE_in2(8), .BITSIZE_out1(8)) op97 (.out1(mux0), .in1(_116), .in2(_117), .sel(ifout94));
-  MUX_GATE #(.BITSIZE_in1(8), .BITSIZE_in2(8), .BITSIZE_out1(8)) op98 (.out1(mux1), .in1(_118), .in2(_119), .sel(ifout91));
-  MUX_GATE #(.BITSIZE_in1(8), .BITSIZE_in2(8), .BITSIZE_out1(8)) op99 (.out1(mux2), .in1(mux0), .in2(mux1), .sel(ifout90));
-  REG_STD #(.BITSIZE_in1(8), .BITSIZE_out1(8)) op139 (.out1(R140), .clock(clock), .in1(mux2));
+  assignment #(.BITSIZE_in1(16), .BITSIZE_out1(16)) op96 (.out1(_116), .in1(sb_matchid_115));
+  assignment #(.BITSIZE_in1(16), .BITSIZE_out1(16)) op95 (.out1(_117), .in1(bs_matchid_113));
+  assignment #(.BITSIZE_in1(16), .BITSIZE_out1(16)) op93 (.out1(_118), .in1(sb_matchid_115));
+  assignment #(.BITSIZE_in1(16), .BITSIZE_out1(16)) op92 (.out1(_119), .in1(ss_matchid_111));
+  MUX_GATE #(.BITSIZE_in1(16), .BITSIZE_in2(16), .BITSIZE_out1(16)) op97 (.out1(mux0), .in1(_116), .in2(_117), .sel(ifout94));
+  MUX_GATE #(.BITSIZE_in1(16), .BITSIZE_in2(16), .BITSIZE_out1(16)) op98 (.out1(mux1), .in1(_118), .in2(_119), .sel(ifout91));
+  MUX_GATE #(.BITSIZE_in1(16), .BITSIZE_in2(16), .BITSIZE_out1(16)) op99 (.out1(mux2), .in1(mux0), .in2(mux1), .sel(ifout90));
+  REG_STD #(.BITSIZE_in1(16), .BITSIZE_out1(16)) op139 (.out1(R140), .clock(clock), .in1(mux2));
 endmodule
