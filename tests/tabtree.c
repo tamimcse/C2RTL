@@ -31,11 +31,11 @@ uint8_t tabtree(uint32_t ip_src, uint32_t ip_dst,
   uint32_t sb_leaf = sb_subset[sb_idx];
 
   //Merge the result based on pririty
-  uint16_t ss_priority = ss_leaf && 0XFFFF;
+  uint16_t ss_priority = ss_leaf & 0XFFFF;
   uint16_t ss_matchid = ss_leaf >> 16;
-  uint16_t bs_priority = bs_leaf && 0XFFFF;
+  uint16_t bs_priority = bs_leaf & 0XFFFF;
   uint16_t bs_matchid = bs_leaf >> 16;
-  uint16_t sb_priority = sb_leaf && 0XFFFF;
+  uint16_t sb_priority = sb_leaf & 0XFFFF;
   uint16_t sb_matchid = sb_leaf >> 16;
   
   if (ss_priority > bs_priority) {
