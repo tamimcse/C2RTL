@@ -101,6 +101,20 @@ module cast(in1, out1);
 endmodule
 
 // This component is part of the BAMBU/PANDA IP LIBRARY
+// Copyright (C) 2004-2020 Politecnico di Milano
+// Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
+// License: PANDA_LGPLv3
+`timescale 1ns / 1ps
+module assignment(in1, out1);
+  parameter BITSIZE_in1=1, BITSIZE_out1=1;
+  // IN
+  input [BITSIZE_in1-1:0] in1;
+  // OUT
+  output [BITSIZE_out1-1:0] out1;
+  assign out1 = in1;
+endmodule
+
+// This component is part of the BAMBU/PANDA IP LIBRARY
 // Copyright (C) 2016-2020 Politecnico di Milano
 // Author(s): Fabrizio Ferrandi <fabrizio.ferrandi@polimi.it>
 // License: PANDA_LGPLv3
