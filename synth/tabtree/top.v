@@ -2,24 +2,24 @@
 `include "macros.v"
 
 `timescale 1ns / 1ps
-module top(clock, small_big_tree_111_D, sbbit6_109_D, sbbit5_108_D, sbbit4_107_D, sbbit3_106_D, sbbit2_105_D, sbbit1_104_D, big_small_tree_102_D, bsbit6_100_D, bsbit5_99_D, bsbit4_98_D, bsbit3_97_D, bsbit2_96_D, bsbit1_95_D, small_small_tree_92_D, ssbit6_90_D, ssbit5_89_D, ssbit4_88_D, ip_dst_87_D, ssbit3_86_D, ssbit2_85_D, ssbit1_84_D, ip_src_83_D, R143);
+module top(clock, sb_subset_111_D, sbbit6_109_D, sbbit5_108_D, sbbit4_107_D, sbbit3_106_D, sbbit2_105_D, sbbit1_104_D, bs_subset_102_D, bsbit6_100_D, bsbit5_99_D, bsbit4_98_D, bsbit3_97_D, bsbit2_96_D, bsbit1_95_D, ss_subset_92_D, ssbit6_90_D, ssbit5_89_D, ssbit4_88_D, ip_dst_87_D, ssbit3_86_D, ssbit2_85_D, ssbit1_84_D, ip_src_83_D, R143);
   //IN
   input clock;
-  input [63:0] small_big_tree_111_D;
+  input [63:0] sb_subset_111_D;
   input [31:0] sbbit6_109_D;
   input [31:0] sbbit5_108_D;
   input [31:0] sbbit4_107_D;
   input [31:0] sbbit3_106_D;
   input [31:0] sbbit2_105_D;
   input [31:0] sbbit1_104_D;
-  input [63:0] big_small_tree_102_D;
+  input [63:0] bs_subset_102_D;
   input [31:0] bsbit6_100_D;
   input [31:0] bsbit5_99_D;
   input [31:0] bsbit4_98_D;
   input [31:0] bsbit3_97_D;
   input [31:0] bsbit2_96_D;
   input [31:0] bsbit1_95_D;
-  input [63:0] small_small_tree_92_D;
+  input [63:0] ss_subset_92_D;
   input [31:0] ssbit6_90_D;
   input [31:0] ssbit5_89_D;
   input [31:0] ssbit4_88_D;
@@ -282,9 +282,9 @@ module top(clock, small_big_tree_111_D, sbbit6_109_D, sbbit5_108_D, sbbit4_107_D
   REG_STD #(.BITSIZE_in1(64), .BITSIZE_out1(64)) op133 (.out1(R134), .clock(clock), .in1(_74));
   REG_STD #(.BITSIZE_in1(64), .BITSIZE_out1(64)) op134 (.out1(R135), .clock(clock), .in1(_49));
   REG_STD #(.BITSIZE_in1(64), .BITSIZE_out1(64)) op135 (.out1(R136), .clock(clock), .in1(_24));
-  ADD_GATE #(.BITSIZE_in1(64), .BITSIZE_in2(64), .BITSIZE_out1(64)) op79 (.out1(_75), .in1(small_big_tree_111_D), .in2(R134));
-  ADD_GATE #(.BITSIZE_in1(64), .BITSIZE_in2(64), .BITSIZE_out1(64)) op52 (.out1(_50), .in1(big_small_tree_102_D), .in2(R135));
-  ADD_GATE #(.BITSIZE_in1(64), .BITSIZE_in2(64), .BITSIZE_out1(64)) op25 (.out1(_25), .in1(small_small_tree_92_D), .in2(R136));
+  ADD_GATE #(.BITSIZE_in1(64), .BITSIZE_in2(64), .BITSIZE_out1(64)) op79 (.out1(_75), .in1(sb_subset_111_D), .in2(R134));
+  ADD_GATE #(.BITSIZE_in1(64), .BITSIZE_in2(64), .BITSIZE_out1(64)) op52 (.out1(_50), .in1(bs_subset_102_D), .in2(R135));
+  ADD_GATE #(.BITSIZE_in1(64), .BITSIZE_in2(64), .BITSIZE_out1(64)) op25 (.out1(_25), .in1(ss_subset_92_D), .in2(R136));
   REG_STD #(.BITSIZE_in1(64), .BITSIZE_out1(64)) op136 (.out1(R137), .clock(clock), .in1(_75));
   REG_STD #(.BITSIZE_in1(64), .BITSIZE_out1(64)) op137 (.out1(R138), .clock(clock), .in1(_50));
   REG_STD #(.BITSIZE_in1(64), .BITSIZE_out1(64)) op138 (.out1(R139), .clock(clock), .in1(_25));
