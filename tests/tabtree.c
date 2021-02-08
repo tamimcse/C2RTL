@@ -5,7 +5,7 @@ Step 1. TabTree removes (big,big) rules if they exist (less likely, and should b
 
 Step 2. TabTree partition rules into 3 subsets: (small,small), (big, small) and (small, big) subsets (based on source and destination IP addresses). 
 
-Step 3. Each subset is represented as a bit-selecting tree. If a leaf has more rules that the threachthod, it appplies PTSS on the leaf. But, here we will select more bits such that leaves always reach threashold. 
+Step 3. Each subset is represented as a bit-selecting tree. If a leaf has more rules that the threachthod, it appplies TSS on the leaf. But, here we will select more bits such that leaves always reach threashold (so we don't need TSS). 
 */
 
 #include <stdint.h>
@@ -30,7 +30,7 @@ uint8_t tabtree(uint32_t ip_src, uint32_t ip_dst,
                 (((ip_src >> sbbit5) & 1) << 4) | (((ip_src >> sbbit6) & 1) << 5);
   uint32_t sb_leaf = sb_subset[sb_idx];
 
-  //Merge the result
+  //Merge the result based on pririty
   uint16_t ss_priority = ss_leaf && 0XFFFF;
   uint16_t ss_matchid = ss_leaf >> 16;
   uint16_t bs_priority = bs_leaf && 0XFFFF;
