@@ -44,14 +44,14 @@ uint16_t tabtree(uint32_t ip_src, uint32_t ip_dst,
   
   if (ss_priority > bs_priority) {
     if (ss_priority > sb_priority)
-      return ss_matchid;
+      return ss_matchid + 1;
     else
-      return sb_matchid;
+      return sb_matchid + 1;
   } else {
     if (bs_priority > sb_priority)
-      return bs_matchid;
+      return bs_matchid + 1;
     else
-      return sb_matchid;
+      return sb_matchid + 1;
   }
 }
 
