@@ -2,8 +2,7 @@ C2RTL is a high-level synthesis (HLS) tool that generates verilog RTL from C cod
 
 License
 ==========
-Copyright (c) 2020-2021 MD Iftakharul Islam (Tamim) <tamim@csebuet.org>.
-All rights reserved.
+This is free software, free in the sense that it respects the user’s freedom, released under the GNU General Public License version 3. 
 
 Platform
 ==========
