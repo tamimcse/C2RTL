@@ -1,1 +1,2 @@
 *.v linguist-detectable=false
+*.cc linguist-detectable=false
