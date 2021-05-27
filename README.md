@@ -1,6 +1,4 @@
-C2RTL is a high-level synthesis (HLS) tool that generates verilog RTL from C code. It's primarily designed for generating RTL code for FIB lookup and packet classification algorithms. C2RTL is a GCC plugin.
-
-If you use C2RTL in your research, please cite:
+C2RTL is a high-level synthesis (HLS) tool that generates verilog RTL from C code. It's primarily designed for generating RTL code for FIB lookup and packet classification algorithms. C2RTL is a GCC plugin. Details of this project would be found in the following paper. 
 
 MD Iftakharul Islam, Javed I Khan "C2RTL: A High-level Synthesis System for IP Lookup and Packet Classification", IEEE HPSR, 2021.
 
@@ -41,3 +39,7 @@ It generates `top.v` and `top_tb.v` from `tests/cutsplit.c`.
 `make tabtree`
 
 It generates `top.v` and `top_tb.v` from `tests/tabtree.c`.
+
+Contact
+==========
+If you have any issue or question, please email to tamim@csebuet.org 
