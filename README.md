@@ -42,4 +42,4 @@ It generates `top.v` and `top_tb.v` from `tests/tabtree.c`.
 
 Contact
 ==========
-MD Iftakharul Islam (Tamim): tamim@csebuet.org 
+MD Iftakharul Islam (Tamim): mislam4@kent.edu
